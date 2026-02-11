@@ -45,9 +45,10 @@
         <div class="absolute inset-0 bg-gradient-to-b from-[rgba(0,0,0,0.25)] to-[rgba(0,0,0,0.35)]"></div>
 
         <!-- Conteúdo central -->
-        <div class="relative z-10 flex items-center justify-center h-full px-6 py-20">
-            <div class="max-w-2xl text-center">
+        <div class="relative z-10 w-full h-full flex items-center justify-center px-6 py-20">
+            <div class="max-w-2xl text-center flex flex-col items-center">
                 <h2 class="sr-only">Foggareli</h2>
+                <p class="text-white text-lg md:text-xl font-light mb-6 opacity-95">Escolha sua pizza favorita e monte seu pedido em poucos cliques</p>
                 <button id="cta-order-btn" aria-label="Fazer pedido" class="cta-btn bg-orange-500 hover:bg-orange-600 text-white px-6 py-4 rounded-full text-lg font-bold flex items-center gap-3 animate-pulse shadow-xl transform transition-transform">
                     <span>Fazer Pedido</span>
                     <i data-lucide="chevron-down" class="w-5 h-5"></i>
@@ -134,59 +135,59 @@
     </div>
 
     <!-- FLOATING ACTION BUTTON (CARRINHO) -->
-    <button id="cart-fab" class="fixed bottom-6 right-6 bg-orange-500 text-white rounded-full shadow-lg flex items-center justify-center font-bold z-35" onclick="toggleCartDrawer()">
-        R$ 0
-        <span id="cart-fab-badge" style="display: none;" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">0</span>
+    <button id="cart-fab" class="fixed bottom-6 right-6 bg-orange-500 text-white rounded-full shadow-lg flex items-center justify-center z-35" onclick="window.toggleCartDrawer()" type="button">
+        <i data-lucide="shopping-cart" class="w-6 h-6"></i>
+        <span id="cart-fab-badge" style="display: none;" class="absolute top-0 right-0 bg-red-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">0</span>
     </button>
 
-    <!-- OVERLAY DO DRAWER -->
-    <div id="cart-drawer-overlay" onclick="closeCartDrawer()"></div>
+     <!-- OVERLAY DO DRAWER -->
+     <div id="cart-drawer-overlay" onclick="window.closeCartDrawer()"></div>
 
-    <!-- DRAWER DO CARRINHO -->
-    <div id="cart-drawer">
-        <div class="cart-drawer-header">
-            <h2>
-                <i data-lucide="shopping-cart" class="w-5 h-5"></i>
-                Seu Pedido
-            </h2>
-            <button class="cart-drawer-close" onclick="closeCartDrawer()">×</button>
-        </div>
+     <!-- DRAWER DO CARRINHO -->
+     <div id="cart-drawer">
+         <div class="cart-drawer-header">
+             <h2>
+                 <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                 Seu Pedido
+             </h2>
+             <button class="cart-drawer-close" onclick="window.closeCartDrawer()" type="button">×</button>
+         </div>
 
-        <div class="cart-drawer-body"></div>
+         <div class="cart-drawer-body"></div>
 
-        <div class="cart-drawer-footer">
-            <div class="cart-summary">
-                <div class="cart-summary-row">
-                    <span>Subtotal:</span>
-                    <span>R$ 0,00</span>
-                </div>
-                <div class="cart-summary-total">
-                    <span>Total:</span>
-                    <span>R$ 0,00</span>
-                </div>
-            </div>
-            <button class="cart-checkout-btn" onclick="openCheckout()">Continuar →</button>
-        </div>
-    </div>
+         <div class="cart-drawer-footer">
+             <div class="cart-summary">
+                 <div class="cart-summary-row">
+                     <span>Subtotal:</span>
+                     <span>R$ 0,00</span>
+                 </div>
+                 <div class="cart-summary-total">
+                     <span>Total:</span>
+                     <span>R$ 0,00</span>
+                 </div>
+             </div>
+             <button class="cart-checkout-btn" onclick="window.openCheckout()" type="button">Continuar →</button>
+         </div>
+     </div>
 
-    <!-- MODAL DE CHECKOUT -->
-    <div id="checkout-section">
-        <div class="checkout-container">
-            <div class="checkout-header">
-                <span>Finalizar Pedido</span>
-                <button class="checkout-close" onclick="closeCheckout()">×</button>
-            </div>
+     <!-- MODAL DE CHECKOUT -->
+     <div id="checkout-section">
+         <div class="checkout-container">
+             <div class="checkout-header">
+                 <span>Finalizar Pedido</span>
+                 <button class="checkout-close" onclick="window.closeCheckout()" type="button">×</button>
+             </div>
 
-            <form class="checkout-form" onsubmit="event.preventDefault(); sendToWhatsApp();"></form>
+             <form class="checkout-form" onsubmit="event.preventDefault(); window.sendToWhatsApp();"></form>
 
-            <div class="checkout-actions">
-                <button class="btn-cancel" type="button" onclick="closeCheckout()">Voltar</button>
-                <button class="btn-confirm" type="button" onclick="sendToWhatsApp()" ${cart.length === 0 ? 'disabled' : ''}>Enviar Pedido →</button>
-            </div>
-        </div>
-    </div>
+             <div class="checkout-actions">
+                 <button class="btn-cancel" type="button" onclick="window.closeCheckout()">Voltar</button>
+                 <button class="btn-confirm" type="button" onclick="window.sendToWhatsApp()">Enviar Pedido →</button>
+             </div>
+         </div>
+     </div>
 
-    <!-- JavaScript -->
-    <script src="script.js"></script>
+     <!-- JavaScript -->
+     <script src="script.js"></script>
 </body>
 </html>

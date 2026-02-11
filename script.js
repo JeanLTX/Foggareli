@@ -107,6 +107,23 @@ const CATEGORIES = [
 // ==========================================
 let cart = [];
 
+// Carregar carrinho do localStorage
+const loadCart = () => {
+    const saved = localStorage.getItem('foggareli-cart');
+    if (saved) {
+        try {
+            cart = JSON.parse(saved);
+        } catch (e) {
+            cart = [];
+        }
+    }
+};
+
+// Salvar carrinho no localStorage
+const saveCart = () => {
+    localStorage.setItem('foggareli-cart', JSON.stringify(cart));
+};
+
 // Dados de entrega por região
 const DELIVERY_REGIONS = [
     { id: 'colinas', name: 'Colinas do Peró', fee: 4.00 },
@@ -158,28 +175,35 @@ const getCartTotal = () => {
     return cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 };
 
+const getCartItemCount = () => {
+    return cart.reduce((acc, item) => acc + item.quantity, 0);
+};
+
 const getDeliveryFee = () => {
     if (!checkoutData.region) return 0;
     const region = DELIVERY_REGIONS.find(r => r.id === checkoutData.region);
     return region ? region.fee : 0;
 };
 
-const removeFromCart = (index) => {
+window.removeFromCart = (index) => {
     cart.splice(index, 1);
+    saveCart();
     updateCartUI();
 };
 
-const updateCartItemQuantity = (index, newQuantity) => {
+window.updateCartItemQuantity = (index, newQuantity) => {
     if (newQuantity < 1) {
         removeFromCart(index);
     } else {
         cart[index].quantity = newQuantity;
+        saveCart();
         updateCartUI();
     }
 };
 
-const updateCartItemNote = (index, note) => {
+window.updateCartItemNote = (index, note) => {
     cart[index].note = note;
+    saveCart();
     updateCartUI();
 };
 
@@ -198,6 +222,7 @@ const addToCart = (item) => {
         });
     }
     
+    saveCart();
     updateCartUI();
     showToast(`${item.name} adicionado!`);
 };
@@ -221,7 +246,7 @@ const renderCartItems = () => {
         
         const noteDisplay = item.note
             ? `<div class="cart-item-note">📝 ${item.note}</div>`
-            : `<div class="cart-item-note-empty" onclick="editCartItemNote(${index})">+ adicionar observação</div>`;
+            : `<div class="cart-item-note-empty" onclick="editCartItemNoteHandler(${index}); return false;">+ adicionar observação</div>`;
 
         itemCard.innerHTML = `
             <div class="cart-item-name">${item.name}</div>
@@ -230,12 +255,12 @@ const renderCartItems = () => {
             
             <div class="cart-item-controls">
                 <div class="cart-item-qty">
-                    <button onclick="updateCartItemQuantity(${index}, ${item.quantity - 1})">−</button>
+                    <button onclick="updateQuantityHandler(${index}, ${item.quantity - 1}); return false;" type="button">−</button>
                     <span class="cart-item-qty-value">${item.quantity}</span>
-                    <button onclick="updateCartItemQuantity(${index}, ${item.quantity + 1})">+</button>
+                    <button onclick="updateQuantityHandler(${index}, ${item.quantity + 1}); return false;" type="button">+</button>
                 </div>
                 <div class="cart-item-price">${formatCurrency(item.price * item.quantity)}</div>
-                <button class="cart-item-delete" onclick="removeFromCart(${index})">
+                <button class="cart-item-delete" onclick="removeFromCartHandler(${index}); return false;" type="button">
                     <i data-lucide="trash-2" class="w-4 h-4"></i>
                 </button>
             </div>
@@ -250,11 +275,13 @@ const renderCartItems = () => {
 const updateCartUI = () => {
     const cartFab = document.getElementById('cart-fab');
     const cartBadge = document.getElementById('cart-fab-badge');
-    const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+    const totalItems = getCartItemCount();
     const subtotal = getCartTotal();
 
-    // Atualiza FAB
-    cartFab.textContent = totalItems > 0 ? `R$ ${formatCurrency(subtotal).split(' ')[1]}` : 'R$ 0';
+    // Atualiza FAB com ícone (sempre mantém)
+    if (!cartFab.innerHTML.includes('shopping-cart')) {
+        cartFab.innerHTML = `<i data-lucide="shopping-cart" class="w-6 h-6"></i>`;
+    }
     
     if (totalItems > 0) {
         cartBadge.textContent = totalItems;
@@ -262,6 +289,8 @@ const updateCartUI = () => {
     } else {
         cartBadge.style.display = 'none';
     }
+
+    lucide.createIcons();
 
     // Atualiza drawer se aberto
     renderCartItems();
@@ -319,12 +348,20 @@ const closeCartDrawer = () => {
 // EDITAR OBSERVAÇÃO
 // ==========================================
 
-const editCartItemNote = (index) => {
+const editCartItemNoteHandler = (index) => {
     const newNote = prompt('Adicionar observação:', cart[index].note || '');
     if (newNote !== null) {
-        updateCartItemNote(index, newNote);
+        window.updateCartItemNote(index, newNote);
         renderCartItems();
     }
+};
+
+const removeFromCartHandler = (index) => {
+    window.removeFromCart(index);
+};
+
+const updateQuantityHandler = (index, newQuantity) => {
+    window.updateCartItemQuantity(index, newQuantity);
 };
 
 // ==========================================
@@ -490,13 +527,14 @@ const sendToWhatsApp = () => {
     }
 
     const message = generateWhatsAppMessage();
-    const whatsappNumber = '5511999998888'; // Mudar para número real
+    const whatsappNumber = '5516992640814'; // Mudar para número real
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
 
     window.open(whatsappUrl, '_blank');
     
     // Limpa carrinho após envio
     cart = [];
+    saveCart();
     checkoutData = { name: '', phone: '', address: '', region: '', paymentMethod: '' };
     closeCheckout();
     updateCartUI();
@@ -542,21 +580,21 @@ const renderPizzaCard = (pizza) => {
                     </div>
 
                     <div>
-                        <button class="toggle-note text-sm text-gray-500 underline decoration-dotted hover:text-orange-600 flex items-center gap-1">
+                        <button type="button" class="toggle-note text-sm text-gray-500 underline decoration-dotted hover:text-orange-600 flex items-center gap-1">
                             Adicionar observação?
                         </button>
                         <textarea class="note-input hidden mt-2 w-full p-3 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 outline-none resize-none bg-gray-50" rows="2" placeholder="Ex: Tirar a cebola..."></textarea>
                     </div>
 
-                    <button class="add-btn w-full bg-gray-900 hover:bg-black text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all active:scale-[0.98]">
-                        <i data-lucide="plus" class="w-4 h-4"></i>
-                        <span>Adicionar ao Pedido</span>
-                        <span class="btn-price ml-auto opacity-80 text-sm font-normal"></span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
+                    <button type="button" class="add-btn w-full bg-[#c13422] hover:bg-[#a02a1c] text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all active:scale-[0.98]">
+                         <i data-lucide="plus" class="w-4 h-4"></i>
+                         <span>Adicionar ao Pedido</span>
+                         <span class="btn-price ml-auto opacity-80 text-sm font-normal"></span>
+                     </button>
+                 </div>
+             </div>
+         </div>
+     `;
 
     const sizeSelector = card.querySelector('.size-selector');
     const priceDisplay = card.querySelector('.price-display');
@@ -584,19 +622,20 @@ const renderPizzaCard = (pizza) => {
 
     sizes.forEach(size => {
         const btn = document.createElement('button');
+        btn.type = 'button';
         btn.className = `relative p-2 rounded-lg border text-left transition-all w-full ${currentSize === size.id ? 'border-orange-500 bg-orange-50 text-orange-700 ring-1 ring-orange-500' : 'border-gray-200 hover:border-gray-300 text-gray-600'}`;
         btn.innerHTML = `<div class="text-sm font-semibold">${size.label}</div><div class="text-[10px] opacity-80">${size.sub}</div>`;
         
-        btn.onclick = () => {
-            currentSize = size.id;
-            const allBtns = sizeSelector.querySelectorAll('button');
-            allBtns.forEach(b => {
-                b.className = 'relative p-2 rounded-lg border text-left transition-all w-full border-gray-200 hover:border-gray-300 text-gray-600';
-            });
-            btn.className = 'relative p-2 rounded-lg border text-left transition-all w-full border-orange-500 bg-orange-50 text-orange-700 ring-1 ring-orange-500';
-            updatePrices();
-        };
-        sizeSelector.appendChild(btn);
+         btn.onclick = () => {
+             currentSize = size.id;
+             const allBtns = sizeSelector.querySelectorAll('button');
+             allBtns.forEach(b => {
+                 b.className = 'relative p-2 rounded-lg border text-left transition-all w-full border-gray-200 hover:border-gray-300 text-gray-600';
+             });
+             btn.className = 'relative p-2 rounded-lg border text-left transition-all w-full border-orange-500 bg-orange-50 text-orange-700 ring-1 ring-orange-500';
+             updatePrices();
+         };
+         sizeSelector.appendChild(btn);
     });
 
     crustSelect.addEventListener('change', (e) => {
@@ -604,7 +643,8 @@ const renderPizzaCard = (pizza) => {
         updatePrices();
     });
 
-    toggleNote.addEventListener('click', () => {
+    toggleNote.addEventListener('click', (e) => {
+        e.preventDefault();
         const isHidden = noteInput.classList.contains('hidden');
         if (isHidden) {
             noteInput.classList.remove('hidden');
@@ -616,7 +656,8 @@ const renderPizzaCard = (pizza) => {
         }
     });
 
-    addBtn.addEventListener('click', () => {
+    addBtn.addEventListener('click', (e) => {
+        e.preventDefault();
         const basePrice = pizza.prices[currentSize];
         const crustData = CRUST_OPTIONS.find(c => c.id === currentCrust);
         const total = basePrice + crustData.price;
@@ -731,8 +772,10 @@ const renderCategories = () => {
 // 5. INICIALIZAÇÃO
 // ==========================================
 window.addEventListener('DOMContentLoaded', () => {
+    loadCart();
     renderCategories();
     lucide.createIcons();
+    updateCartUI();
 
     // --- header transparent -> scrolled toggle ---
     const header = document.getElementById('site-header');
@@ -833,5 +876,16 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Expõe função para escopo global
+// Expõe funções para escopo global
 window.addToCart = addToCart;
+window.toggleCartDrawer = toggleCartDrawer;
+window.closeCartDrawer = closeCartDrawer;
+window.openCheckout = openCheckout;
+window.closeCheckout = closeCheckout;
+window.sendToWhatsApp = sendToWhatsApp;
+window.editCartItemNoteHandler = editCartItemNoteHandler;
+window.removeFromCartHandler = removeFromCartHandler;
+window.updateQuantityHandler = updateQuantityHandler;
+window.removeFromCart = removeFromCart;
+window.updateCartItemQuantity = updateCartItemQuantity;
+window.updateCartItemNote = updateCartItemNote;

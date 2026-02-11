@@ -76,6 +76,18 @@ section.relative.w-full.min-h-screen img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
+    /* Mobile: reduz zoom para mostrar nome completo */
+    scale: 0.95;
+}
+
+/* Desktop: volta ao zoom normal */
+@media (min-width: 768px) {
+    section.relative.w-full.h-screen img,
+    .hero-section img,
+    section.relative.w-full.min-h-screen img {
+        scale: 1;
+    }
 }
 
 section.relative.w-full.h-screen .bg-gradient-to-b,
@@ -486,7 +498,8 @@ section.relative.w-full.min-h-screen .bg-gradient-to-b {
     color: white;
     border: none;
     width: 56px;
-    height: 56px;
+    min-height: 56px;
+    padding: 8px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
@@ -495,9 +508,7 @@ section.relative.w-full.min-h-screen .bg-gradient-to-b {
     box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
     transition: all 0.2s;
     z-index: 35;
-    font-weight: bold;
-    font-size: 12px;
-    text-align: center;
+    flex-direction: column;
 }
 
 #cart-fab:hover {
@@ -510,11 +521,15 @@ section.relative.w-full.min-h-screen .bg-gradient-to-b {
     transform: scale(0.95);
 }
 
+#cart-fab i {
+    pointer-events: none;
+}
+
 /* Badge de quantidade */
 #cart-fab-badge {
     position: absolute;
-    top: -8px;
-    right: -8px;
+    top: 0;
+    right: 0;
     background: #dc2626;
     color: white;
     width: 24px;
@@ -525,6 +540,7 @@ section.relative.w-full.min-h-screen .bg-gradient-to-b {
     justify-content: center;
     font-size: 11px;
     font-weight: bold;
+    pointer-events: none;
 }
 
 /* ==========================================
