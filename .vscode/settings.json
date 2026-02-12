@@ -1,0 +1,12 @@
+{
+  "liveServer.settings.donotShowInfoMsg": true,
+  "liveServer.settings.useLocalIp": false,
+  "liveServer.settings.port": 5500,
+  "liveServer.settings.AdvanceCustomBrowserCmdLine": "",
+  "liveServer.settings.ignoreFiles": [
+    ".vscode/**",
+    "**/*.scss",
+    "**/*.sass",
+    "**/*.ts"
+  ]
+}
