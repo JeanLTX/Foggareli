@@ -77,8 +77,8 @@ section.relative.w-full.min-h-screen img {
     height: 100%;
     object-fit: cover;
     object-position: center;
-    /* Mobile: reduz zoom para mostrar nome completo */
-    scale: 0.95;
+    /* Mobile: reduz zoom para mostrar nome completo (sem borda) */
+    scale: 1;
 }
 
 /* Desktop: volta ao zoom normal */
