@@ -109,11 +109,22 @@ let cart = [];
 
 // Carregar carrinho do localStorage
 const loadCart = () => {
-    const saved = localStorage.getItem('foggareli-cart');
-    if (saved) {
+    try {
+        const saved = localStorage.getItem('foggareli-cart');
+        if (saved) {
+            try {
+                cart = JSON.parse(saved);
+            } catch (e) {
+                cart = [];
+            }
+        }
+    } catch (e) {
+        // Se localStorage não está disponível (Tracking Prevention), usar sessionStorage
+        console.warn('localStorage bloqueado, usando sessionStorage');
         try {
-            cart = JSON.parse(saved);
-        } catch (e) {
+            const saved = sessionStorage.getItem('foggareli-cart');
+            if (saved) cart = JSON.parse(saved);
+        } catch (err) {
             cart = [];
         }
     }
@@ -121,7 +132,16 @@ const loadCart = () => {
 
 // Salvar carrinho no localStorage
 const saveCart = () => {
-    localStorage.setItem('foggareli-cart', JSON.stringify(cart));
+    try {
+        localStorage.setItem('foggareli-cart', JSON.stringify(cart));
+    } catch (e) {
+        // Fallback para sessionStorage
+        try {
+            sessionStorage.setItem('foggareli-cart', JSON.stringify(cart));
+        } catch (err) {
+            console.warn('Nenhum storage disponível');
+        }
+    }
 };
 
 // Dados de entrega por região
