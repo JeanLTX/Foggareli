@@ -6,35 +6,35 @@ const PIZZAS_SALGADAS = [
         id: 1,
         name: "Margherita Clássica",
         description: "Molho de tomate artesanal, mussarela de búfala, manjericão fresco e azeite de oliva extra virgem.",
-        image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=500&q=80",
+        image: "",
         prices: { small: 35.00, medium: 45.00, large: 55.00 }
     },
     {
         id: 2,
         name: "Pepperoni Supremo",
         description: "Nossa base de tomate especial coberta com mussarela derretida e fatias generosas de pepperoni crocante.",
-        image: "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=500&q=80",
+        image: "",
         prices: { small: 38.00, medium: 49.00, large: 62.00 }
     },
     {
         id: 3,
         name: "Frango com Catupiry",
         description: "Frango desfiado temperado, coberto com o autêntico Catupiry e um toque de orégano.",
-        image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80",
+        image: "",
         prices: { small: 37.00, medium: 48.00, large: 60.00 }
     },
     {
         id: 4,
         name: "Quatro Queijos",
         description: "Blend exclusivo de mussarela, provolone, parmesão e gorgonzola sobre molho de tomate.",
-        image: "https://images.unsplash.com/photo-1571407970349-bc1671989f0f?auto=format&fit=crop&w=500&q=80",
+        image: "",
         prices: { small: 39.00, medium: 52.00, large: 65.00 }
     },
     {
         id: 5,
         name: "Calabresa Acebolada",
         description: "Calabresa defumada fatiada, cebolas frescas em rodelas e azeitonas pretas.",
-        image: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&w=500&q=80",
+        image: "",
         prices: { small: 34.00, medium: 44.00, large: 54.00 }
     }
 ];
@@ -44,14 +44,14 @@ const PIZZAS_DOCES = [
         id: 11,
         name: "Banana com Canela",
         description: "Base delicada com banana fresca e canela, finalizada com calda de leite condensado.",
-        image: "https://images.unsplash.com/photo-1615521471454-8470f3494d04?auto=format&fit=crop&w=500&q=80",
+        image: "",
         prices: { small: 30.00, medium: 38.00, large: 48.00 }
     },
     {
         id: 12,
         name: "Chocolate com Morango",
         description: "Chocolate derretido coberto com morangos frescos e calda de chocolate gourmet.",
-        image: "https://images.unsplash.com/photo-1589985643637-d3cba2d1b922?auto=format&fit=crop&w=500&q=80",
+        image: "",
         prices: { small: 32.00, medium: 40.00, large: 50.00 }
     }
 ];
@@ -61,23 +61,23 @@ const PIZZAS_MEIO_A_MEIO = [
         id: 21,
         name: "Margherita + Pepperoni",
         description: "Metade clássica margherita, metade pepperoni supremo. O melhor dos dois mundos.",
-        image: "https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?auto=format&fit=crop&w=500&q=80",
+        image: "",
         prices: { small: 37.00, medium: 47.00, large: 58.00 }
     },
     {
         id: 22,
         name: "Frango + Calabresa",
         description: "Combine frango com catupiry de um lado e calabresa acebolada do outro.",
-        image: "https://images.unsplash.com/photo-1596722846221-53562ad1cc9f?auto=format&fit=crop&w=500&q=80",
+        image: "",
         prices: { small: 36.00, medium: 46.00, large: 57.00 }
     }
 ];
 
 const DRINKS = [
-    { id: 101, name: "Coca-Cola Original", volume: "350ml", price: 6.00, image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=200&q=80" },
-    { id: 102, name: "Guaraná Antarctica", volume: "350ml", price: 6.00, image: "https://images.unsplash.com/photo-1624517452488-04869289c4ca?auto=format&fit=crop&w=200&q=80" },
-    { id: 103, name: "Suco de Laranja", volume: "500ml", price: 12.00, image: "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=200&q=80" },
-    { id: 104, name: "Cerveja Heineken", volume: "Long Neck 330ml", price: 14.00, image: "https://images.unsplash.com/photo-1618885472179-488eb7e937d5?auto=format&fit=crop&w=200&q=80" }
+    { id: 101, name: "Coca-Cola Original", volume: "350ml", price: 6.00, image: "" },
+    { id: 102, name: "Guaraná Antarctica", volume: "350ml", price: 6.00, image: "" },
+    { id: 103, name: "Suco de Laranja", volume: "500ml", price: 12.00, image: "" },
+    { id: 104, name: "Cerveja Heineken", volume: "Long Neck 330ml", price: 14.00, image: "" }
 ];
 
 const EXTRAS = [
@@ -555,7 +555,7 @@ const renderPizzaCard = (pizza) => {
     card.innerHTML = `
         <div class="grid grid-cols-1 md:grid-cols-[200px_1fr]">
             <div class="relative h-48 md:h-full bg-gray-100">
-                <img src="${pizza.image}" alt="${pizza.name}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x400?text=Pizza'">
+                <img src="${pizza.image}" alt="${pizza.name}" class="w-full h-full object-cover" onerror="this.src=''">
             </div>
 
             <div class="p-6 flex flex-col h-full">
@@ -689,7 +689,7 @@ const renderDrinkCard = (item) => {
     el.innerHTML = `
         <div class="flex items-center gap-4">
             <div class="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
-                <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=Bebida'">
+                <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover" onerror="this.src=''">
             </div>
             <div>
                 <h4 class="font-semibold text-gray-900">${item.name}</h4>

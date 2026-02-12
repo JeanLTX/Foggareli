@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Foggareli - Cardápio Online</title>
-    
+    <!-- Favicons (apenas arquivos existentes) -->
+    <link rel="icon" type="image/png" href="assets/logo2.png">
+    <link rel="shortcut icon" href="assets/favicon.ico">
+    <link rel="apple-touch-icon" href="assets/logo2.png">
+    <!-- Removido manifest/preload para evitar requests pendentes que travam o carregamento -->
+    <meta name="theme-color" content="#f97316">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -39,155 +45,163 @@
 
     <!-- HERO SECTION (substituído para usar banner local e ser mobile-first) -->
     <section class="relative w-full h-screen md:min-h-[420px]">
-        <!-- Imagem de fundo (cobre toda a área) -->
-        <img src="assets/bannerfoggareli3.png" alt="Banner Foggareli" class="absolute inset-0 w-full h-full object-cover" onerror="this.style.display='none'">
-        <!-- Overlay para contraste -->
-        <div class="absolute inset-0 bg-gradient-to-b from-[rgba(0,0,0,0.25)] to-[rgba(0,0,0,0.35)]"></div>
-
-        <!-- Conteúdo central -->
-        <div class="relative z-10 w-full h-full flex items-center justify-center px-6 py-20">
-            <div class="max-w-2xl text-center flex flex-col items-center">
-                <h2 class="sr-only">Foggareli</h2>
-                <p class="text-white text-lg md:text-xl font-light mb-6 opacity-95">Escolha sua pizza favorita e monte seu pedido em poucos cliques</p>
-                <button id="cta-order-btn" aria-label="Fazer pedido" class="cta-btn bg-orange-500 hover:bg-orange-600 text-white px-6 py-4 rounded-full text-lg font-bold flex items-center gap-3 animate-pulse shadow-xl transform transition-transform">
-                    <span>Fazer Pedido</span>
-                    <i data-lucide="chevron-down" class="w-5 h-5"></i>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main class="max-w-3xl mx-auto px-4 pb-20">
+        <!-- Imagem de fundo (cobre toda a área) - responsiva -->
+        <picture class="absolute inset-0">
+            <!-- Mobile: bannerfoggareli3.png (até 768px) -->
+            <source media="(max-width: 767px)" srcset="assets/bannerfoggareli3.png">
+            <!-- Desktop: bannerfoggareli.png (768px+) -->
+            <source media="(min-width: 768px)" srcset="assets/bannerfoggareli.png">
+            <!-- Fallback -->
+            <img src="assets/bannerfoggareli.png" alt="Banner Foggareli" class="w-full h-full object-cover">
+        </picture>
         
-        <!-- BARRA DE CATEGORIAS (STICKY) -->
-        <div id="categories-bar" class="w-full">
-            <div id="categories-bar-scrolling" class="relative">
-                <button class="category-tab active" data-category="salgadas">Pizzas Salgadas</button>
-                <button class="category-tab" data-category="doces">Pizzas Doces</button>
-                <button class="category-tab" data-category="meio-a-meio">Meio a Meio</button>
-                <button class="category-tab" data-category="bebidas">Bebidas</button>
-                <button class="category-tab" data-category="adicionais">Adicionais</button>
-            </div>
-        </div>
-        
-        <!-- CONTAINER DE CATEGORIAS -->
-        <div id="pizzas-container" class="mt-8"></div>
+         <!-- Overlay para contraste -->
+         <div class="absolute inset-0 bg-gradient-to-b from-[rgba(0,0,0,0.25)] to-[rgba(0,0,0,0.35)]"></div>
 
-    </main>
-
-    <!-- RODAPÉ -->
-    <footer class="bg-slate-900 text-slate-300 py-12 mt-16">
-        <div class="max-w-3xl mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-                <div>
-                    <h3 class="text-2xl font-bold text-white mb-2">Foggareli</h3>
-                    <p class="text-slate-400 mb-6">A autêntica pizza italiana, feita com paixão e ingredientes selecionados.</p>
-                    <div class="space-y-3">
-                        <div class="flex items-center gap-3">
-                            <i data-lucide="map-pin" class="text-orange-500 w-4 h-4"></i>
-                            <span>Rua das Oliveiras, 123 - Centro</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <i data-lucide="phone" class="text-orange-500 w-4 h-4"></i>
-                            <span>(11) 99999-8888</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <i data-lucide="clock" class="text-orange-500 w-4 h-4"></i>
-                            <span>Ter-Dom: 18h às 23h30</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-slate-800 p-6 rounded-lg border border-slate-700">
-                    <h4 class="font-semibold text-white mb-4">Área de Entrega</h4>
-                    <p class="text-sm text-slate-400 mb-4">Entregamos em um raio de 5km do centro da cidade. Consulte taxas no checkout.</p>
-                    <div class="text-center text-xs text-slate-500 mt-4 pt-4 border-t border-slate-700">
-                        Tempo médio de entrega: <span class="text-white font-medium">45-60 min</span>
-                    </div>
-                </div>
-            </div>
-            <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
-                <p>© 2026 Foggareli. Todos os direitos reservados.</p>
-                <p class="opacity-60 hover:opacity-100 transition-opacity">Built with v0.app</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- BARRA DE CARRINHO MOBILE -->
-    <div id="mobile-cart-bar" class="hidden fixed bottom-0 w-full bg-white border-t border-gray-200 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] p-4 z-40 md:hidden">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-xs text-gray-500 uppercase font-bold">Total do Pedido</p>
-                <p id="mobile-total-price" class="text-xl font-bold text-gray-900">R$ 0,00</p>
-            </div>
-            <button class="bg-green-600 text-white px-6 py-3 rounded-lg font-bold shadow-lg hover:bg-green-700 transition-colors">
-                Finalizar
-            </button>
-        </div>
-    </div>
-
-    <!-- TOAST -->
-    <div id="toast" class="hidden fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-3 z-50">
-        <div class="bg-green-500 rounded-full p-1 flex items-center justify-center">
-            <i data-lucide="check" class="text-white w-3 h-3 stroke-[4]"></i>
-        </div>
-        <span id="toast-message" class="font-medium text-sm">Item adicionado!</span>
-    </div>
-
-    <!-- FLOATING ACTION BUTTON (CARRINHO) -->
-    <button id="cart-fab" class="fixed bottom-6 right-6 bg-orange-500 text-white rounded-full shadow-lg flex items-center justify-center z-35" onclick="window.toggleCartDrawer()" type="button">
-        <i data-lucide="shopping-cart" class="w-6 h-6"></i>
-        <span id="cart-fab-badge" style="display: none;" class="absolute top-0 right-0 bg-red-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">0</span>
-    </button>
-
-     <!-- OVERLAY DO DRAWER -->
-     <div id="cart-drawer-overlay" onclick="window.closeCartDrawer()"></div>
-
-     <!-- DRAWER DO CARRINHO -->
-     <div id="cart-drawer">
-         <div class="cart-drawer-header">
-             <h2>
-                 <i data-lucide="shopping-cart" class="w-5 h-5"></i>
-                 Seu Pedido
-             </h2>
-             <button class="cart-drawer-close" onclick="window.closeCartDrawer()" type="button">×</button>
+         <!-- Conteúdo central -->
+         <div class="relative z-10 w-full h-full flex items-center justify-center px-6 py-20">
+             <div class="max-w-2xl text-center flex flex-col items-center">
+                 <h2 class="sr-only">Foggareli</h2>
+                 <p class="text-white text-lg md:text-xl font-light mb-6 opacity-95">Escolha sua pizza favorita e monte seu pedido em poucos cliques</p>
+                 <button id="cta-order-btn" aria-label="Fazer pedido" class="cta-btn bg-orange-500 hover:bg-orange-600 text-white px-6 py-4 rounded-full text-lg font-bold flex items-center gap-3 animate-pulse shadow-xl transform transition-transform">
+                     <span>Fazer Pedido</span>
+                     <i data-lucide="chevron-down" class="w-5 h-5"></i>
+                 </button>
+             </div>
          </div>
+     </section>
 
-         <div class="cart-drawer-body"></div>
+     <!-- CONTEÚDO PRINCIPAL -->
+     <main class="max-w-3xl mx-auto px-4 pb-20">
+        
+         <!-- BARRA DE CATEGORIAS (STICKY) -->
+         <div id="categories-bar" class="w-full">
+             <div id="categories-bar-scrolling" class="relative">
+                 <button class="category-tab active" data-category="salgadas">Pizzas Salgadas</button>
+                 <button class="category-tab" data-category="doces">Pizzas Doces</button>
+                 <button class="category-tab" data-category="meio-a-meio">Meio a Meio</button>
+                 <button class="category-tab" data-category="bebidas">Bebidas</button>
+                 <button class="category-tab" data-category="adicionais">Adicionais</button>
+             </div>
+         </div>
+        
+         <!-- CONTAINER DE CATEGORIAS -->
+         <div id="pizzas-container" class="mt-8"></div>
 
-         <div class="cart-drawer-footer">
-             <div class="cart-summary">
-                 <div class="cart-summary-row">
-                     <span>Subtotal:</span>
-                     <span>R$ 0,00</span>
+     </main>
+
+     <!-- RODAPÉ -->
+     <footer class="bg-slate-900 text-slate-300 py-12 mt-16">
+         <div class="max-w-3xl mx-auto px-6">
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+                 <div>
+                     <h3 class="text-2xl font-bold text-white mb-2">Foggareli</h3>
+                     <p class="text-slate-400 mb-6">A autêntica pizza italiana, feita com paixão e ingredientes selecionados.</p>
+                     <div class="space-y-3">
+                         <div class="flex items-center gap-3">
+                             <i data-lucide="map-pin" class="text-orange-500 w-4 h-4"></i>
+                             <span>Rua das Oliveiras, 123 - Centro</span>
+                         </div>
+                         <div class="flex items-center gap-3">
+                             <i data-lucide="phone" class="text-orange-500 w-4 h-4"></i>
+                             <span>(11) 99999-8888</span>
+                         </div>
+                         <div class="flex items-center gap-3">
+                             <i data-lucide="clock" class="text-orange-500 w-4 h-4"></i>
+                             <span>Ter-Dom: 18h às 23h30</span>
+                         </div>
+                     </div>
                  </div>
-                 <div class="cart-summary-total">
-                     <span>Total:</span>
-                     <span>R$ 0,00</span>
+                 <div class="bg-slate-800 p-6 rounded-lg border border-slate-700">
+                     <h4 class="font-semibold text-white mb-4">Área de Entrega</h4>
+                     <p class="text-sm text-slate-400 mb-4">Entregamos em um raio de 5km do centro da cidade. Consulte taxas no checkout.</p>
+                     <div class="text-center text-xs text-slate-500 mt-4 pt-4 border-t border-slate-700">
+                         Tempo médio de entrega: <span class="text-white font-medium">45-60 min</span>
+                     </div>
                  </div>
              </div>
-             <button class="cart-checkout-btn" onclick="window.openCheckout()" type="button">Continuar →</button>
+             <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
+                 <p>© 2026 Foggareli. Todos os direitos reservados.</p>
+                 <p class="opacity-60 hover:opacity-100 transition-opacity">CodeByJean</p>
+             </div>
+         </div>
+     </footer>
+
+     <!-- BARRA DE CARRINHO MOBILE -->
+     <div id="mobile-cart-bar" class="hidden fixed bottom-0 w-full bg-white border-t border-gray-200 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] p-4 z-40 md:hidden">
+         <div class="flex items-center justify-between">
+             <div>
+                 <p class="text-xs text-gray-500 uppercase font-bold">Total do Pedido</p>
+                 <p id="mobile-total-price" class="text-xl font-bold text-gray-900">R$ 0,00</p>
+             </div>
+             <button class="bg-green-600 text-white px-6 py-3 rounded-lg font-bold shadow-lg hover:bg-green-700 transition-colors">
+                 Finalizar
+             </button>
          </div>
      </div>
 
-     <!-- MODAL DE CHECKOUT -->
-     <div id="checkout-section">
-         <div class="checkout-container">
-             <div class="checkout-header">
-                 <span>Finalizar Pedido</span>
-                 <button class="checkout-close" onclick="window.closeCheckout()" type="button">×</button>
-             </div>
-
-             <form class="checkout-form" onsubmit="event.preventDefault(); window.sendToWhatsApp();"></form>
-
-             <div class="checkout-actions">
-                 <button class="btn-cancel" type="button" onclick="window.closeCheckout()">Voltar</button>
-                 <button class="btn-confirm" type="button" onclick="window.sendToWhatsApp()">Enviar Pedido →</button>
-             </div>
+     <!-- TOAST -->
+     <div id="toast" class="hidden fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-3 z-50">
+         <div class="bg-green-500 rounded-full p-1 flex items-center justify-center">
+             <i data-lucide="check" class="text-white w-3 h-3 stroke-[4]"></i>
          </div>
+         <span id="toast-message" class="font-medium text-sm">Item adicionado!</span>
      </div>
 
-     <!-- JavaScript -->
-     <script src="script.js"></script>
+     <!-- FLOATING ACTION BUTTON (CARRINHO) -->
+     <button id="cart-fab" class="fixed bottom-6 right-6 bg-orange-500 text-white rounded-full shadow-lg flex items-center justify-center z-35" onclick="window.toggleCartDrawer()" type="button">
+         <i data-lucide="shopping-cart" class="w-6 h-6"></i>
+         <span id="cart-fab-badge" style="display: none;" class="absolute top-0 right-0 bg-red-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">0</span>
+     </button>
+
+      <!-- OVERLAY DO DRAWER -->
+      <div id="cart-drawer-overlay" onclick="window.closeCartDrawer()"></div>
+
+      <!-- DRAWER DO CARRINHO -->
+      <div id="cart-drawer">
+          <div class="cart-drawer-header">
+              <h2>
+                  <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                  Seu Pedido
+              </h2>
+              <button class="cart-drawer-close" onclick="window.closeCartDrawer()" type="button">×</button>
+          </div>
+
+          <div class="cart-drawer-body"></div>
+
+          <div class="cart-drawer-footer">
+              <div class="cart-summary">
+                  <div class="cart-summary-row">
+                      <span>Subtotal:</span>
+                      <span>R$ 0,00</span>
+                  </div>
+                  <div class="cart-summary-total">
+                      <span>Total:</span>
+                      <span>R$ 0,00</span>
+                  </div>
+              </div>
+              <button class="cart-checkout-btn" onclick="window.openCheckout()" type="button">Continuar →</button>
+          </div>
+      </div>
+
+      <!-- MODAL DE CHECKOUT -->
+      <div id="checkout-section">
+          <div class="checkout-container">
+              <div class="checkout-header">
+                  <span>Finalizar Pedido</span>
+                  <button class="checkout-close" onclick="window.closeCheckout()" type="button">×</button>
+              </div>
+
+              <form class="checkout-form" onsubmit="event.preventDefault(); window.sendToWhatsApp();"></form>
+
+              <div class="checkout-actions">
+                  <button class="btn-cancel" type="button" onclick="window.closeCheckout()">Voltar</button>
+                  <button class="btn-confirm" type="button" onclick="window.sendToWhatsApp()">Enviar Pedido →</button>
+              </div>
+          </div>
+      </div>
+
+      <!-- JavaScript -->
+      <script src="script.js"></script>
 </body>
 </html>
