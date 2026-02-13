@@ -1,159 +1,330 @@
+
 // ==========================================
-// 1. DADOS (DATA) - com categorias
+// 1. DADOS DO CARDÁPIO (ORIGINAL COMPLETO)
 // ==========================================
 const PIZZAS_SALGADAS = [
     {
-        id: 1,
-        name: "Margherita Clássica",
-        description: "Molho de tomate artesanal, mussarela de búfala, manjericão fresco e azeite de oliva extra virgem.",
-        image: "",
-        prices: { small: 35.00, medium: 45.00, large: 55.00 }
+        id: 1, name: "Calabresa", category: "Pizzas Tradicionais",
+        desc: "Molho de tomate, muçarela, calabresa, cebola, orégano.",
+        img: "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 56.90, M: 63.90, G: 79.90 }
     },
     {
-        id: 2,
-        name: "Pepperoni Supremo",
-        description: "Nossa base de tomate especial coberta com mussarela derretida e fatias generosas de pepperoni crocante.",
-        image: "",
-        prices: { small: 38.00, medium: 49.00, large: 62.00 }
+        id: 2, name: "Muçarela", category: "Pizzas Tradicionais",
+        desc: "Molho de tomate, muçarela, tomate, orégano, azeitona preta.",
+        img: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 55.90, M: 65.90, G: 79.90 }
     },
     {
-        id: 3,
-        name: "Frango com Catupiry",
-        description: "Frango desfiado temperado, coberto com o autêntico Catupiry e um toque de orégano.",
-        image: "",
-        prices: { small: 37.00, medium: 48.00, large: 60.00 }
+        id: 3, name: "Margherita", category: "Pizzas Tradicionais",
+        desc: "Molho de tomate, muçarela, tomate, parmesão, orégano, manjericão fresco.",
+        img: "https://images.unsplash.com/photo-1573821663912-569905455b1c?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 58.90, M: 63.90, G: 83.90 }
     },
     {
-        id: 4,
-        name: "Quatro Queijos",
-        description: "Blend exclusivo de mussarela, provolone, parmesão e gorgonzola sobre molho de tomate.",
-        image: "",
-        prices: { small: 39.00, medium: 52.00, large: 65.00 }
+        id: 4, name: "Toscana", category: "Pizzas Tradicionais",
+        desc: "Molho de tomate, muçarela, calabresa moída, parmesão, orégano.",
+        img: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 57.90, M: 64.90, G: 82.90 }
     },
     {
-        id: 5,
-        name: "Calabresa Acebolada",
-        description: "Calabresa defumada fatiada, cebolas frescas em rodelas e azeitonas pretas.",
-        image: "",
-        prices: { small: 34.00, medium: 44.00, large: 54.00 }
+        id: 5, name: "Milão", category: "Pizzas Tradicionais",
+        desc: "Molho, muçarela, presunto moído, calabresa moída, cebola, orégano, azeitonas verdes.",
+        img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 59.90, M: 71.90, G: 92.90 }
+    },
+    {
+        id: 6, name: "Alho e Óleo", category: "Pizzas Tradicionais",
+        desc: "Molho de tomate, muçarela, parmesão, orégano, alho frito.",
+        img: "https://images.unsplash.com/photo-1620374645498-af669dc7ab8c?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 52.90, M: 59.90, G: 75.90 }
+    },
+    {
+        id: 7, name: "Frango com Catupiry", category: "Pizzas Tradicionais",
+        desc: "Molho de tomate, frango desfiado, requeijão cremoso, muçarela, orégano.",
+        img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 59.90, M: 75.90, G: 98.90 }
+    },
+    {
+        id: 8, name: "Calabria", category: "Pizzas Tradicionais",
+        desc: "Molho de tomate, requeijão cremoso, calabresa, parmesão, orégano.",
+        img: "https://images.unsplash.com/photo-1585238342024-78d387f4a707?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 58.90, M: 68.90, G: 83.90 }
+    },
+    {
+        id: 9, name: "Portuguesa", category: "Pizzas Tradicionais",
+        desc: "Molho, muçarela, presunto, ovos, calabresa, cebola, pimentão, tomate, azeitona, orégano.",
+        img: "https://images.unsplash.com/photo-1601924582970-9238bcb495d9?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 62.90, M: 77.90, G: 93.90 }
+    },
+    {
+        id: 10, name: "Francesa", category: "Pizzas Tradicionais",
+        desc: "Molho de tomate, muçarela, presunto, requeijão cremoso, ovos, orégano.",
+        img: "https://images.unsplash.com/photo-1593560708920-638928eb75b7?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 61.90, M: 77.90, G: 97.90 }
+    },
+    {
+        id: 11, name: "Quatro Queijos", category: "Pizzas Tradicionais",
+        desc: "Molho, provolone, requeijão cremoso, muçarela, parmesão, orégano.",
+        img: "https://images.unsplash.com/photo-1573821663912-6df460f9c684?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 66.90, M: 77.90, G: 90.90 }
+    },
+    {
+        id: 12, name: "Gênova", category: "Pizzas Tradicionais",
+        desc: "Molho, lombo canadense, ovos, cebola, muçarela, bacon, orégano.",
+        img: "https://images.unsplash.com/photo-1618213837799-24d556839544?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 59.90, M: 70.90, G: 94.90 }
+    },
+    {
+        id: 13, name: "Atum", category: "Pizzas Tradicionais",
+        desc: "Molho de tomate, muçarela, atum, cebola, tomate, orégano.",
+        img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 70.90, M: 86.90, G: 107.90 }
+    },
+    {
+        id: 14, name: "Brócolis", category: "Pizzas Tradicionais",
+        desc: "Molho de tomate, muçarela, brócolis, alho frito, orégano.",
+        img: "https://images.unsplash.com/photo-1552539618-7eec9b4d1796?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 53.90, M: 60.90, G: 70.90 }
+    },
+    {
+        id: 15, name: "Carne Seca", category: "Pizzas Tradicionais",
+        desc: "Molho de tomate, muçarela, carne seca, orégano.",
+        img: "https://images.unsplash.com/photo-1605478371310-a9f1e96b4ff4?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 65.90, M: 82.90, G: 100.90 }
     }
+];
+
+const PIZZAS_ESPECIAIS = [
+    {
+        id: 16, name: "Frango Especial", category: "Pizzas Especiais",
+        desc: "Molho, frango, requeijão cremoso, palmito, muçarela, calabresa, orégano.",
+        img: "https://images.unsplash.com/photo-1594007654729-407eedc4be65?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 64.90, M: 77.90, G: 105.90 }
+    },
+    {
+        id: 17, name: "Carne Seca Especial", category: "Pizzas Especiais",
+        desc: "Molho, carne seca, requeijão cremoso, palmito, cebola, orégano.",
+        img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 65.90, M: 91.90, G: 107.90 }
+    },
+    {
+        id: 18, name: "Calabresa Especial", category: "Pizzas Especiais",
+        desc: "Molho de tomate, requeijão cremoso, calabresa, ovos, cebola, orégano.",
+        img: "https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 61.90, M: 69.90, G: 85.90 }
+    },
+    {
+        id: 19, name: "Brócolis com Bacon", category: "Pizzas Especiais",
+        desc: "Molho de tomate, muçarela, brócolis, bacon, alho frito, orégano.",
+        img: "https://images.unsplash.com/photo-1558138838-8d2c49ff9b84?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 56.90, M: 64.90, G: 81.90 }
+    },
+    {
+        id: 20, name: "Champion", category: "Pizzas Especiais",
+        desc: "Molho de tomate, muçarela, champignon, cebola, alho frito, orégano.",
+        img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 59.90, M: 68.90, G: 87.90 }
+    },
+    {
+        id: 21, name: "Brócolis c/ Cream Cheese", category: "Pizzas Especiais",
+        desc: "Molho, muçarela, brócolis, palmito, milho, cream cheese, orégano.",
+        img: "https://images.unsplash.com/photo-1552539618-7eec9b4d1796?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 62.90, M: 75.90, G: 99.90 }
+    },
+    {
+        id: 22, name: "Costela Especial", category: "Pizzas Especiais",
+        desc: "Molho de tomate, costela desfiada, cream cheese, muçarela e orégano.",
+        img: "https://images.unsplash.com/photo-1605478371310-a9f1e96b4ff4?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 72.90, M: 91.90, G: 107.90 }
+    },
+    {
+        id: 23, name: "Pizza Foggareli", category: "Pizzas Especiais",
+        desc: "Molho, frango desfiado, cheddar, milho, muçarela, bacon, orégano.",
+        img: "https://images.unsplash.com/photo-1574126154517-d1e0d89e7344?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 60.90, M: 68.90, G: 84.90 }
+    },
+    {
+        id: 24, name: "5 Queijos", category: "Pizzas Especiais",
+        desc: "Molho, provolone, requeijão, muçarela, parmesão, gorgonzola e orégano.",
+        img: "https://images.unsplash.com/photo-1573821663912-6df460f9c684?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 68.90, M: 76.90, G: 100.90 }
+    },
+    {
+        id: 25, name: "Peperoni", category: "Pizzas Especiais",
+        desc: "Molho de tomate, muçarela, peperoni, cebola, orégano.",
+        img: "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 66.70, M: 74.90, G: 95.90 }
+    },
 ];
 
 const PIZZAS_DOCES = [
     {
-        id: 11,
-        name: "Banana com Canela",
-        description: "Base delicada com banana fresca e canela, finalizada com calda de leite condensado.",
-        image: "",
-        prices: { small: 30.00, medium: 38.00, large: 48.00 }
+        id: 26, name: "Prestígio", category: "Pizzas Doces",
+        desc: "Creme de leite, chocolate, coco ralado.",
+        img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 48.90, M: 53.90, G: 64.90 }
     },
     {
-        id: 12,
-        name: "Chocolate com Morango",
-        description: "Chocolate derretido coberto com morangos frescos e calda de chocolate gourmet.",
-        image: "",
-        prices: { small: 32.00, medium: 40.00, large: 50.00 }
+        id: 27, name: "Confete", category: "Pizzas Doces",
+        desc: "Creme de leite, chocolate, confete.",
+        img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476d?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 53.90, M: 59.90, G: 68.90 }
+    },
+    {
+        id: 28, name: "Churros", category: "Pizzas Doces",
+        desc: "Creme de leite, doce de leite, açúcar com canela.",
+        img: "https://images.unsplash.com/photo-1574126154517-d1e0d89e7344?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 48.90, M: 54.90, G: 62.90 }
+    },
+    {
+        id: 29, name: "Doce de Leite", category: "Pizzas Doces",
+        desc: "Creme de leite, doce de leite, amendoim em pedaços.",
+        img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 45.90, M: 55.90, G: 65.90 }
+    },
+    {
+        id: 30, name: "Brigadeiro", category: "Pizzas Doces",
+        desc: "Creme de leite, chocolate, granulado.",
+        img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476d?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 56.90, M: 68.90, G: 81.90 }
+    },
+    {
+        id: 31, name: "Sensação", category: "Pizzas Doces",
+        desc: "Creme de leite, chocolate, morango, geleia de morango.",
+        img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 55.90, M: 61.90, G: 73.90 }
+    },
+    {
+        id: 32, name: "Banana", category: "Pizzas Doces",
+        desc: "Muçarela, banana, açúcar com canela.",
+        img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 40.90, M: 45.90, G: 57.90 }
+    },
+    {
+        id: 33, name: "Banana Especial", category: "Pizzas Doces",
+        desc: "Requeijão, banana, açúcar com canela, leite condensado.",
+        img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 48.90, M: 53.90, G: 66.90 }
+    },
+    {
+        id: 34, name: "Banana c/ Chocolate", category: "Pizzas Doces",
+        desc: "Creme de leite, banana, açúcar com canela, chocolate.",
+        img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476d?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 54.90, M: 60.90, G: 74.90 }
+    },
+    {
+        id: 35, name: "Banana Nevada", category: "Pizzas Doces",
+        desc: "Creme de leite, banana, chocolate branco, açúcar com canela.",
+        img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 50.90, M: 56.90, G: 69.90 }
+    },
+    {
+        id: 36, name: "Sonho de Valsa", category: "Pizzas Doces",
+        desc: "Creme de leite, chocolate, sonho de valsa, leite condensado.",
+        img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476d?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 63.90, M: 70.90, G: 85.90 }
+    },
+    {
+        id: 37, name: "Romeu e Julieta", category: "Pizzas Doces",
+        desc: "Goiabada e requeijão cremoso.",
+        img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=500&q=80",
+        type: "pizza", prices: { P: 49.90, M: 54.90, G: 69.90 }
     }
 ];
 
-const PIZZAS_MEIO_A_MEIO = [
+const BEBIDAS = [
     {
-        id: 21,
-        name: "Margherita + Pepperoni",
-        description: "Metade clássica margherita, metade pepperoni supremo. O melhor dos dois mundos.",
-        image: "",
-        prices: { small: 37.00, medium: 47.00, large: 58.00 }
+        id: 38, name: "Coca-Cola 2L", category: "Bebidas", desc: "2 Litros",
+        img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
+        type: "drink", price: 14.99
     },
     {
-        id: 22,
-        name: "Frango + Calabresa",
-        description: "Combine frango com catupiry de um lado e calabresa acebolada do outro.",
-        image: "",
-        prices: { small: 36.00, medium: 46.00, large: 57.00 }
+        id: 39, name: "Fanta Laranja 2L", category: "Bebidas", desc: "2 Litros",
+        img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
+        type: "drink", price: 13.90
+    },
+    {
+        id: 40, name: "Guaraná Ant. 2L", category: "Bebidas", desc: "2 Litros",
+        img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
+        type: "drink", price: 14.99
+    },
+    {
+        id: 41, name: "Sukita 2L", category: "Bebidas", desc: "2 Litros",
+        img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
+        type: "drink", price: 11.99
+    },
+    {
+        id: 42, name: "Coca-Cola Lata", category: "Bebidas", desc: "350ml",
+        img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
+        type: "drink", price: 7.50
+    },
+    {
+        id: 43, name: "Guaraná Lata", category: "Bebidas", desc: "350ml",
+        img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
+        type: "drink", price: 7.50
+    },
+    {
+        id: 44, name: "Guaravita", category: "Bebidas", desc: "Copo",
+        img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
+        type: "drink", price: 3.00
+    },
+    {
+        id: 45, name: "Guaraná Zero 1.5L", category: "Bebidas", desc: "1.5L",
+        img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
+        type: "drink", price: 13.99
+    },
+    {
+        id: 46, name: "Coca Zero 1.5L", category: "Bebidas", desc: "1.5L",
+        img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
+        type: "drink", price: 13.99
+    },
+    {
+        id: 47, name: "Água c/ gás", category: "Bebidas", desc: "510ml",
+        img: "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=500&q=80",
+        type: "drink", price: 2.99
+    },
+    {
+        id: 48, name: "Água s/ gás", category: "Bebidas", desc: "510ml",
+        img: "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=500&q=80",
+        type: "drink", price: 3.99
     }
 ];
 
-const DRINKS = [
-    { id: 101, name: "Coca-Cola Original", volume: "350ml", price: 6.00, image: "" },
-    { id: 102, name: "Guaraná Antarctica", volume: "350ml", price: 6.00, image: "" },
-    { id: 103, name: "Suco de Laranja", volume: "500ml", price: 12.00, image: "" },
-    { id: 104, name: "Cerveja Heineken", volume: "Long Neck 330ml", price: 14.00, image: "" }
+// OPÇÕES DE BORDAS E VALORES
+const BORDAS = [
+    { id: 'sem_borda', name: 'Sem Borda Recheada', prices: { P: 0, M: 0, G: 0 } },
+    { id: 'catupiry', name: 'Catupiry', prices: { P: 13.99, M: 15.99, G: 20.99 } },
+    { id: 'cheddar', name: 'Cheddar', prices: { P: 13.99, M: 15.99, G: 20.99 } },
+    { id: 'cream_cheese', name: 'Cream Cheese', prices: { P: 13.99, M: 15.99, G: 20.99 } },
+    { id: 'chocolate', name: 'Chocolate', prices: { P: 17.99, M: 20.99, G: 25.99 } },
+    { id: 'catupiry_calabresa', name: 'Catupiry + Calabresa', prices: { P: 17.99, M: 20.99, G: 24.99 } },
+    { id: 'quatro_queijos', name: 'Quatro Queijos', prices: { P: 17.99, M: 20.99, G: 24.99 } },
+    { id: 'catupiry_presunto', name: 'Catupiry + Presunto', prices: { P: 17.99, M: 20.99, G: 24.99 } }
 ];
 
-const EXTRAS = [
-    { id: 201, name: "Queijo Extra", price: 6.00 },
-    { id: 202, name: "Bacon Crocante", price: 5.00 },
-    { id: 203, name: "Azeitonas Pretas", price: 4.00 },
-    { id: 204, name: "Molho Especial da Casa", price: 3.00 }
-];
-
-const CRUST_OPTIONS = [
-    { id: 'traditional', name: 'Tradicional', price: 0 },
-    { id: 'catupiry', name: 'Recheada com Catupiry', price: 8.00 },
-    { id: 'cheddar', name: 'Recheada com Cheddar', price: 8.00 }
-];
-
-// Estrutura de categorias
+// ESTRUTURA DE CATEGORIAS
 const CATEGORIES = [
-    { id: 'salgadas', label: 'Pizzas Salgadas', items: PIZZAS_SALGADAS },
+    { id: 'salgadas', label: 'Pizzas Tradicionais', items: PIZZAS_SALGADAS },
+    { id: 'especiais', label: 'Pizzas Especiais', items: PIZZAS_ESPECIAIS },
     { id: 'doces', label: 'Pizzas Doces', items: PIZZAS_DOCES },
-    { id: 'meio-a-meio', label: 'Meio a Meio', items: PIZZAS_MEIO_A_MEIO },
-    { id: 'bebidas', label: 'Bebidas', items: DRINKS, type: 'drink' },
-    { id: 'adicionais', label: 'Adicionais', items: EXTRAS, type: 'extra' }
+    { id: 'bebidas', label: 'Bebidas', items: BEBIDAS, type: 'drink' }
 ];
+
+// PREÇOS DE ENTREGA
+const DELIVERY_REGIONS = [
+    { id: 'colinas', name: 'Colinas do Peró', fee: 4.00 },
+    { id: 'jardim', name: 'Jardim Esperança, Tangará, Reserva, Nova Cabo Frio', fee: 6.00 },
+    { id: 'porto', name: 'Porto do Carro, Vinhanteiro, Peró, Boca do Mato', fee: 8.00 },
+    { id: 'ogiva', name: 'Ogiva', fee: 10.00 },
+    { id: 'cabo', name: 'Cabo Frio, Portinho, Novo Portinho', fee: 12.00 }
+];
+
 
 // ==========================================
 // 2. ESTADO DA APLICAÇÃO (STATE)
 // ==========================================
 let cart = [];
-
-// Carregar carrinho do localStorage
-const loadCart = () => {
-    try {
-        const saved = localStorage.getItem('foggareli-cart');
-        if (saved) {
-            try {
-                cart = JSON.parse(saved);
-            } catch (e) {
-                cart = [];
-            }
-        }
-    } catch (e) {
-        // Se localStorage não está disponível (Tracking Prevention), usar sessionStorage
-        console.warn('localStorage bloqueado, usando sessionStorage');
-        try {
-            const saved = sessionStorage.getItem('foggareli-cart');
-            if (saved) cart = JSON.parse(saved);
-        } catch (err) {
-            cart = [];
-        }
-    }
-};
-
-// Salvar carrinho no localStorage
-const saveCart = () => {
-    try {
-        localStorage.setItem('foggareli-cart', JSON.stringify(cart));
-    } catch (e) {
-        // Fallback para sessionStorage
-        try {
-            sessionStorage.setItem('foggareli-cart', JSON.stringify(cart));
-        } catch (err) {
-            console.warn('Nenhum storage disponível');
-        }
-    }
-};
-
-// Dados de entrega por região
-const DELIVERY_REGIONS = [
-    { id: 'colinas', name: 'Colinas do Peró', fee: 4.00 },
-    { id: 'jardim', name: 'Jardim Esperança, Tangará, Reserva do Peró, Jardim Peró, Estrada velha caminho de Búzios, Nova Cabo Frio', fee: 6.00 },
-    { id: 'porto', name: 'Porto do Carro, Vinhanteiro, Estrada de integração, Peró, Boca do Mato, Cond. dos Pássaros, Cond. Bosque do Peró, Estrada do Alecrim', fee: 8.00 },
-    { id: 'ogiva', name: 'Ogiva', fee: 10.00 },
-    { id: 'cabo', name: 'Cabo Frio, Portinho, Novo Portinho', fee: 12.00 }
-];
-
-// Dados de checkout
 let checkoutData = {
     name: '',
     phone: '',
@@ -163,419 +334,133 @@ let checkoutData = {
 };
 
 // ==========================================
-// FUNÇÕES AUXILIARES
+// 3. STORAGE E FUNÇÕES AUXILIARES
 // ==========================================
-
-// Formata número para moeda brasileira
-const formatCurrency = (value) => {
-    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+const loadCart = () => {
+    try {
+        const saved = localStorage.getItem('foggareli-cart');
+        if (saved) cart = JSON.parse(saved);
+        updateCartUI();
+    } catch (e) { console.warn("LocaleStorage unavailable"); }
 };
 
-// Mostra notificação Toast
-const showToast = (message) => {
+const saveCart = () => {
+    try { localStorage.setItem('foggareli-cart', JSON.stringify(cart)); } catch (e) { }
+};
+
+const formatCurrency = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
+
+const showToast = (msg) => {
     const toast = document.getElementById('toast');
     const msgEl = document.getElementById('toast-message');
-    msgEl.textContent = message;
-    
+    if (!toast) return;
+
+    msgEl.textContent = msg;
     toast.classList.remove('hidden');
     toast.classList.add('toast-animate');
-    toast.classList.add('flex');
-
     setTimeout(() => {
         toast.classList.add('hidden');
-        toast.classList.remove('flex');
+        toast.classList.remove('toast-animate');
     }, 3000);
 };
 
 // ==========================================
-// FUNÇÕES AUXILIARES - CARRINHO
+// 4. LÓGICA DO CARRINHO
 // ==========================================
-
-const getCartTotal = () => {
-    return cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-};
-
-const getCartItemCount = () => {
-    return cart.reduce((acc, item) => acc + item.quantity, 0);
-};
-
-const getDeliveryFee = () => {
-    if (!checkoutData.region) return 0;
-    const region = DELIVERY_REGIONS.find(r => r.id === checkoutData.region);
-    return region ? region.fee : 0;
-};
-
-window.removeFromCart = (index) => {
-    cart.splice(index, 1);
-    saveCart();
-    updateCartUI();
-};
-
-window.updateCartItemQuantity = (index, newQuantity) => {
-    if (newQuantity < 1) {
-        removeFromCart(index);
-    } else {
-        cart[index].quantity = newQuantity;
-        saveCart();
-        updateCartUI();
-    }
-};
-
-window.updateCartItemNote = (index, note) => {
-    cart[index].note = note;
-    saveCart();
-    updateCartUI();
-};
-
 const addToCart = (item) => {
-    // Verifica se item similar já existe (nome + detalhes)
-    const existingIndex = cart.findIndex(
-        c => c.name === item.name && c.type === item.type && c.details === item.details
+    const existingIndex = cart.findIndex(c =>
+        c.name === item.name && c.type === item.type && c.details === item.details
     );
-    
+
     if (existingIndex > -1) {
         cart[existingIndex].quantity++;
     } else {
-        cart.push({
-            ...item,
-            quantity: 1
-        });
+        cart.push({ ...item, quantity: 1 });
     }
-    
+
     saveCart();
     updateCartUI();
     showToast(`${item.name} adicionado!`);
 };
 
-// ==========================================
-// RENDERIZAÇÃO DO CARRINHO (DRAWER)
-// ==========================================
-
-const renderCartItems = () => {
-    const container = document.querySelector('.cart-drawer-body');
-    container.innerHTML = '';
-
-    if (cart.length === 0) {
-        container.innerHTML = '<div class="cart-empty"><p>Seu carrinho está vazio</p></div>';
-        return;
-    }
-
-    cart.forEach((item, index) => {
-        const itemCard = document.createElement('div');
-        itemCard.className = 'cart-item-card';
-        
-        const noteDisplay = item.note
-            ? `<div class="cart-item-note">📝 ${item.note}</div>`
-            : `<div class="cart-item-note-empty" onclick="editCartItemNoteHandler(${index}); return false;">+ adicionar observação</div>`;
-
-        itemCard.innerHTML = `
-            <div class="cart-item-name">${item.name}</div>
-            <div class="cart-item-details">${item.details || ''}</div>
-            ${noteDisplay}
-            
-            <div class="cart-item-controls">
-                <div class="cart-item-qty">
-                    <button onclick="updateQuantityHandler(${index}, ${item.quantity - 1}); return false;" type="button">−</button>
-                    <span class="cart-item-qty-value">${item.quantity}</span>
-                    <button onclick="updateQuantityHandler(${index}, ${item.quantity + 1}); return false;" type="button">+</button>
-                </div>
-                <div class="cart-item-price">${formatCurrency(item.price * item.quantity)}</div>
-                <button class="cart-item-delete" onclick="removeFromCartHandler(${index}); return false;" type="button">
-                    <i data-lucide="trash-2" class="w-4 h-4"></i>
-                </button>
-            </div>
-        `;
-        
-        container.appendChild(itemCard);
-    });
-
-    lucide.createIcons();
-};
-
-const updateCartUI = () => {
-    const cartFab = document.getElementById('cart-fab');
-    const cartBadge = document.getElementById('cart-fab-badge');
-    const totalItems = getCartItemCount();
-    const subtotal = getCartTotal();
-
-    // Atualiza FAB com ícone (sempre mantém)
-    if (!cartFab.innerHTML.includes('shopping-cart')) {
-        cartFab.innerHTML = `<i data-lucide="shopping-cart" class="w-6 h-6"></i>`;
-    }
-    
-    if (totalItems > 0) {
-        cartBadge.textContent = totalItems;
-        cartBadge.style.display = 'flex';
-    } else {
-        cartBadge.style.display = 'none';
-    }
-
-    lucide.createIcons();
-
-    // Atualiza drawer se aberto
-    renderCartItems();
-    updateCartSummary();
-};
-
-const updateCartSummary = () => {
-    const subtotal = getCartTotal();
-    const deliveryFee = getDeliveryFee();
-    const total = subtotal + deliveryFee;
-    
-    const summaryContainer = document.querySelector('.cart-summary');
-    if (!summaryContainer) return;
-
-    summaryContainer.innerHTML = `
-        <div class="cart-summary-row">
-            <span>Subtotal:</span>
-            <span>${formatCurrency(subtotal)}</span>
-        </div>
-        ${checkoutData.region ? `
-            <div class="cart-summary-row">
-                <span>Entrega:</span>
-                <span>${formatCurrency(deliveryFee)}</span>
-            </div>
-        ` : ''}
-        <div class="cart-summary-total">
-            <span>Total:</span>
-            <span>${formatCurrency(total)}</span>
-        </div>
-    `;
-};
-
-// ==========================================
-// DRAWER TOGGLE
-// ==========================================
-
-const toggleCartDrawer = () => {
-    const drawer = document.getElementById('cart-drawer');
-    const overlay = document.getElementById('cart-drawer-overlay');
-    
-    drawer.classList.toggle('open');
-    overlay.classList.toggle('open');
-    
-    if (drawer.classList.contains('open')) {
-        renderCartItems();
-    }
-};
-
-const closeCartDrawer = () => {
-    document.getElementById('cart-drawer').classList.remove('open');
-    document.getElementById('cart-drawer-overlay').classList.remove('open');
-};
-
-// ==========================================
-// EDITAR OBSERVAÇÃO
-// ==========================================
-
-const editCartItemNoteHandler = (index) => {
-    const newNote = prompt('Adicionar observação:', cart[index].note || '');
-    if (newNote !== null) {
-        window.updateCartItemNote(index, newNote);
-        renderCartItems();
-    }
-};
-
-const removeFromCartHandler = (index) => {
-    window.removeFromCart(index);
-};
-
-const updateQuantityHandler = (index, newQuantity) => {
-    window.updateCartItemQuantity(index, newQuantity);
-};
-
-// ==========================================
-// CHECKOUT
-// ==========================================
-
-const openCheckout = () => {
-    if (cart.length === 0) {
-        showToast('Adicione itens ao carrinho!');
-        return;
-    }
-    
-    closeCartDrawer();
-    document.getElementById('checkout-section').classList.add('open');
-    renderCheckoutForm();
-};
-
-const closeCheckout = () => {
-    document.getElementById('checkout-section').classList.remove('open');
-};
-
-const renderCheckoutForm = () => {
-    const subtotal = getCartTotal();
-    const deliveryFee = getDeliveryFee();
-    const total = subtotal + deliveryFee;
-
-    const form = document.querySelector('.checkout-form');
-    form.innerHTML = `
-        <div class="form-group">
-            <label for="checkout-name">Nome Completo *</label>
-            <input type="text" id="checkout-name" placeholder="Seu nome" value="${checkoutData.name}" onchange="checkoutData.name = this.value">
-        </div>
-
-        <div class="form-group">
-            <label for="checkout-phone">Telefone *</label>
-            <input type="tel" id="checkout-phone" placeholder="(11) 99999-8888" value="${checkoutData.phone}" onchange="checkoutData.phone = this.value">
-        </div>
-
-        <div class="form-group">
-            <label for="checkout-address">Endereço Completo *</label>
-            <input type="text" id="checkout-address" placeholder="Rua, número, complemento" value="${checkoutData.address}" onchange="checkoutData.address = this.value">
-        </div>
-
-        <div class="form-group">
-            <label for="checkout-region">Região de Entrega *</label>
-            <select id="checkout-region" onchange="checkoutData.region = this.value; updateCartSummary()">
-                <option value="">Selecione a região...</option>
-                ${DELIVERY_REGIONS.map(region => `
-                    <option value="${region.id}" ${checkoutData.region === region.id ? 'selected' : ''}>
-                        ${region.name} - R$ ${region.fee.toFixed(2)}
-                    </option>
-                `).join('')}
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="checkout-payment">Forma de Pagamento *</label>
-            <select id="checkout-payment" onchange="checkoutData.paymentMethod = this.value">
-                <option value="">Selecione...</option>
-                <option value="cash" ${checkoutData.paymentMethod === 'cash' ? 'selected' : ''}>Dinheiro</option>
-                <option value="card" ${checkoutData.paymentMethod === 'card' ? 'selected' : ''}>Cartão à Cobrar</option>
-                <option value="pix" ${checkoutData.paymentMethod === 'pix' ? 'selected' : ''}>PIX</option>
-            </select>
-        </div>
-
-        <div class="checkout-summary">
-            <div class="summary-line">
-                <span>Subtotal:</span>
-                <span>${formatCurrency(subtotal)}</span>
-            </div>
-            <div class="summary-line">
-                <span>Entrega:</span>
-                <span>${formatCurrency(deliveryFee)}</span>
-            </div>
-            <div class="summary-line total">
-                <span>Total:</span>
-                <span>${formatCurrency(total)}</span>
-            </div>
-        </div>
-    `;
-};
-
-const isCheckoutValid = () => {
-    return checkoutData.name.trim() && 
-           checkoutData.phone.trim() && 
-           checkoutData.address.trim() && 
-           checkoutData.region && 
-           checkoutData.paymentMethod;
-};
-
-const generateWhatsAppMessage = () => {
-    const subtotal = getCartTotal();
-    const deliveryFee = getDeliveryFee();
-    const total = subtotal + deliveryFee;
-
-    // Agrupa itens por tipo
-    const grouped = {
-        pizza: [],
-        drink: [],
-        extra: []
-    };
-
-    cart.forEach(item => {
-        const type = item.type || 'pizza';
-        grouped[type].push(item);
-    });
-
-    let message = '🍕 *FOGGARELI - PEDIDO ONLINE* 🍕\n\n';
-    message += '═════════════════════════\n';
-    message += '*ITENS DO PEDIDO*\n';
-    message += '═════════════════════════\n\n';
-
-    if (grouped.pizza.length > 0) {
-        message += '*PIZZAS*\n';
-        grouped.pizza.forEach(item => {
-            message += `• ${item.name}\n`;
-            message += `  ${item.details} x${item.quantity}\n`;
-            message += `  Valor: ${formatCurrency(item.price * item.quantity)}\n`;
-            if (item.note) message += `  📝 Obs: ${item.note}\n`;
-            message += '\n';
-        });
-    }
-
-    if (grouped.drink.length > 0) {
-        message += '*BEBIDAS*\n';
-        grouped.drink.forEach(item => {
-            message += `• ${item.name} x${item.quantity} = ${formatCurrency(item.price * item.quantity)}\n`;
-        });
-        message += '\n';
-    }
-
-    if (grouped.extra.length > 0) {
-        message += '*ADICIONAIS*\n';
-        grouped.extra.forEach(item => {
-            message += `• ${item.name} x${item.quantity} = ${formatCurrency(item.price * item.quantity)}\n`;
-        });
-        message += '\n';
-    }
-
-    message += '═════════════════════════\n';
-    message += '*DADOS DO CLIENTE*\n';
-    message += '═════════════════════════\n';
-    message += `Nome: ${checkoutData.name}\n`;
-    message += `Telefone: ${checkoutData.phone}\n`;
-    message += `Endereço: ${checkoutData.address}\n`;
-    const region = DELIVERY_REGIONS.find(r => r.id === checkoutData.region);
-    message += `Região: ${region.name}\n`;
-    message += `Pagamento: ${checkoutData.paymentMethod === 'cash' ? 'Dinheiro' : checkoutData.paymentMethod === 'card' ? 'Cartão à Cobrar' : 'PIX'}\n\n`;
-
-    message += '═════════════════════════\n';
-    message += `Subtotal: ${formatCurrency(subtotal)}\n`;
-    message += `Entrega: ${formatCurrency(deliveryFee)}\n`;
-    message += `*TOTAL: ${formatCurrency(total)}*\n`;
-    message += '═════════════════════════\n';
-
-    return encodeURIComponent(message);
-};
-
-const sendToWhatsApp = () => {
-    if (!isCheckoutValid()) {
-        showToast('Preencha todos os campos obrigatórios!');
-        return;
-    }
-
-    const message = generateWhatsAppMessage();
-    const whatsappNumber = '5516992640814'; // Mudar para número real
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
-
-    window.open(whatsappUrl, '_blank');
-    
-    // Limpa carrinho após envio
-    cart = [];
+const removeFromCart = (index) => {
+    cart.splice(index, 1);
     saveCart();
-    checkoutData = { name: '', phone: '', address: '', region: '', paymentMethod: '' };
-    closeCheckout();
     updateCartUI();
-    showToast('Pedido enviado com sucesso!');
 };
 
+const updateCartItemQuantity = (index, delta) => {
+    const newQty = cart[index].quantity + delta;
+    if (newQty < 1) {
+        removeFromCart(index);
+    } else {
+        cart[index].quantity = newQty;
+        saveCart();
+        updateCartUI();
+    }
+};
+
+const getCartTotal = () => cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+const getDeliveryFee = () => {
+    if (!checkoutData.region) return 0;
+    const reg = DELIVERY_REGIONS.find(r => r.id === checkoutData.region);
+    return reg ? reg.fee : 0;
+}
+
 // ==========================================
-// Renderiza card de PIZZA
+// 5. RENDERIZAÇÃO DE UI
 // ==========================================
 
+// --- RENDERIZAR TABS DE CATEGORIA ---
+const renderCategoryButtons = () => {
+    const container = document.getElementById('categories-bar-scrolling');
+    container.innerHTML = CATEGORIES.map((cat, index) => `
+        <button class="category-tab ${index === 0 ? 'active' : ''} whitespace-nowrap px-6 py-4 text-sm font-medium border-b-2 hover:text-orange-600 transition-colors" 
+                data-category="${cat.id}"
+                onclick="scrollToCategory('${cat.id}')">
+            ${cat.label}
+        </button>
+    `).join('');
+};
+
+function scrollToCategory(id) {
+    const el = document.getElementById(`category-${id}`);
+    if (el) {
+        const headerOffset = 140; // Ajuste para header + sticky bar
+        const elementPosition = el.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+    }
+}
+
+// --- RENDERIZAR CARDS ---
 const renderPizzaCard = (pizza) => {
-    let currentSize = 'medium';
-    let currentCrust = 'traditional';
-    
     const card = document.createElement('div');
     card.className = "bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8 transition-all hover:shadow-md";
-    
+
+    // Estado local do card
+    let currentSize = 'M';
+    let currentBorder = 'sem_borda';
+
+    const sizes = { P: 'Pequena', M: 'Média', G: 'Grande' };
+
+    const getPrice = () => {
+        let price = pizza.prices[currentSize];
+        const border = BORDAS.find(b => b.id === currentBorder);
+        if (border) price += border.prices[currentSize];
+        return price;
+    };
+
+    const updateDisplay = () => {
+        const price = getPrice();
+        card.querySelector('.price-display').textContent = formatCurrency(price);
+        card.querySelector('.btn-price').textContent = formatCurrency(price);
+    };
+
     card.innerHTML = `
         <div class="grid grid-cols-1 md:grid-cols-[200px_1fr]">
             <div class="relative h-48 md:h-full bg-gray-100">
-                <img src="${pizza.image}" alt="${pizza.name}" class="w-full h-full object-cover" onerror="this.src=''">
+                <img src="${pizza.img}" alt="${pizza.name}" class="w-full h-full object-cover">
             </div>
 
             <div class="p-6 flex flex-col h-full">
@@ -584,328 +469,377 @@ const renderPizzaCard = (pizza) => {
                     <span class="price-display font-semibold text-lg text-orange-600"></span>
                 </div>
                 
-                <p class="text-gray-600 text-sm mb-6 leading-relaxed">${pizza.description}</p>
+                <p class="text-gray-600 text-sm mb-6 leading-relaxed">${pizza.desc}</p>
 
-                <div class="space-y-5 mt-auto">
+                <div class="space-y-4 mt-auto">
+                    <!-- Seleção de Tamanho -->
                     <div>
                         <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Tamanho</label>
-                        <div class="grid grid-cols-3 gap-2 size-selector"></div>
+                        <div class="grid grid-cols-3 gap-2 size-btns">
+                            ${Object.keys(sizes).map(size => `
+                                <button type="button" class="size-btn relative p-2 rounded-lg border text-center transition-all w-full text-sm ${size === 'M' ? 'border-orange-500 bg-orange-50 text-orange-700 font-bold' : 'border-gray-200 text-gray-600'}"
+                                    data-size="${size}">
+                                    ${sizes[size]}
+                                </button>
+                            `).join('')}
+                        </div>
                     </div>
 
+                    <!-- Seleção de Borda -->
                     <div>
                         <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Tipo de Borda</label>
-                        <select class="crust-select w-full p-2.5 bg-white border border-gray-300 rounded-lg text-sm text-gray-700 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none">
-                            ${CRUST_OPTIONS.map(opt => `<option value="${opt.id}">${opt.name} ${opt.price > 0 ? `(+ ${formatCurrency(opt.price)})` : ''}</option>`).join('')}
+                        <select class="border-select w-full p-2.5 bg-white border border-gray-300 rounded-lg text-sm text-gray-700 outline-none focus:border-orange-500">
+                            ${BORDAS.map(b => `<option value="${b.id}">${b.name}</option>`).join('')}
                         </select>
                     </div>
 
-                    <div>
-                        <button type="button" class="toggle-note text-sm text-gray-500 underline decoration-dotted hover:text-orange-600 flex items-center gap-1">
+                    <!-- Observação -->
+                     <div>
+                        <button type="button" class="toggle-note text-sm text-gray-500 underline decoration-dotted hover:text-orange-600 flex items-center gap-1 mb-2">
                             Adicionar observação?
                         </button>
-                        <textarea class="note-input hidden mt-2 w-full p-3 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 outline-none resize-none bg-gray-50" rows="2" placeholder="Ex: Tirar a cebola..."></textarea>
+                        <textarea class="note-input hidden w-full p-3 border border-gray-200 rounded-lg text-sm bg-gray-50" rows="2" placeholder="Ex: Tirar a cebola..."></textarea>
                     </div>
 
-                    <button type="button" class="add-btn w-full bg-[#c13422] hover:bg-[#a02a1c] text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all active:scale-[0.98]">
+                    <button class="add-btn w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-orange-200">
                          <i data-lucide="plus" class="w-4 h-4"></i>
-                         <span>Adicionar ao Pedido</span>
-                         <span class="btn-price ml-auto opacity-80 text-sm font-normal"></span>
+                         <span>Adicionar</span>
+                         <span class="btn-price ml-auto opacity-90 text-sm font-normal"></span>
                      </button>
                  </div>
              </div>
          </div>
-     `;
+    `;
 
-    const sizeSelector = card.querySelector('.size-selector');
-    const priceDisplay = card.querySelector('.price-display');
-    const btnPriceDisplay = card.querySelector('.btn-price');
-    const crustSelect = card.querySelector('.crust-select');
-    const addBtn = card.querySelector('.add-btn');
-    const toggleNote = card.querySelector('.toggle-note');
-    const noteInput = card.querySelector('.note-input');
+    // Event Listeners locais
+    card.querySelectorAll('.size-btn').forEach(btn => {
+        btn.onclick = () => {
+            currentSize = btn.dataset.size;
+            card.querySelectorAll('.size-btn').forEach(b =>
+                b.className = `size-btn relative p-2 rounded-lg border text-center transition-all w-full text-sm border-gray-200 text-gray-600`
+            );
+            btn.className = `size-btn relative p-2 rounded-lg border text-center transition-all w-full text-sm border-orange-500 bg-orange-50 text-orange-700 font-bold`;
+            updateDisplay();
+        };
+    });
 
-    const updatePrices = () => {
-        const basePrice = pizza.prices[currentSize];
-        const crustPrice = CRUST_OPTIONS.find(c => c.id === currentCrust).price || 0;
-        const total = basePrice + crustPrice;
-        const formatted = formatCurrency(total);
-        
-        priceDisplay.textContent = formatted;
-        btnPriceDisplay.textContent = formatted;
+    card.querySelector('.border-select').onchange = (e) => {
+        currentBorder = e.target.value;
+        updateDisplay();
     };
 
-    const sizes = [
-        { id: 'small', label: 'Pequena', sub: '1 pessoa' },
-        { id: 'medium', label: 'Média', sub: '2 pessoas' },
-        { id: 'large', label: 'Grande', sub: '3-4 pessoas' }
-    ];
+    const noteInput = card.querySelector('.note-input');
+    card.querySelector('.toggle-note').onclick = (e) => {
+        noteInput.classList.toggle('hidden');
+        e.target.textContent = noteInput.classList.contains('hidden') ? 'Adicionar observação?' : 'Ocultar observação';
+    };
 
-    sizes.forEach(size => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = `relative p-2 rounded-lg border text-left transition-all w-full ${currentSize === size.id ? 'border-orange-500 bg-orange-50 text-orange-700 ring-1 ring-orange-500' : 'border-gray-200 hover:border-gray-300 text-gray-600'}`;
-        btn.innerHTML = `<div class="text-sm font-semibold">${size.label}</div><div class="text-[10px] opacity-80">${size.sub}</div>`;
-        
-         btn.onclick = () => {
-             currentSize = size.id;
-             const allBtns = sizeSelector.querySelectorAll('button');
-             allBtns.forEach(b => {
-                 b.className = 'relative p-2 rounded-lg border text-left transition-all w-full border-gray-200 hover:border-gray-300 text-gray-600';
-             });
-             btn.className = 'relative p-2 rounded-lg border text-left transition-all w-full border-orange-500 bg-orange-50 text-orange-700 ring-1 ring-orange-500';
-             updatePrices();
-         };
-         sizeSelector.appendChild(btn);
-    });
-
-    crustSelect.addEventListener('change', (e) => {
-        currentCrust = e.target.value;
-        updatePrices();
-    });
-
-    toggleNote.addEventListener('click', (e) => {
-        e.preventDefault();
-        const isHidden = noteInput.classList.contains('hidden');
-        if (isHidden) {
-            noteInput.classList.remove('hidden');
-            toggleNote.textContent = 'Ocultar observação';
-        } else {
-            noteInput.classList.add('hidden');
-            toggleNote.textContent = 'Adicionar observação?';
-            noteInput.value = '';
-        }
-    });
-
-    addBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const basePrice = pizza.prices[currentSize];
-        const crustData = CRUST_OPTIONS.find(c => c.id === currentCrust);
-        const total = basePrice + crustData.price;
-        
-        const sizeName = sizes.find(s => s.id === currentSize).label;
+    card.querySelector('.add-btn').onclick = () => {
+        const borderObj = BORDAS.find(b => b.id === currentBorder);
+        const borderName = borderObj.id !== 'sem_borda' ? borderObj.name : 'Sem Borda Recheada';
+        const note = noteInput.value.trim();
 
         addToCart({
             type: 'pizza',
             name: pizza.name,
-            details: `${sizeName} • ${crustData.name}`,
-            price: total,
-            note: noteInput.value
+            details: `Tam: ${sizes[currentSize]} • ${borderName}`,
+            price: getPrice(),
+            note: note
         });
-        
-        noteInput.value = '';
-        if (!noteInput.classList.contains('hidden')) {
-            toggleNote.click();
-        }
-    });
 
-    updatePrices();
+        // Reset inputs
+        noteInput.value = '';
+        noteInput.classList.add('hidden');
+        card.querySelector('.toggle-note').textContent = 'Adicionar observação?';
+    };
+
+    updateDisplay(); // Iniciarlizar preço
     return card;
 };
 
-// Renderiza card de BEBIDA
-const renderDrinkCard = (item) => {
+const renderDrinkCard = (drink) => {
     const el = document.createElement('div');
-    el.className = "flex items-center justify-between p-4 bg-white border border-gray-100 rounded-xl mb-3 shadow-sm hover:border-gray-200 transition-colors";
+    el.className = "flex items-center justify-between p-4 bg-white border border-gray-100 rounded-xl mb-3 shadow-sm hover:border-orange-200 transition-colors";
     el.innerHTML = `
         <div class="flex items-center gap-4">
             <div class="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
-                <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover" onerror="this.src=''">
+                <img src="${drink.img}" alt="${drink.name}" class="w-full h-full object-cover">
             </div>
             <div>
-                <h4 class="font-semibold text-gray-900">${item.name}</h4>
-                <p class="text-sm text-gray-500">${item.volume}</p>
+                <h4 class="font-bold text-gray-900">${drink.name}</h4>
+                <p class="text-sm text-gray-500">${drink.desc}</p>
             </div>
         </div>
         <div class="flex flex-col items-end gap-2">
-            <span class="font-semibold text-gray-900">${formatCurrency(item.price)}</span>
-            <button class="drink-btn bg-orange-100 hover:bg-orange-200 text-orange-700 p-2 rounded-lg transition-colors">
+            <span class="font-bold text-gray-900">${formatCurrency(drink.price)}</span>
+            <button class="bg-orange-100 hover:bg-orange-200 text-orange-700 p-2 rounded-lg transition-colors" onclick='addToCart({type:"drink", name:"${drink.name}", details:"${drink.desc}", price:${drink.price}})'>
                 <i data-lucide="plus" class="w-4 h-4"></i>
             </button>
         </div>
     `;
-    
-    el.querySelector('.drink-btn').addEventListener('click', () => {
-        addToCart({type: 'drink', name: item.name, price: item.price});
-    });
-    
     return el;
 };
 
-// Renderiza card de ADICIONAL
-const renderExtraCard = (item) => {
-    const el = document.createElement('div');
-    el.className = "flex items-center justify-between p-4 bg-white border border-gray-100 rounded-xl mb-3 shadow-sm hover:border-gray-200 transition-colors";
-    el.innerHTML = `
-        <div>
-            <h4 class="font-semibold text-gray-900">${item.name}</h4>
-            <p class="text-sm text-gray-500 font-medium text-orange-600">+ ${formatCurrency(item.price)}</p>
-        </div>
-        <button class="extra-btn text-sm border border-gray-300 hover:border-orange-500 hover:text-orange-600 px-4 py-2 rounded-full font-medium transition-all">
-            Adicionar
-        </button>
-    `;
-    
-    el.querySelector('.extra-btn').addEventListener('click', () => {
-        addToCart({type: 'extra', name: item.name, price: item.price});
-    });
-    
-    return el;
-};
-
-// Renderiza todas as categorias
-const renderCategories = () => {
+const renderMenu = () => {
     const container = document.getElementById('pizzas-container');
     container.innerHTML = '';
 
-    CATEGORIES.forEach(category => {
-        // Seção da categoria
+    CATEGORIES.forEach(cat => {
         const section = document.createElement('div');
-        section.id = `category-${category.id}`;
-        section.className = 'category-section';
-        
-        const heading = document.createElement('h2');
-        heading.className = 'text-2xl font-bold text-gray-800 mb-8 pb-3 border-b-2 border-gray-200';
-        heading.textContent = category.label;
-        
-        section.appendChild(heading);
+        section.id = `category-${cat.id}`;
+        section.className = "scroll-mt-32";
 
-        // Renderiza itens da categoria
-        if (category.type === 'drink') {
-            category.items.forEach(item => {
-                section.appendChild(renderDrinkCard(item));
-            });
-        } else if (category.type === 'extra') {
-            category.items.forEach(item => {
-                section.appendChild(renderExtraCard(item));
-            });
+        const title = document.createElement('h2');
+        title.className = "text-2xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-gray-100";
+        title.textContent = cat.label;
+        section.appendChild(title);
+
+        if (cat.type === 'drink') {
+            cat.items.forEach(item => section.appendChild(renderDrinkCard(item)));
         } else {
-            category.items.forEach(item => {
-                section.appendChild(renderPizzaCard(item));
-            });
+            cat.items.forEach(item => section.appendChild(renderPizzaCard(item)));
         }
 
         container.appendChild(section);
     });
+
+    // Re-iniciar ícones Lucide nos novos elementos
+    if (window.lucide) lucide.createIcons();
 };
 
+
 // ==========================================
-// 5. INICIALIZAÇÃO
+// 6. UI DO CARRINHO (DRAWER)
 // ==========================================
-window.addEventListener('DOMContentLoaded', () => {
-    loadCart();
-    renderCategories();
-    lucide.createIcons();
-    updateCartUI();
+function updateCartUI() {
+    const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+    const subtotal = getCartTotal();
+    const deliveryFee = getDeliveryFee();
 
-    // --- header transparent -> scrolled toggle ---
-    const header = document.getElementById('site-header');
-    const title = header.querySelector('.site-title');
-    const cartIcon = header.querySelector('.site-cart-icon');
-    const categoriesBar = document.getElementById('categories-bar');
+    // Badges
+    const badges = [document.getElementById('header-cart-count'), document.getElementById('cart-fab-badge')];
+    badges.forEach(el => {
+        if (!el) return;
+        el.textContent = totalItems;
+        el.style.display = totalItems > 0 ? 'flex' : 'none';
+        el.classList.remove('hidden');
+    });
 
-    const onScrollHeader = () => {
-        if (window.scrollY > 20) {
-            header.classList.add('scrolled');
-            header.classList.remove('bg-transparent');
-            title.classList.remove('text-white');
-            title.classList.add('text-gray-900');
-            cartIcon.classList.remove('text-white');
-            cartIcon.classList.add('text-gray-700');
-        } else {
-            header.classList.remove('scrolled');
-            header.classList.add('bg-transparent');
-            title.classList.remove('text-gray-900');
-            title.classList.add('text-white');
-            cartIcon.classList.remove('text-gray-700');
-            cartIcon.classList.add('text-white');
-        }
-
-        // categories bar shadow
-        if (categoriesBar && window.scrollY > window.innerHeight) {
-            categoriesBar.classList.add('scrolled');
-        } else if (categoriesBar) {
-            categoriesBar.classList.remove('scrolled');
-        }
-    };
-
-    onScrollHeader();
-    window.addEventListener('scroll', onScrollHeader, { passive: true });
-
-    // --- CTA: scroll suave até o cardápio ---
-    const cta = document.getElementById('cta-order-btn');
-    if (cta) {
-        cta.addEventListener('click', (e) => {
-            e.preventDefault();
-            const target = document.getElementById('category-salgadas');
-            if (!target) return;
-            const headerHeight = document.getElementById('site-header')?.offsetHeight || 0;
-            const top = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 12;
-            window.scrollTo({ top, behavior: 'smooth' });
-        });
+    // Drawer Body
+    const drawerBody = document.querySelector('.cart-drawer-body');
+    if (cart.length === 0) {
+        drawerBody.innerHTML = `
+            <div class="flex flex-col items-center justify-center h-full text-gray-400">
+                <i data-lucide="shopping-basket" class="w-16 h-16 mb-4 opacity-20"></i>
+                <p>Seu carrinho está vazio</p>
+            </div>
+        `;
+    } else {
+        drawerBody.innerHTML = cart.map((item, i) => `
+            <div class="cart-item-card">
+                <div class="flex justify-between items-start mb-2">
+                    <h4 class="font-bold text-sm text-gray-900">${item.name}</h4>
+                    <span class="font-bold text-sm text-orange-600">${formatCurrency(item.price * item.quantity)}</span>
+                </div>
+                <p class="text-xs text-gray-500 mb-2">${item.details}</p>
+                ${item.note ? `<p class="text-xs text-green-600 italic mb-3">Obs: ${item.note}</p>` : ''}
+                
+                <div class="flex items-center justify-between mt-2">
+                    <div class="flex items-center gap-3 bg-white border border-gray-200 rounded-lg p-1">
+                        <button class="px-2 text-gray-500 hover:text-orange-600" onclick="updateCartItemQuantity(${i}, -1)">-</button>
+                        <span class="text-sm font-bold w-4 text-center">${item.quantity}</span>
+                        <button class="px-2 text-gray-500 hover:text-orange-600" onclick="updateCartItemQuantity(${i}, 1)">+</button>
+                    </div>
+                    <button class="text-red-400 hover:text-red-600" onclick="removeFromCart(${i})">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        `).join('');
     }
 
-    // --- Tabs navigation (click handler) ---
-    const tabs = document.querySelectorAll('.category-tab');
-    tabs.forEach(tab => {
-        tab.addEventListener('click', (e) => {
-            e.preventDefault();
-            const categoryId = tab.getAttribute('data-category');
-            const target = document.getElementById(`category-${categoryId}`);
-            if (!target) return;
+    // Drawer Footer Summary
+    const summary = document.querySelector('.cart-summary');
+    if (summary) {
+        summary.innerHTML = `
+            <div class="flex justify-between text-gray-500 text-sm mb-1">
+                <span>Subtotal</span>
+                <span>${formatCurrency(subtotal)}</span>
+            </div>
+            ${checkoutData.region ? `
+                 <div class="flex justify-between text-gray-500 text-sm mb-1">
+                    <span>Entrega</span>
+                    <span>${formatCurrency(deliveryFee)}</span>
+                </div>
+            ` : ''}
+            <div class="flex justify-between text-gray-900 font-bold text-lg mt-2 pt-2 border-t border-gray-100">
+                <span>Total</span>
+                <span>${formatCurrency(subtotal + deliveryFee)}</span>
+            </div>
+        `;
+    }
 
-            const headerHeight = document.getElementById('site-header')?.offsetHeight || 0;
-            const categoriesBarHeight = document.getElementById('categories-bar')?.offsetHeight || 0;
-            const top = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - categoriesBarHeight - 12;
-            
-            window.scrollTo({ top, behavior: 'smooth' });
-        });
+    if (window.lucide) lucide.createIcons();
+    updateCheckoutForm(); // Atualiza resumo no checkout também se aberto
+}
+
+
+function toggleCartDrawer() {
+    document.getElementById('cart-drawer').classList.add('open');
+    document.getElementById('cart-drawer-overlay').classList.add('open');
+    updateCartUI();
+}
+
+function closeCartDrawer() {
+    document.getElementById('cart-drawer').classList.remove('open');
+    document.getElementById('cart-drawer-overlay').classList.remove('open');
+}
+
+// ==========================================
+// 7. CHECKOUT E WHATSAPP
+// ==========================================
+function openCheckout() {
+    if (cart.length === 0) {
+        showToast("Seu carrinho está vazio!");
+        return;
+    }
+    closeCartDrawer();
+    document.getElementById('checkout-section').classList.add('open');
+    renderCheckoutForm();
+}
+
+function closeCheckout() {
+    document.getElementById('checkout-section').classList.remove('open');
+}
+
+function renderCheckoutForm() {
+    const form = document.querySelector('.checkout-form');
+    form.innerHTML = `
+        <div>
+            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Nome Completo</label>
+            <input type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:border-orange-500 outline-none" 
+                placeholder="Seu nome" value="${checkoutData.name}" oninput="checkoutData.name = this.value">
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Telefone / WhatsApp</label>
+            <input type="tel" class="w-full p-3 border border-gray-300 rounded-lg focus:border-orange-500 outline-none" 
+                placeholder="(XX) XXXXX-XXXX" value="${checkoutData.phone}" oninput="checkoutData.phone = this.value">
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Endereço de Entrega</label>
+            <input type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:border-orange-500 outline-none" 
+                placeholder="Rua, Número, Bairro, Complemento" value="${checkoutData.address}" oninput="checkoutData.address = this.value">
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Região de Entrega</label>
+            <select class="w-full p-3 border border-gray-300 rounded-lg outline-none bg-white" onchange="checkoutData.region = this.value; updateCartUI();">
+                <option value="">Selecione sua região...</option>
+                ${DELIVERY_REGIONS.map(Reg => `
+                    <option value="${Reg.id}" ${checkoutData.region === Reg.id ? 'selected' : ''}>
+                        ${Reg.name} (+ ${formatCurrency(Reg.fee)})
+                    </option>
+                `).join('')}
+            </select>
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Forma de Pagamento</label>
+            <select class="w-full p-3 border border-gray-300 rounded-lg outline-none bg-white" onchange="checkoutData.paymentMethod = this.value">
+                <option value="">Selecione...</option>
+                <option value="Pix" ${checkoutData.paymentMethod === 'Pix' ? 'selected' : ''}>PIX</option>
+                <option value="Dinheiro" ${checkoutData.paymentMethod === 'Dinheiro' ? 'selected' : ''}>Dinheiro</option>
+                <option value="Cartão" ${checkoutData.paymentMethod === 'Cartão' ? 'selected' : ''}>Cartão (Maquininha)</option>
+            </select>
+        </div>
+        
+        <div class="bg-gray-50 p-4 rounded-lg mt-4 border border-gray-200">
+            <div class="flex justify-between text-gray-900 font-bold">
+                 <span>Total a Pagar:</span>
+                 <span id="checkout-total-display">${formatCurrency(getCartTotal() + getDeliveryFee())}</span>
+            </div>
+        </div>
+    `;
+}
+
+function updateCheckoutForm() {
+    const display = document.getElementById('checkout-total-display');
+    if (display) display.textContent = formatCurrency(getCartTotal() + getDeliveryFee());
+}
+
+function sendToWhatsApp() {
+    if (!checkoutData.name || !checkoutData.phone || !checkoutData.address || !checkoutData.region || !checkoutData.paymentMethod) {
+        alert("Por favor, preencha todos os campos obrigatórios.");
+        return;
+    }
+
+    const total = getCartTotal() + getDeliveryFee();
+    const regionName = DELIVERY_REGIONS.find(r => r.id === checkoutData.region)?.name || '';
+
+    let msg = `*PEDIDO FOGGARELI* 🍕\n`;
+    msg += `--------------------------------\n`;
+
+    cart.forEach(item => {
+        msg += `✅ ${item.quantity}x ${item.name}\n`;
+        msg += `   ${item.details}\n`;
+        if (item.note) msg += `   📝 ${item.note}\n`;
+        msg += `   ${formatCurrency(item.price * item.quantity)}\n\n`;
     });
 
-    // --- Intersection Observer: sync active tab com scroll ---
-    const observerOptions = {
-        root: null,
-        rootMargin: `-${(document.getElementById('site-header')?.offsetHeight || 64) + (document.getElementById('categories-bar')?.offsetHeight || 56) + 20}px 0px -50% 0px`,
-        threshold: 0.1
-    };
+    msg += `--------------------------------\n`;
+    msg += `📦 Taxa de Entrega: ${formatCurrency(getDeliveryFee())}\n`;
+    msg += `💰 *TOTAL: ${formatCurrency(total)}*\n`;
+    msg += `--------------------------------\n`;
+    msg += `👤 Cliente: ${checkoutData.name}\n`;
+    msg += `📞 Telefone: ${checkoutData.phone}\n`;
+    msg += `📍 Endereço: ${checkoutData.address}\n`;
+    msg += `🛵 Região: ${regionName}\n`;
+    msg += `💳 Pagamento: ${checkoutData.paymentMethod}\n`;
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // Remove active de todos os tabs
-                document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
-                
-                // Adiciona active ao tab correspondente
-                const categoryId = entry.target.id.replace('category-', '');
-                const activeTab = document.querySelector(`[data-category="${categoryId}"]`);
-                if (activeTab) {
-                    activeTab.classList.add('active');
-                    
-                    // Scroll horizontal da barra para centralizar o tab
-                    const scrolling = document.getElementById('categories-bar-scrolling');
-                    if (scrolling) {
-                        activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-                    }
-                }
+    const url = `https://wa.me/551699640814?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+}
+
+
+// ==========================================
+// 8. INICIALIZAÇÃO
+// ==========================================
+window.onload = function () {
+    loadCart();
+    renderCategoryButtons();
+    renderMenu();
+    updateCartUI();
+
+    // Scroll Sticky Header Logic
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+
+        // Sync tabs active state
+        const scrollPos = window.scrollY + 200;
+        CATEGORIES.forEach(cat => {
+            const el = document.getElementById(`category-${cat.id}`);
+            if (el && el.offsetTop <= scrollPos && (el.offsetTop + el.offsetHeight) > scrollPos) {
+                document.querySelectorAll('.category-tab').forEach(btn => btn.classList.remove('active', 'text-orange-600', 'border-orange-600'));
+                const activeBtn = document.querySelector(`.category-tab[data-category="${cat.id}"]`);
+                if (activeBtn) activeBtn.classList.add('active', 'text-orange-600', 'border-orange-600');
             }
         });
-    }, observerOptions);
-
-    // Observa todas as seções de categorias
-    document.querySelectorAll('.category-section').forEach(section => {
-        observer.observe(section);
     });
-});
 
-// Expõe funções para escopo global
-window.addToCart = addToCart;
+    document.getElementById('cta-order-btn').onclick = () => {
+        scrollToCategory('salgadas');
+    };
+};
+
+// Expose global functions
 window.toggleCartDrawer = toggleCartDrawer;
 window.closeCartDrawer = closeCartDrawer;
+window.updateCartItemQuantity = updateCartItemQuantity;
+window.removeFromCart = removeFromCart;
 window.openCheckout = openCheckout;
 window.closeCheckout = closeCheckout;
 window.sendToWhatsApp = sendToWhatsApp;
-window.editCartItemNoteHandler = editCartItemNoteHandler;
-window.removeFromCartHandler = removeFromCartHandler;
-window.updateQuantityHandler = updateQuantityHandler;
-window.removeFromCart = removeFromCart;
-window.updateCartItemQuantity = updateCartItemQuantity;
-window.updateCartItemNote = updateCartItemNote;
+window.scrollToCategory = scrollToCategory;
