@@ -79,6 +79,21 @@
     font-feature-settings: var(--default-font-feature-settings, normal);
     font-variation-settings: var(--default-font-variation-settings, normal);
     -webkit-tap-highlight-color: transparent;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    background-color: #111827; /* bg-gray-900 - Prevê espaços em branco */
+  }
+  body {
+    background-color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  main {
+    flex: 1;
+  }
+  html::-webkit-scrollbar {
+    display: none; /* Chrome/Safari/Edge */
   }
   hr {
     height: 0;

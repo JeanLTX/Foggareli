@@ -6,91 +6,91 @@ const PIZZAS_SALGADAS = [
     {
         id: 1, name: "Calabresa", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, muçarela, calabresa, cebola, orégano.",
-        img: "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=500&q=80",
+        img: "assets/calabresa.webp",
         type: "pizza", prices: { P: 56.90, M: 63.90, G: 79.90 }
     },
     {
         id: 2, name: "Muçarela", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, muçarela, tomate, orégano, azeitona preta.",
-        img: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=500&q=80",
+        img: "assets/muçarela.webp",
         type: "pizza", prices: { P: 55.90, M: 65.90, G: 79.90 }
     },
     {
         id: 3, name: "Margherita", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, muçarela, tomate, parmesão, orégano, manjericão fresco.",
-        img: "https://images.unsplash.com/photo-1573821663912-569905455b1c?auto=format&fit=crop&w=500&q=80",
+        img: "assets/margherita.webp",
         type: "pizza", prices: { P: 58.90, M: 63.90, G: 83.90 }
     },
     {
         id: 4, name: "Toscana", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, muçarela, calabresa moída, parmesão, orégano.",
-        img: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&w=500&q=80",
+        img: "assets/toscana.webp",
         type: "pizza", prices: { P: 57.90, M: 64.90, G: 82.90 }
     },
     {
         id: 5, name: "Milão", category: "Pizzas Tradicionais",
         desc: "Molho, muçarela, presunto moído, calabresa moída, cebola, orégano, azeitonas verdes.",
-        img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80",
+        img: "assets/milao.webp",
         type: "pizza", prices: { P: 59.90, M: 71.90, G: 92.90 }
     },
     {
         id: 6, name: "Alho e Óleo", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, muçarela, parmesão, orégano, alho frito.",
-        img: "https://images.unsplash.com/photo-1620374645498-af669dc7ab8c?auto=format&fit=crop&w=500&q=80",
+        img: "assets/alhoeoleo.webp",
         type: "pizza", prices: { P: 52.90, M: 59.90, G: 75.90 }
     },
     {
         id: 7, name: "Frango com Catupiry", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, frango desfiado, requeijão cremoso, muçarela, orégano.",
-        img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=500&q=80",
+        img: "assets/frangocomcatupiry.webp",
         type: "pizza", prices: { P: 59.90, M: 75.90, G: 98.90 }
     },
     {
         id: 8, name: "Calabria", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, requeijão cremoso, calabresa, parmesão, orégano.",
-        img: "https://images.unsplash.com/photo-1585238342024-78d387f4a707?auto=format&fit=crop&w=500&q=80",
+        img: "assets/calabria.webp",
         type: "pizza", prices: { P: 58.90, M: 68.90, G: 83.90 }
     },
     {
         id: 9, name: "Portuguesa", category: "Pizzas Tradicionais",
         desc: "Molho, muçarela, presunto, ovos, calabresa, cebola, pimentão, tomate, azeitona, orégano.",
-        img: "https://images.unsplash.com/photo-1601924582970-9238bcb495d9?auto=format&fit=crop&w=500&q=80",
+        img: "assets/portuguesa.webp",
         type: "pizza", prices: { P: 62.90, M: 77.90, G: 93.90 }
     },
     {
         id: 10, name: "Francesa", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, muçarela, presunto, requeijão cremoso, ovos, orégano.",
-        img: "https://images.unsplash.com/photo-1593560708920-638928eb75b7?auto=format&fit=crop&w=500&q=80",
+        img: "assets/afrancesa.webp",
         type: "pizza", prices: { P: 61.90, M: 77.90, G: 97.90 }
     },
     {
         id: 11, name: "Quatro Queijos", category: "Pizzas Tradicionais",
         desc: "Molho, provolone, requeijão cremoso, muçarela, parmesão, orégano.",
-        img: "https://images.unsplash.com/photo-1573821663912-6df460f9c684?auto=format&fit=crop&w=500&q=80",
+        img: "assets/quatroqueijos.webp",
         type: "pizza", prices: { P: 66.90, M: 77.90, G: 90.90 }
     },
     {
         id: 12, name: "Gênova", category: "Pizzas Tradicionais",
         desc: "Molho, lombo canadense, ovos, cebola, muçarela, bacon, orégano.",
-        img: "https://images.unsplash.com/photo-1618213837799-24d556839544?auto=format&fit=crop&w=500&q=80",
+        img: "assets/genova.webp",
         type: "pizza", prices: { P: 59.90, M: 70.90, G: 94.90 }
     },
     {
         id: 13, name: "Atum", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, muçarela, atum, cebola, tomate, orégano.",
-        img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=500&q=80",
+        img: "assets/atum.webp",
         type: "pizza", prices: { P: 70.90, M: 86.90, G: 107.90 }
     },
     {
         id: 14, name: "Brócolis", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, muçarela, brócolis, alho frito, orégano.",
-        img: "https://images.unsplash.com/photo-1552539618-7eec9b4d1796?auto=format&fit=crop&w=500&q=80",
+        img: "assets/brocolis.webp",
         type: "pizza", prices: { P: 53.90, M: 60.90, G: 70.90 }
     },
     {
         id: 15, name: "Carne Seca", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, muçarela, carne seca, orégano.",
-        img: "https://images.unsplash.com/photo-1605478371310-a9f1e96b4ff4?auto=format&fit=crop&w=500&q=80",
+        img: "assets/carneseca.webp",
         type: "pizza", prices: { P: 65.90, M: 82.90, G: 100.90 }
     }
 ];
@@ -99,61 +99,61 @@ const PIZZAS_ESPECIAIS = [
     {
         id: 16, name: "Frango Especial", category: "Pizzas Especiais",
         desc: "Molho, frango, requeijão cremoso, palmito, muçarela, calabresa, orégano.",
-        img: "https://images.unsplash.com/photo-1594007654729-407eedc4be65?auto=format&fit=crop&w=500&q=80",
+        img: "assets/frangoespecial.webp",
         type: "pizza", prices: { P: 64.90, M: 77.90, G: 105.90 }
     },
     {
         id: 17, name: "Carne Seca Especial", category: "Pizzas Especiais",
         desc: "Molho, carne seca, requeijão cremoso, palmito, cebola, orégano.",
-        img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80",
+        img: "assets/carnesecaespecial.webp",
         type: "pizza", prices: { P: 65.90, M: 91.90, G: 107.90 }
     },
     {
         id: 18, name: "Calabresa Especial", category: "Pizzas Especiais",
         desc: "Molho de tomate, requeijão cremoso, calabresa, ovos, cebola, orégano.",
-        img: "https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?auto=format&fit=crop&w=500&q=80",
+        img: "assets/calabresaespecial.webp",
         type: "pizza", prices: { P: 61.90, M: 69.90, G: 85.90 }
     },
     {
         id: 19, name: "Brócolis com Bacon", category: "Pizzas Especiais",
         desc: "Molho de tomate, muçarela, brócolis, bacon, alho frito, orégano.",
-        img: "https://images.unsplash.com/photo-1558138838-8d2c49ff9b84?auto=format&fit=crop&w=500&q=80",
+        img: "assets/brocoliscombacon.webp",
         type: "pizza", prices: { P: 56.90, M: 64.90, G: 81.90 }
     },
     {
         id: 20, name: "Champion", category: "Pizzas Especiais",
         desc: "Molho de tomate, muçarela, champignon, cebola, alho frito, orégano.",
-        img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80",
+        img: "assets/champion.webp",
         type: "pizza", prices: { P: 59.90, M: 68.90, G: 87.90 }
     },
     {
         id: 21, name: "Brócolis c/ Cream Cheese", category: "Pizzas Especiais",
         desc: "Molho, muçarela, brócolis, palmito, milho, cream cheese, orégano.",
-        img: "https://images.unsplash.com/photo-1552539618-7eec9b4d1796?auto=format&fit=crop&w=500&q=80",
+        img: "assets/brocoliscomrequeijao.webp",
         type: "pizza", prices: { P: 62.90, M: 75.90, G: 99.90 }
     },
     {
         id: 22, name: "Costela Especial", category: "Pizzas Especiais",
         desc: "Molho de tomate, costela desfiada, cream cheese, muçarela e orégano.",
-        img: "https://images.unsplash.com/photo-1605478371310-a9f1e96b4ff4?auto=format&fit=crop&w=500&q=80",
+        img: "assets/costelaespecial.webp",
         type: "pizza", prices: { P: 72.90, M: 91.90, G: 107.90 }
     },
     {
         id: 23, name: "Pizza Foggareli", category: "Pizzas Especiais",
         desc: "Molho, frango desfiado, cheddar, milho, muçarela, bacon, orégano.",
-        img: "https://images.unsplash.com/photo-1574126154517-d1e0d89e7344?auto=format&fit=crop&w=500&q=80",
+        img: "assets/foggareli.webp",
         type: "pizza", prices: { P: 60.90, M: 68.90, G: 84.90 }
     },
     {
         id: 24, name: "5 Queijos", category: "Pizzas Especiais",
         desc: "Molho, provolone, requeijão, muçarela, parmesão, gorgonzola e orégano.",
-        img: "https://images.unsplash.com/photo-1573821663912-6df460f9c684?auto=format&fit=crop&w=500&q=80",
+        img: "assets/5queijos.webp",
         type: "pizza", prices: { P: 68.90, M: 76.90, G: 100.90 }
     },
     {
         id: 25, name: "Peperoni", category: "Pizzas Especiais",
         desc: "Molho de tomate, muçarela, peperoni, cebola, orégano.",
-        img: "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=500&q=80",
+        img: "assets/pepperoni.webp",
         type: "pizza", prices: { P: 66.70, M: 74.90, G: 95.90 }
     },
 ];
@@ -162,73 +162,68 @@ const PIZZAS_DOCES = [
     {
         id: 26, name: "Prestígio", category: "Pizzas Doces",
         desc: "Creme de leite, chocolate, coco ralado.",
-        img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=500&q=80",
+        img: "assets/prestigio.webp",
         type: "pizza", prices: { P: 48.90, M: 53.90, G: 64.90 }
     },
     {
         id: 27, name: "Confete", category: "Pizzas Doces",
         desc: "Creme de leite, chocolate, confete.",
-        img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476d?auto=format&fit=crop&w=500&q=80",
+        img: "assets/confete.webp",
         type: "pizza", prices: { P: 53.90, M: 59.90, G: 68.90 }
     },
     {
         id: 28, name: "Churros", category: "Pizzas Doces",
         desc: "Creme de leite, doce de leite, açúcar com canela.",
-        img: "https://images.unsplash.com/photo-1574126154517-d1e0d89e7344?auto=format&fit=crop&w=500&q=80",
+        img: "assets/churros.webp",
         type: "pizza", prices: { P: 48.90, M: 54.90, G: 62.90 }
     },
     {
         id: 29, name: "Doce de Leite", category: "Pizzas Doces",
         desc: "Creme de leite, doce de leite, amendoim em pedaços.",
-        img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=500&q=80",
+        img: "assets/docedeleite.webp",
         type: "pizza", prices: { P: 45.90, M: 55.90, G: 65.90 }
     },
     {
         id: 30, name: "Brigadeiro", category: "Pizzas Doces",
         desc: "Creme de leite, chocolate, granulado.",
-        img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476d?auto=format&fit=crop&w=500&q=80",
+        img: "assets/brigadeiro.webp",
         type: "pizza", prices: { P: 56.90, M: 68.90, G: 81.90 }
     },
     {
         id: 31, name: "Sensação", category: "Pizzas Doces",
         desc: "Creme de leite, chocolate, morango, geleia de morango.",
-        img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=500&q=80",
+        img: "assets/sensacao.webp",
         type: "pizza", prices: { P: 55.90, M: 61.90, G: 73.90 }
     },
     {
         id: 32, name: "Banana", category: "Pizzas Doces",
         desc: "Muçarela, banana, açúcar com canela.",
-        img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80",
+        img: "assets/banana.webp",
         type: "pizza", prices: { P: 40.90, M: 45.90, G: 57.90 }
     },
-    {
-        id: 33, name: "Banana Especial", category: "Pizzas Doces",
-        desc: "Requeijão, banana, açúcar com canela, leite condensado.",
-        img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80",
-        type: "pizza", prices: { P: 48.90, M: 53.90, G: 66.90 }
-    },
+
     {
         id: 34, name: "Banana c/ Chocolate", category: "Pizzas Doces",
         desc: "Creme de leite, banana, açúcar com canela, chocolate.",
-        img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476d?auto=format&fit=crop&w=500&q=80",
+        img: "assets/bananacomchocolate.webp",
         type: "pizza", prices: { P: 54.90, M: 60.90, G: 74.90 }
     },
     {
         id: 35, name: "Banana Nevada", category: "Pizzas Doces",
         desc: "Creme de leite, banana, chocolate branco, açúcar com canela.",
-        img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80",
+        img: "assets/banananevada.webp",
         type: "pizza", prices: { P: 50.90, M: 56.90, G: 69.90 }
     },
     {
         id: 36, name: "Sonho de Valsa", category: "Pizzas Doces",
         desc: "Creme de leite, chocolate, sonho de valsa, leite condensado.",
-        img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476d?auto=format&fit=crop&w=500&q=80",
+        img: "assets/sonhodevalsa.webp",
         type: "pizza", prices: { P: 63.90, M: 70.90, G: 85.90 }
     },
     {
         id: 37, name: "Romeu e Julieta", category: "Pizzas Doces",
         desc: "Goiabada e requeijão cremoso.",
-        img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=500&q=80",
+        img: "assets/romeuejulieta.webp",
         type: "pizza", prices: { P: 49.90, M: 54.90, G: 69.90 }
     }
 ];
@@ -251,7 +246,7 @@ const BEBIDAS = [
     },
     {
         id: 40, name: "Guaraná Antarctica", category: "Bebidas", desc: "O sabor do Brasil.",
-        img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
+        img: "assets/guarana.webp",
         type: "drink",
         prices: {
             "2L": 14.90,
@@ -265,23 +260,23 @@ const BEBIDAS = [
         }
     },
     {
-        id: 39, name: "Fanta Laranja", category: "Bebidas", desc: "Muito mais sabor.",
-        img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
+        id: 39, name: "Fanta Laranja 2L", category: "Bebidas", desc: "Muito mais sabor.",
+        img: "assets/fanta.webp",
         type: "drink", price: 13.90
     },
     {
         id: 41, name: "Sukita 2L", category: "Bebidas", desc: "2 Litros",
-        img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
+        img: "assets/sukita.webp",
         type: "drink", price: 11.99
     },
     {
         id: 44, name: "Guaravita", category: "Bebidas", desc: "Copo 290ml",
-        img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
+        img: "assets/guaravita.webp",
         type: "drink", price: 3.50
     },
     {
         id: 47, name: "Água Mineral", category: "Bebidas", desc: "Refrescância pura.",
-        img: "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=500&q=80",
+        img: "assets/agua.webp",
         type: "drink",
         prices: {
             "SEM": 3.50,
