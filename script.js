@@ -832,6 +832,19 @@ window.onload = function () {
     document.getElementById('cta-order-btn').onclick = () => {
         scrollToCategory('salgadas');
     };
+
+    // --- Inicia animação do botão CTA ---
+    const ctaBtn = document.getElementById('cta-order-btn');
+    if (ctaBtn) {
+        // Adiciona classe de entrada
+        ctaBtn.classList.add('slide-up-initial');
+
+        // Após a animação de entrada (3s), adiciona a classe para o bounce infinito
+        setTimeout(() => {
+            ctaBtn.classList.remove('slide-up-initial');
+            ctaBtn.classList.add('loaded'); // Controla opacidade e inicia bounce
+        }, 1000);
+    }
 };
 
 // Expose global functions

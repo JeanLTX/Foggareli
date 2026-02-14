@@ -66,14 +66,39 @@ h1, h2, h3, .serif-font {
     transform: scale(0.98);
 }
 
-.cta-btn {
-    will-change: transform, box-shadow;
-    outline: none;
-    animation: bounceDown 2s infinite;
+/* Entrada Slide Up + Bounce contínuo */
+@keyframes slideUpAndBounce {
+    0% { transform: translateY(100%); opacity: 0; }
+    60% { transform: translateY(-10px); opacity: 1; }
+    100% { transform: translateY(0); opacity: 1; }
 }
 
-.cta-btn:hover {
+@keyframes bounceInfinite {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.slide-up-initial {
+    animation: slideUpAndBounce 3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.cta-btn {
+    will-change: transform, opacity;
+    opacity: 0; /* Starts hidden for slide-up */
+    transition: opacity 0.3s, transform 0.3s; /* Smooth transitions */
+}
+
+/* Aplica bounce infinito APÓS a entrada */
+.cta-btn.loaded {
+    opacity: 1 !important; /* Force visibility */
+    animation: bounceInfinite 2s infinite ease-in-out;
+}
+
+/* Hover só funciona DEPOIS de carregado (.loaded) para não quebrar a entrada */
+.cta-btn.loaded:hover {
+    opacity: 1 !important;
     animation: bounceDown 1.5s infinite;
+    transform: scale(1.05);
 }
 
 .cta-btn:focus {

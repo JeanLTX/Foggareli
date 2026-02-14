@@ -46,8 +46,6 @@
     --text-2xl--line-height: calc(2 / 1.5);
     --text-3xl: 1.875rem;
     --text-3xl--line-height: calc(2.25 / 1.875);
-    --text-5xl: 3rem;
-    --text-5xl--line-height: 1;
     --font-weight-light: 300;
     --font-weight-normal: 400;
     --font-weight-medium: 500;
@@ -453,6 +451,9 @@
   .gap-4 {
     gap: calc(var(--spacing) * 4);
   }
+  .gap-5 {
+    gap: calc(var(--spacing) * 5);
+  }
   .gap-8 {
     gap: calc(var(--spacing) * 8);
   }
@@ -677,10 +678,6 @@
   .text-2xl {
     font-size: var(--text-2xl);
     line-height: var(--tw-leading, var(--text-2xl--line-height));
-  }
-  .text-3xl {
-    font-size: var(--text-3xl);
-    line-height: var(--tw-leading, var(--text-3xl--line-height));
   }
   .text-lg {
     font-size: var(--text-lg);
@@ -943,9 +940,9 @@
       display: none;
     }
   }
-  .md\:h-16 {
+  .md\:h-14 {
     @media (width >= 48rem) {
-      height: calc(var(--spacing) * 16);
+      height: calc(var(--spacing) * 14);
     }
   }
   .md\:h-full {
@@ -958,9 +955,9 @@
       min-height: 420px;
     }
   }
-  .md\:w-16 {
+  .md\:w-14 {
     @media (width >= 48rem) {
-      width: calc(var(--spacing) * 16);
+      width: calc(var(--spacing) * 14);
     }
   }
   .md\:grid-cols-2 {
@@ -1002,12 +999,6 @@
     @media (width >= 48rem) {
       font-size: var(--text-3xl);
       line-height: var(--tw-leading, var(--text-3xl--line-height));
-    }
-  }
-  .md\:text-5xl {
-    @media (width >= 48rem) {
-      font-size: var(--text-5xl);
-      line-height: var(--tw-leading, var(--text-5xl--line-height));
     }
   }
   .md\:text-xl {
@@ -1079,13 +1070,44 @@ h1, h2, h3, .serif-font {
 .btn-add:active {
   transform: scale(0.98);
 }
-.cta-btn {
-  will-change: transform, box-shadow;
-  outline: none;
-  animation: bounceDown 2s infinite;
+@keyframes slideUpAndBounce {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
-.cta-btn:hover {
+@keyframes bounceInfinite {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+.slide-up-initial {
+  animation: slideUpAndBounce 3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.cta-btn {
+  will-change: transform, opacity;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+}
+.cta-btn.loaded {
+  opacity: 1 !important;
+  animation: bounceInfinite 2s infinite ease-in-out;
+}
+.cta-btn.loaded:hover {
+  opacity: 1 !important;
   animation: bounceDown 1.5s infinite;
+  transform: scale(1.05);
 }
 .cta-btn:focus {
   box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.18);
