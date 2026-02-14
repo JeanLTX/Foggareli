@@ -81,16 +81,18 @@
     -webkit-tap-highlight-color: transparent;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE/Edge */
-    background-color: #111827; /* bg-gray-900 - Prevê espaços em branco */
+    background-color: #111827; /* bg-gray-900 - Previne espaços brancos no fim */
+    overflow-x: hidden;
+    width: 100%;
   }
   body {
     background-color: white;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    width: 100%;
+    overflow-x: hidden;
+    position: relative;
   }
   main {
-    flex: 1;
+    width: 100%;
   }
   html::-webkit-scrollbar {
     display: none; /* Chrome/Safari/Edge */
