@@ -427,10 +427,15 @@ const renderCategoryButtons = () => {
 function scrollToCategory(id) {
     const el = document.getElementById(`category-${id}`);
     if (el) {
-        const headerOffset = 140; // Ajuste para header + sticky bar
+        const headerHeight = 64;
+        const barHeight = 54;
         const elementPosition = el.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+        const offsetPosition = elementPosition + window.pageYOffset - (headerHeight + barHeight - 20);
+
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+        });
     }
 }
 
@@ -912,24 +917,39 @@ window.onload = function () {
     renderMenu();
     updateCartUI();
 
-    // Scroll Sticky Header Logic
+    // Scroll Sticky Header & Active Category Logic
     const header = document.getElementById('site-header');
+    const categoriesBar = document.getElementById('categories-bar');
+
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 20) {
+        const scrollY = window.scrollY;
+
+        // Header Style - Aumentado para 50px para evitar flicks no topo
+        if (scrollY > 50) {
             header.classList.add('scrolled');
+            if (categoriesBar) categoriesBar.classList.add('scrolled');
         } else {
             header.classList.remove('scrolled');
+            if (categoriesBar) categoriesBar.classList.remove('scrolled');
         }
 
-        // Sync tabs active state
-        const scrollPos = window.scrollY + 200;
+        // Active State Sync
+        const headerOffset = 180;
+        let currentCat = CATEGORIES[0].id;
+
         CATEGORIES.forEach(cat => {
-            const el = document.getElementById(`category-${cat.id}`);
-            if (el && el.offsetTop <= scrollPos && (el.offsetTop + el.offsetHeight) > scrollPos) {
-                document.querySelectorAll('.category-tab').forEach(btn => btn.classList.remove('active', 'text-orange-600', 'border-orange-600'));
-                const activeBtn = document.querySelector(`.category-tab[data-category="${cat.id}"]`);
-                if (activeBtn) activeBtn.classList.add('active', 'text-orange-600', 'border-orange-600');
+            const section = document.getElementById(`category-${cat.id}`);
+            if (section) {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - headerOffset) {
+                    currentCat = cat.id;
+                }
             }
+        });
+
+        // Update Tabs
+        document.querySelectorAll('.category-tab').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.category === currentCat);
         });
     });
 
