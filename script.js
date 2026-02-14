@@ -275,7 +275,7 @@ const BEBIDAS = [
         type: "drink", price: 13.99
     },
     {
-        id: 46, name: "Coca Zero 1.5L", category: "Bebidas", desc: "1.5L",
+        id: 46, name: "Coca Zero 2L", category: "Bebidas", desc: "1.5L",
         img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
         type: "drink", price: 13.99
     },
@@ -434,150 +434,189 @@ function scrollToCategory(id) {
 }
 
 // --- RENDERIZAR CARDS ---
+// --- RENDERIZAR CARDS COMPACTOS ---
 const renderPizzaCard = (pizza) => {
     const card = document.createElement('div');
-    card.className = "bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8 transition-all hover:shadow-md";
+    card.className = "flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md hover:border-orange-200 transition-all cursor-pointer group relative z-10";
+    card.onclick = () => openProductModal(pizza);
 
-    // Estado local do card
-    let currentSize = 'M';
-    let currentBorder = 'sem_borda';
-
-    const sizes = { P: 'Pequena', M: 'Média', G: 'Grande' };
-
-    const getPrice = () => {
-        let price = pizza.prices[currentSize];
-        const border = BORDAS.find(b => b.id === currentBorder);
-        if (border) price += border.prices[currentSize];
-        return price;
-    };
-
-    const updateDisplay = () => {
-        const price = getPrice();
-        card.querySelector('.price-display').textContent = formatCurrency(price);
-        card.querySelector('.btn-price').textContent = formatCurrency(price);
-    };
+    const minPrice = Math.min(...Object.values(pizza.prices));
 
     card.innerHTML = `
-        <div class="grid grid-cols-1 md:grid-cols-[200px_1fr]">
-            <div class="relative h-48 md:h-full bg-gray-100">
-                <img src="${pizza.img}" alt="${pizza.name}" class="w-full h-full object-cover">
+        <div class="flex-1 min-w-0">
+            <h3 class="text-base font-bold text-gray-900 mb-1 group-hover:text-orange-600 transition-colors uppercase truncate">${pizza.name}</h3>
+            <p class="text-xs text-gray-500 line-clamp-2 mb-3 leading-relaxed pr-2">${pizza.desc}</p>
+            <div class="flex items-center gap-2">
+                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">A partir de</span>
+                <span class="text-base font-bold text-orange-600">${formatCurrency(minPrice)}</span>
             </div>
-
-            <div class="p-6 flex flex-col h-full">
-                <div class="flex justify-between items-start mb-2">
-                    <h3 class="text-xl font-bold text-gray-900">${pizza.name}</h3>
-                    <span class="price-display font-semibold text-lg text-orange-600"></span>
-                </div>
-                
-                <p class="text-gray-600 text-sm mb-6 leading-relaxed">${pizza.desc}</p>
-
-                <div class="space-y-4 mt-auto">
-                    <!-- Seleção de Tamanho -->
-                    <div>
-                        <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Tamanho</label>
-                        <div class="grid grid-cols-3 gap-2 size-btns">
-                            ${Object.keys(sizes).map(size => `
-                                <button type="button" class="size-btn relative p-2 rounded-lg border text-center transition-all w-full text-sm ${size === 'M' ? 'border-orange-500 bg-orange-50 text-orange-700 font-bold' : 'border-gray-200 text-gray-600'}"
-                                    data-size="${size}">
-                                    ${sizes[size]}
-                                </button>
-                            `).join('')}
-                        </div>
-                    </div>
-
-                    <!-- Seleção de Borda -->
-                    <div>
-                        <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Tipo de Borda</label>
-                        <select class="border-select w-full p-2.5 bg-white border border-gray-300 rounded-lg text-sm text-gray-700 outline-none focus:border-orange-500">
-                            ${BORDAS.map(b => `<option value="${b.id}">${b.name}</option>`).join('')}
-                        </select>
-                    </div>
-
-                    <!-- Observação -->
-                     <div>
-                        <button type="button" class="toggle-note text-sm text-gray-500 underline decoration-dotted hover:text-orange-600 flex items-center gap-1 mb-2">
-                            Adicionar observação?
-                        </button>
-                        <textarea class="note-input hidden w-full p-3 border border-gray-200 rounded-lg text-sm bg-gray-50" rows="2" placeholder="Ex: Tirar a cebola..."></textarea>
-                    </div>
-
-                    <button class="add-btn w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-orange-200">
-                         <i data-lucide="plus" class="w-4 h-4"></i>
-                         <span>Adicionar</span>
-                         <span class="btn-price ml-auto opacity-90 text-sm font-normal"></span>
-                     </button>
-                 </div>
-             </div>
-         </div>
+        </div>
+        <div class="pizza-img-container">
+            <img src="${pizza.img}" alt="${pizza.name}" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" 
+                 onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=300&q=80'">
+        </div>
     `;
-
-    // Event Listeners locais
-    card.querySelectorAll('.size-btn').forEach(btn => {
-        btn.onclick = () => {
-            currentSize = btn.dataset.size;
-            card.querySelectorAll('.size-btn').forEach(b =>
-                b.className = `size-btn relative p-2 rounded-lg border text-center transition-all w-full text-sm border-gray-200 text-gray-600`
-            );
-            btn.className = `size-btn relative p-2 rounded-lg border text-center transition-all w-full text-sm border-orange-500 bg-orange-50 text-orange-700 font-bold`;
-            updateDisplay();
-        };
-    });
-
-    card.querySelector('.border-select').onchange = (e) => {
-        currentBorder = e.target.value;
-        updateDisplay();
-    };
-
-    const noteInput = card.querySelector('.note-input');
-    card.querySelector('.toggle-note').onclick = (e) => {
-        noteInput.classList.toggle('hidden');
-        e.target.textContent = noteInput.classList.contains('hidden') ? 'Adicionar observação?' : 'Ocultar observação';
-    };
-
-    card.querySelector('.add-btn').onclick = () => {
-        const borderObj = BORDAS.find(b => b.id === currentBorder);
-        const borderName = borderObj.id !== 'sem_borda' ? borderObj.name : 'Sem Borda Recheada';
-        const note = noteInput.value.trim();
-
-        addToCart({
-            type: 'pizza',
-            name: pizza.name,
-            details: `Tam: ${sizes[currentSize]} • ${borderName}`,
-            price: getPrice(),
-            note: note
-        });
-
-        // Reset inputs
-        noteInput.value = '';
-        noteInput.classList.add('hidden');
-        card.querySelector('.toggle-note').textContent = 'Adicionar observação?';
-    };
-
-    updateDisplay(); // Iniciarlizar preço
     return card;
 };
 
 const renderDrinkCard = (drink) => {
-    const el = document.createElement('div');
-    el.className = "flex items-center justify-between p-4 bg-white border border-gray-100 rounded-xl mb-3 shadow-sm hover:border-orange-200 transition-colors";
-    el.innerHTML = `
-        <div class="flex items-center gap-4">
-            <div class="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
-                <img src="${drink.img}" alt="${drink.name}" class="w-full h-full object-cover">
-            </div>
-            <div>
-                <h4 class="font-bold text-gray-900">${drink.name}</h4>
-                <p class="text-sm text-gray-500">${drink.desc}</p>
-            </div>
+    const card = document.createElement('div');
+    card.className = "flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md hover:border-orange-200 transition-all cursor-pointer group relative z-10";
+    card.onclick = () => openProductModal(drink);
+
+    card.innerHTML = `
+        <div class="flex-1 min-w-0">
+            <h3 class="text-base font-bold text-gray-900 mb-1 group-hover:text-orange-600 transition-colors uppercase truncate">${drink.name}</h3>
+            <p class="text-xs text-gray-500 line-clamp-2 mb-3 leading-relaxed pr-2">${drink.desc}</p>
+            <span class="text-base font-bold text-orange-600">${formatCurrency(drink.price)}</span>
         </div>
-        <div class="flex flex-col items-end gap-2">
-            <span class="font-bold text-gray-900">${formatCurrency(drink.price)}</span>
-            <button class="bg-orange-100 hover:bg-orange-200 text-orange-700 p-2 rounded-lg transition-colors" onclick='addToCart({type:"drink", name:"${drink.name}", details:"${drink.desc}", price:${drink.price}})'>
-                <i data-lucide="plus" class="w-4 h-4"></i>
-            </button>
+        <div class="pizza-img-container">
+            <img src="${drink.img}" alt="${drink.name}" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500"
+                 onerror="this.src='https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=300&q=80'">
         </div>
     `;
-    return el;
+    return card;
+};
+
+// --- LÓGICA DO MODAL DE PRODUTO ---
+let currentModalItem = null;
+let currentModalSize = 'M';
+
+function openProductModal(item) {
+    currentModalItem = item;
+    const modal = document.getElementById('product-modal');
+    const modalImg = document.getElementById('modal-img');
+    const modalName = document.getElementById('modal-name');
+    const modalDesc = document.getElementById('modal-desc');
+    const modalSizesContainer = document.getElementById('modal-sizes-container');
+    const modalBordersContainer = document.getElementById('modal-borders-container');
+    const modalBorderSelect = document.getElementById('modal-border-select');
+    const modalNote = document.getElementById('modal-note');
+
+    if (!modal) return;
+
+    // Preencher dados básicos
+    modalImg.src = item.img;
+    modalImg.onerror = () => {
+        modalImg.src = item.type === 'drink' ?
+            'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80' :
+            'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80';
+    };
+    modalName.textContent = item.name.toUpperCase();
+    modalDesc.textContent = item.desc;
+    modalNote.value = '';
+
+    // Lógica para Pizzas
+    if (item.type === 'pizza') {
+        currentModalSize = 'M';
+        modalSizesContainer.classList.remove('hidden');
+        modalBordersContainer.classList.remove('hidden');
+
+        // Renderizar tamanhos
+        const sizes = {
+            P: { label: 'Pequena', size: '25cm' },
+            M: { label: 'Média', size: '30cm' },
+            G: { label: 'Grande', size: '40cm' }
+        };
+
+        const sizesGrid = document.getElementById('modal-sizes-grid');
+        sizesGrid.innerHTML = Object.keys(sizes).map(size => `
+            <button type="button" class="modal-size-btn p-3 rounded-xl border text-center transition-all flex flex-col items-center justify-center ${size === 'M' ? 'border-orange-500 bg-orange-50 text-orange-700 font-bold' : 'border-gray-200 text-gray-500'}"
+                onclick="setModalSize('${size}')" id="size-btn-${size}">
+                <span class="text-sm">${sizes[size].label}</span>
+                <span class="text-[10px] opacity-60 font-normal mt-0.5">${sizes[size].size}</span>
+            </button>
+        `).join('');
+
+        // Preencher Bordas
+        modalBorderSelect.innerHTML = BORDAS.map(b => `<option value="${b.id}">${b.name}</option>`).join('');
+        modalBorderSelect.value = 'sem_borda';
+        modalBorderSelect.onchange = updateModalPrice;
+
+    } else {
+        // Lógica para Bebidas
+        modalSizesContainer.classList.add('hidden');
+        modalBordersContainer.classList.add('hidden');
+    }
+
+    updateModalPrice();
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+
+    if (window.lucide) lucide.createIcons();
+}
+
+function closeProductModal() {
+    const modal = document.getElementById('product-modal');
+    if (modal) {
+        modal.classList.remove('flex');
+        document.body.style.overflow = '';
+    }
+}
+
+function setModalSize(size) {
+    currentModalSize = size;
+    document.querySelectorAll('.modal-size-btn').forEach(btn => {
+        btn.classList.remove('border-orange-500', 'bg-orange-50', 'text-orange-700', 'font-bold');
+        btn.classList.add('border-gray-200', 'text-gray-500');
+    });
+    const selectedBtn = document.getElementById(`size-btn-${size}`);
+    selectedBtn.classList.add('border-orange-500', 'bg-orange-50', 'text-orange-700', 'font-bold');
+    selectedBtn.classList.remove('border-gray-200', 'text-gray-500');
+    updateModalPrice();
+}
+
+function updateModalPrice() {
+    if (!currentModalItem) return;
+
+    let price = 0;
+    if (currentModalItem.type === 'pizza') {
+        price = currentModalItem.prices[currentModalSize];
+        const borderId = document.getElementById('modal-border-select').value;
+        const border = BORDAS.find(b => b.id === borderId);
+        if (border) price += border.prices[currentModalSize];
+    } else {
+        price = currentModalItem.price;
+    }
+
+    document.getElementById('modal-price-display').textContent = formatCurrency(price);
+}
+
+document.getElementById('modal-add-btn').onclick = () => {
+    if (!currentModalItem) return;
+
+    const note = document.getElementById('modal-note').value.trim();
+    let itemToAdd = {};
+
+    if (currentModalItem.type === 'pizza') {
+        const borderId = document.getElementById('modal-border-select').value;
+        const borderObj = BORDAS.find(b => b.id === borderId);
+        const borderName = borderObj.id !== 'sem_borda' ? borderObj.name : 'Sem Borda';
+
+        const sizesNames = { P: 'Pequena', M: 'Média', G: 'Grande' };
+
+        let finalPrice = currentModalItem.prices[currentModalSize];
+        if (borderObj) finalPrice += borderObj.prices[currentModalSize];
+
+        itemToAdd = {
+            type: 'pizza',
+            name: currentModalItem.name,
+            details: `Tam: ${sizesNames[currentModalSize]} • ${borderName}`,
+            price: finalPrice,
+            note: note
+        };
+    } else {
+        itemToAdd = {
+            type: 'drink',
+            name: currentModalItem.name,
+            details: currentModalItem.desc,
+            price: currentModalItem.price,
+            note: note
+        };
+    }
+
+    addToCart(itemToAdd);
+    closeProductModal();
 };
 
 const renderMenu = () => {
@@ -587,25 +626,32 @@ const renderMenu = () => {
     CATEGORIES.forEach(cat => {
         const section = document.createElement('div');
         section.id = `category-${cat.id}`;
-        section.className = "scroll-mt-32";
+        section.className = "scroll-mt-32 mb-12";
 
         const title = document.createElement('h2');
-        title.className = "text-2xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-gray-100";
+        title.className = "text-xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-orange-500 inline-block";
         title.textContent = cat.label;
         section.appendChild(title);
 
-        if (cat.type === 'drink') {
-            cat.items.forEach(item => section.appendChild(renderDrinkCard(item)));
-        } else {
-            cat.items.forEach(item => section.appendChild(renderPizzaCard(item)));
-        }
+        const grid = document.createElement('div');
+        grid.className = "grid grid-cols-1 md:grid-cols-2 gap-4";
 
+        cat.items.forEach(item => {
+            if (cat.type === 'drink') {
+                grid.appendChild(renderDrinkCard(item));
+            } else {
+                grid.appendChild(renderPizzaCard(item));
+            }
+        });
+
+        section.appendChild(grid);
         container.appendChild(section);
     });
 
-    // Re-iniciar ícones Lucide nos novos elementos
     if (window.lucide) lucide.createIcons();
 };
+
+
 
 
 // ==========================================
@@ -855,8 +901,14 @@ window.onload = function () {
             paused: true,
             delay: 0.2, // delay={0.2}
             onComplete: () => {
-                // Ao terminar a entrada, ativa o bounce infinito via CSS
-                ctaBtn.classList.add('loaded');
+                // Inicia o bounce infinito diretamente via GSAP para evitar conflitos com estilos inline
+                gsap.to(ctaBtn, {
+                    y: -10,
+                    duration: 1.5,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
             }
         });
 
@@ -888,3 +940,7 @@ window.openCheckout = openCheckout;
 window.closeCheckout = closeCheckout;
 window.sendToWhatsApp = sendToWhatsApp;
 window.scrollToCategory = scrollToCategory;
+window.openProductModal = openProductModal;
+window.closeProductModal = closeProductModal;
+window.setModalSize = setModalSize;
+window.updateModalPrice = updateModalPrice;
