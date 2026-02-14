@@ -22,18 +22,6 @@ const PIZZAS_SALGADAS = [
         type: "pizza", prices: { P: 58.90, M: 63.90, G: 83.90 }
     },
     {
-        id: 4, name: "Toscana", category: "Pizzas Tradicionais",
-        desc: "Molho de tomate, muçarela, calabresa moída, parmesão, orégano.",
-        img: "assets/toscana.webp",
-        type: "pizza", prices: { P: 57.90, M: 64.90, G: 82.90 }
-    },
-    {
-        id: 5, name: "Milão", category: "Pizzas Tradicionais",
-        desc: "Molho, muçarela, presunto moído, calabresa moída, cebola, orégano, azeitonas verdes.",
-        img: "assets/milao.webp",
-        type: "pizza", prices: { P: 59.90, M: 71.90, G: 92.90 }
-    },
-    {
         id: 6, name: "Alho e Óleo", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, muçarela, parmesão, orégano, alho frito.",
         img: "assets/alhoeoleo.webp",
@@ -76,12 +64,6 @@ const PIZZAS_SALGADAS = [
         type: "pizza", prices: { P: 59.90, M: 70.90, G: 94.90 }
     },
     {
-        id: 13, name: "Atum", category: "Pizzas Tradicionais",
-        desc: "Molho de tomate, muçarela, atum, cebola, tomate, orégano.",
-        img: "assets/atum.webp",
-        type: "pizza", prices: { P: 70.90, M: 86.90, G: 107.90 }
-    },
-    {
         id: 14, name: "Brócolis", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, muçarela, brócolis, alho frito, orégano.",
         img: "assets/brocolis.webp",
@@ -96,6 +78,12 @@ const PIZZAS_SALGADAS = [
 ];
 
 const PIZZAS_ESPECIAIS = [
+    {
+        id: 13, name: "Atum", category: "Pizzas Tradicionais",
+        desc: "Molho de tomate, muçarela, atum, cebola, tomate, orégano.",
+        img: "assets/atum.webp",
+        type: "pizza", prices: { P: 70.90, M: 86.90, G: 107.90 }
+    },
     {
         id: 16, name: "Frango Especial", category: "Pizzas Especiais",
         desc: "Molho, frango, requeijão cremoso, palmito, muçarela, calabresa, orégano.",
