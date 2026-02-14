@@ -235,19 +235,39 @@ const PIZZAS_DOCES = [
 
 const BEBIDAS = [
     {
-        id: 38, name: "Coca-Cola 2L", category: "Bebidas", desc: "2 Litros",
-        img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
-        type: "drink", price: 14.99
+        id: 38, name: "Coca-Cola", category: "Bebidas", desc: "A bebida mais famosa do mundo.",
+        img: "assets/coca.webp",
+        type: "drink",
+        prices: {
+            "2L": 14.99,
+            "ZERO": 13.99,
+            "LATA": 8.50
+        },
+        options: {
+            "2L": { label: "Normal 2L", sub: "2 Litros" },
+            "ZERO": { label: "Zero 2L", sub: "2 Litros" },
+            "LATA": { label: "Lata", sub: "350ml" }
+        }
     },
     {
-        id: 39, name: "Fanta Laranja 2L", category: "Bebidas", desc: "2 Litros",
+        id: 40, name: "Guaraná Antarctica", category: "Bebidas", desc: "O sabor do Brasil.",
+        img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
+        type: "drink",
+        prices: {
+            "2L": 14.90,
+            "1.5L_ZERO": 13.50,
+            "LATA": 8.50
+        },
+        options: {
+            "2L": { label: "Normal 2L", sub: "2 Litros" },
+            "1.5L_ZERO": { label: "Zero 1.5L", sub: "1.5 Litros" },
+            "LATA": { label: "Lata", sub: "350ml" }
+        }
+    },
+    {
+        id: 39, name: "Fanta Laranja", category: "Bebidas", desc: "Muito mais sabor.",
         img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
         type: "drink", price: 13.90
-    },
-    {
-        id: 40, name: "Guaraná Ant. 2L", category: "Bebidas", desc: "2 Litros",
-        img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
-        type: "drink", price: 14.99
     },
     {
         id: 41, name: "Sukita 2L", category: "Bebidas", desc: "2 Litros",
@@ -255,39 +275,22 @@ const BEBIDAS = [
         type: "drink", price: 11.99
     },
     {
-        id: 42, name: "Coca-Cola Lata", category: "Bebidas", desc: "350ml",
+        id: 44, name: "Guaravita", category: "Bebidas", desc: "Copo 290ml",
         img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
-        type: "drink", price: 7.50
+        type: "drink", price: 3.50
     },
     {
-        id: 43, name: "Guaraná Lata", category: "Bebidas", desc: "350ml",
-        img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
-        type: "drink", price: 7.50
-    },
-    {
-        id: 44, name: "Guaravita", category: "Bebidas", desc: "Copo",
-        img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
-        type: "drink", price: 3.00
-    },
-    {
-        id: 45, name: "Guaraná Zero 1.5L", category: "Bebidas", desc: "1.5L",
-        img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
-        type: "drink", price: 13.99
-    },
-    {
-        id: 46, name: "Coca Zero 2L", category: "Bebidas", desc: "1.5L",
-        img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80",
-        type: "drink", price: 13.99
-    },
-    {
-        id: 47, name: "Água c/ gás", category: "Bebidas", desc: "510ml",
+        id: 47, name: "Água Mineral", category: "Bebidas", desc: "Refrescância pura.",
         img: "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=500&q=80",
-        type: "drink", price: 2.99
-    },
-    {
-        id: 48, name: "Água s/ gás", category: "Bebidas", desc: "510ml",
-        img: "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=500&q=80",
-        type: "drink", price: 3.99
+        type: "drink",
+        prices: {
+            "SEM": 3.50,
+            "COM": 4.50
+        },
+        options: {
+            "SEM": { label: "Sem Gás", sub: "510ml" },
+            "COM": { label: "Com Gás", sub: "510ml" }
+        }
     }
 ];
 
@@ -311,6 +314,10 @@ const CATEGORIES = [
     { id: 'bebidas', label: 'Bebidas', items: BEBIDAS, type: 'drink' }
 ];
 
+// Cálculo da largura da scrollbar para evitar saltos de layout
+const getScrollbarWidth = () => window.innerWidth - document.documentElement.clientWidth;
+document.documentElement.style.setProperty('--scrollbar-width', `${getScrollbarWidth()}px`);
+
 // PREÇOS DE ENTREGA
 const DELIVERY_REGIONS = [
     { id: 'colinas', name: 'Colinas do Peró', fee: 4.00 },
@@ -319,7 +326,6 @@ const DELIVERY_REGIONS = [
     { id: 'ogiva', name: 'Ogiva', fee: 10.00 },
     { id: 'cabo', name: 'Cabo Frio, Portinho, Novo Portinho', fee: 12.00 }
 ];
-
 
 // ==========================================
 // 2. ESTADO DA APLICAÇÃO (STATE)
@@ -437,7 +443,7 @@ function scrollToCategory(id) {
 // --- RENDERIZAR CARDS COMPACTOS ---
 const renderPizzaCard = (pizza) => {
     const card = document.createElement('div');
-    card.className = "flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md hover:border-orange-200 transition-all cursor-pointer group relative z-10";
+    card.className = "flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md hover:border-orange-200 transition-[transform,box-shadow,border-color] duration-300 cursor-pointer group relative z-10";
     card.onclick = () => openProductModal(pizza);
 
     const minPrice = Math.min(...Object.values(pizza.prices));
@@ -461,14 +467,20 @@ const renderPizzaCard = (pizza) => {
 
 const renderDrinkCard = (drink) => {
     const card = document.createElement('div');
-    card.className = "flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md hover:border-orange-200 transition-all cursor-pointer group relative z-10";
+    card.className = "flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md hover:border-orange-200 transition-[transform,box-shadow,border-color] duration-300 cursor-pointer group relative z-10";
     card.onclick = () => openProductModal(drink);
+
+    const hasVariations = drink.prices && typeof drink.prices === 'object';
+    const minPrice = hasVariations ? Math.min(...Object.values(drink.prices)) : drink.price;
 
     card.innerHTML = `
         <div class="flex-1 min-w-0">
             <h3 class="text-base font-bold text-gray-900 mb-1 group-hover:text-orange-600 transition-colors uppercase truncate">${drink.name}</h3>
             <p class="text-xs text-gray-500 line-clamp-2 mb-3 leading-relaxed pr-2">${drink.desc}</p>
-            <span class="text-base font-bold text-orange-600">${formatCurrency(drink.price)}</span>
+            <div class="flex items-center gap-2">
+                ${hasVariations ? '<span class="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">A partir de</span>' : ''}
+                <span class="text-base font-bold text-orange-600">${formatCurrency(minPrice)}</span>
+            </div>
         </div>
         <div class="pizza-img-container">
             <img src="${drink.img}" alt="${drink.name}" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500"
@@ -506,6 +518,8 @@ function openProductModal(item) {
     modalDesc.textContent = item.desc;
     modalNote.value = '';
 
+    const hasVariations = item.prices && typeof item.prices === 'object';
+
     // Lógica para Pizzas
     if (item.type === 'pizza') {
         currentModalSize = 'M';
@@ -533,24 +547,43 @@ function openProductModal(item) {
         modalBorderSelect.value = 'sem_borda';
         modalBorderSelect.onchange = updateModalPrice;
 
+    } else if (hasVariations) {
+        // Lógica para Bebidas com variações
+        currentModalSize = Object.keys(item.prices)[0];
+        modalSizesContainer.classList.remove('hidden');
+        modalBordersContainer.classList.add('hidden');
+
+        const sizesGrid = document.getElementById('modal-sizes-grid');
+        sizesGrid.innerHTML = Object.keys(item.options).map(key => `
+            <button type="button" class="modal-size-btn p-3 rounded-xl border text-center transition-all flex flex-col items-center justify-center ${key === currentModalSize ? 'border-orange-500 bg-orange-50 text-orange-700 font-bold' : 'border-gray-200 text-gray-500'}"
+                onclick="setModalSize('${key}')" id="size-btn-${key}">
+                <span class="text-[10px] sm:text-xs font-bold">${item.options[key].label}</span>
+                <span class="text-[10px] opacity-60 font-normal mt-0.5">${item.options[key].sub}</span>
+            </button>
+        `).join('');
+
     } else {
-        // Lógica para Bebidas
+        // Lógica para Bebidas comuns
         modalSizesContainer.classList.add('hidden');
         modalBordersContainer.classList.add('hidden');
     }
 
     updateModalPrice();
     modal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
+    document.body.classList.add('modal-open');
 
-    if (window.lucide) lucide.createIcons();
+    if (window.lucide) {
+        lucide.createIcons({
+            root: modal
+        });
+    }
 }
 
 function closeProductModal() {
     const modal = document.getElementById('product-modal');
     if (modal) {
         modal.classList.remove('flex');
-        document.body.style.overflow = '';
+        document.body.classList.remove('modal-open');
     }
 }
 
@@ -575,6 +608,8 @@ function updateModalPrice() {
         const borderId = document.getElementById('modal-border-select').value;
         const border = BORDAS.find(b => b.id === borderId);
         if (border) price += border.prices[currentModalSize];
+    } else if (currentModalItem.prices && typeof currentModalItem.prices === 'object') {
+        price = currentModalItem.prices[currentModalSize];
     } else {
         price = currentModalItem.price;
     }
@@ -606,11 +641,12 @@ document.getElementById('modal-add-btn').onclick = () => {
             note: note
         };
     } else {
+        const hasVariations = currentModalItem.prices && typeof currentModalItem.prices === 'object';
         itemToAdd = {
             type: 'drink',
             name: currentModalItem.name,
-            details: currentModalItem.desc,
-            price: currentModalItem.price,
+            details: hasVariations ? currentModalItem.options[currentModalSize].label : currentModalItem.desc,
+            price: hasVariations ? currentModalItem.prices[currentModalSize] : currentModalItem.price,
             note: note
         };
     }
@@ -725,7 +761,11 @@ function updateCartUI() {
         `;
     }
 
-    if (window.lucide) lucide.createIcons();
+    if (window.lucide) {
+        lucide.createIcons({
+            root: drawerBody
+        });
+    }
     updateCheckoutForm(); // Atualiza resumo no checkout também se aberto
 }
 
@@ -733,12 +773,14 @@ function updateCartUI() {
 function toggleCartDrawer() {
     document.getElementById('cart-drawer').classList.add('open');
     document.getElementById('cart-drawer-overlay').classList.add('open');
+    document.body.classList.add('modal-open');
     updateCartUI();
 }
 
 function closeCartDrawer() {
     document.getElementById('cart-drawer').classList.remove('open');
     document.getElementById('cart-drawer-overlay').classList.remove('open');
+    document.body.classList.remove('modal-open');
 }
 
 // ==========================================
@@ -751,11 +793,13 @@ function openCheckout() {
     }
     closeCartDrawer();
     document.getElementById('checkout-section').classList.add('open');
+    document.body.classList.add('modal-open');
     renderCheckoutForm();
 }
 
 function closeCheckout() {
     document.getElementById('checkout-section').classList.remove('open');
+    document.body.classList.remove('modal-open');
 }
 
 function renderCheckoutForm() {
@@ -789,12 +833,20 @@ function renderCheckoutForm() {
         </div>
         <div>
             <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Forma de Pagamento</label>
-            <select class="w-full p-3 border border-gray-300 rounded-lg outline-none bg-white" onchange="checkoutData.paymentMethod = this.value">
-                <option value="">Selecione...</option>
-                <option value="Pix" ${checkoutData.paymentMethod === 'Pix' ? 'selected' : ''}>PIX</option>
-                <option value="Dinheiro" ${checkoutData.paymentMethod === 'Dinheiro' ? 'selected' : ''}>Dinheiro</option>
-                <option value="Cartão" ${checkoutData.paymentMethod === 'Cartão' ? 'selected' : ''}>Cartão (Maquininha)</option>
-            </select>
+            <div class="payment-method-grid">
+                <div class="payment-method-btn ${checkoutData.paymentMethod === 'Pix' ? 'active' : ''}" onclick="setPaymentMethod('Pix')">
+                    <i data-lucide="qr-code"></i>
+                    <span class="text-xs uppercase tracking-tighter">Pix</span>
+                </div>
+                <div class="payment-method-btn ${checkoutData.paymentMethod === 'Dinheiro' ? 'active' : ''}" onclick="setPaymentMethod('Dinheiro')">
+                    <i data-lucide="banknote"></i>
+                    <span class="text-xs uppercase tracking-tighter">Dinheiro</span>
+                </div>
+                <div class="payment-method-btn ${checkoutData.paymentMethod === 'Cartão' ? 'active' : ''}" onclick="setPaymentMethod('Cartão')">
+                    <i data-lucide="credit-card"></i>
+                    <span class="text-xs uppercase tracking-tighter">Cartão</span>
+                </div>
+            </div>
         </div>
         
         <div class="bg-gray-50 p-4 rounded-lg mt-4 border border-gray-200">
@@ -804,6 +856,17 @@ function renderCheckoutForm() {
             </div>
         </div>
     `;
+
+    if (window.lucide) {
+        lucide.createIcons({
+            root: form
+        });
+    }
+}
+
+function setPaymentMethod(method) {
+    checkoutData.paymentMethod = method;
+    renderCheckoutForm();
 }
 
 function updateCheckoutForm() {
@@ -944,3 +1007,4 @@ window.openProductModal = openProductModal;
 window.closeProductModal = closeProductModal;
 window.setModalSize = setModalSize;
 window.updateModalPrice = updateModalPrice;
+window.setPaymentMethod = setPaymentMethod;
