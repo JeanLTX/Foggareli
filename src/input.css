@@ -23,6 +23,10 @@ h1, h2, h3, .serif-font {
     font-family: 'Great Vibes', cursive;
 }
 
+.font-montserrat {
+    font-family: 'Montserrat', sans-serif;
+}
+
 @layer utilities {
     .no-scrollbar::-webkit-scrollbar {
         display: none;
@@ -66,26 +70,17 @@ h1, h2, h3, .serif-font {
     transform: scale(0.98);
 }
 
-/* Entrada Slide Up + Bounce contínuo */
-@keyframes slideUpAndBounce {
-    0% { transform: translateY(100%); opacity: 0; }
-    60% { transform: translateY(-10px); opacity: 1; }
-    100% { transform: translateY(0); opacity: 1; }
-}
+/* Componentes */
 
 @keyframes bounceInfinite {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-5px); }
 }
 
-.slide-up-initial {
-    animation: slideUpAndBounce 3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
 .cta-btn {
     will-change: transform, opacity;
-    opacity: 0; /* Starts hidden for slide-up */
-    transition: opacity 0.3s, transform 0.3s; /* Smooth transitions */
+    opacity: 0; /* Começa invisível, GSAP controla a entrada */
+    visibility: hidden; /* GSAP seta visible */
 }
 
 /* Aplica bounce infinito APÓS a entrada */

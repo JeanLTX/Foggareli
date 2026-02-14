@@ -833,17 +833,49 @@ window.onload = function () {
         scrollToCategory('salgadas');
     };
 
-    // --- Inicia animação do botão CTA ---
+    // --- Inicia animação do botão CTA com GSAP ---
+    gsap.registerPlugin(ScrollTrigger);
+
     const ctaBtn = document.getElementById('cta-order-btn');
     if (ctaBtn) {
-        // Adiciona classe de entrada
-        ctaBtn.classList.add('slide-up-initial');
+        // Configuração conforme pedido (AnimatedContent props)
+        const distance = 100; // distance={240}
+        const startScale = 0.5; // scale={0.1}
 
-        // Após a animação de entrada (3s), adiciona a classe para o bounce infinito
-        setTimeout(() => {
-            ctaBtn.classList.remove('slide-up-initial');
-            ctaBtn.classList.add('loaded'); // Controla opacidade e inicia bounce
-        }, 1000);
+        // Define estado inicial
+        gsap.set(ctaBtn, {
+            y: distance,
+            scale: startScale,
+            opacity: 0,
+            visibility: 'visible'
+        });
+
+        // Timeline da animação
+        const tl = gsap.timeline({
+            paused: true,
+            delay: 0.2, // delay={0.2}
+            onComplete: () => {
+                // Ao terminar a entrada, ativa o bounce infinito via CSS
+                ctaBtn.classList.add('loaded');
+            }
+        });
+
+        // Animação de entrada
+        tl.to(ctaBtn, {
+            y: 0,
+            scale: 1,
+            opacity: 1, // animateOpacity={true}
+            duration: 2, // duration={3}
+            ease: "power3.out" // ease="power3.out"
+        });
+
+        // ScrollTrigger para disparar quando visível
+        ScrollTrigger.create({
+            trigger: ctaBtn,
+            start: "top 90%", // threshold={0.1} => 90% view
+            once: true,
+            onEnter: () => tl.play()
+        });
     }
 };
 
