@@ -19,6 +19,10 @@ h1, h2, h3, .serif-font {
     font-family: 'Playfair Display', serif;
 }
 
+.font-great-vibes {
+    font-family: 'Great Vibes', cursive;
+}
+
 @layer utilities {
     .no-scrollbar::-webkit-scrollbar {
         display: none;

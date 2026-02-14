@@ -19,7 +19,7 @@
 
     <!-- Google Fonts -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap"
         rel="stylesheet">
 </head>
 
@@ -28,11 +28,10 @@
     <!-- CABEÇALHO -->
     <header id="site-header" class="fixed top-0 left-0 right-0 z-50 bg-transparent transition-colors">
         <div class="max-w-3xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <div class="bg-orange-600 text-white p-1.5 rounded-md">
-                    <span class="site-logo-letter font-bold text-lg tracking-tighter">F</span>
-                </div>
-                <h1 class="site-title text-xl font-bold text-white tracking-tight">Foggareli</h1>
+            <div class="flex items-center gap-3">
+                <img src="assets/logo2.png" alt="Logo" class="w-16 h-16 md:w-16 md:h-16 object-contain drop-shadow-sm">
+                <h1 class="site-title text-2xl md:text-3xl font-bold text-white tracking-widest font-great-vibes pt-1">
+                    Foggareli</h1>
             </div>
 
             <div class="relative">
@@ -49,9 +48,14 @@
     <!-- HERO SECTION -->
     <section class="relative w-full h-screen md:min-h-[420px]">
         <!-- Imagem de fundo -->
-        <div class="absolute inset-0">
+        <picture class="absolute inset-0">
+            <!-- Mobile: bannerfoggareli3.png (até 768px) -->
+            <source media="(max-width: 767px)" srcset="assets/bannerfoggareli3.png">
+            <!-- Desktop: bannerfoggareli.png (768px+) -->
+            <source media="(min-width: 768px)" srcset="assets/bannerfoggareli.png">
+            <!-- Fallback -->
             <img src="assets/bannerfoggareli.png" alt="Banner Foggareli" class="w-full h-full object-cover">
-        </div>
+        </picture>
 
         <!-- Overlay -->
         <div class="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60"></div>
