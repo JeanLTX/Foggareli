@@ -1778,3 +1778,347 @@ body.modal-open #cart-fab {
 .modal-size-btn:active {
   transform: scale(0.95);
 }
+
+/* --- MEIO A MEIO STYLES --- */
+.half-card-full {
+  grid-column: span 1;
+}
+
+@media (min-width: 768px) {
+  .half-card-full {
+    grid-column: span 2;
+  }
+}
+
+.half-size-btn.active, .half-border-btn.active {
+    border-color: #f97316 !important;
+    background-color: #fff7ed !important;
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.1) !important;
+}
+
+.flavor-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    padding: 0.75rem !important;
+    cursor: pointer;
+    border: 1px solid #f3f4f6;
+    background: white;
+    transition: all 0.2s;
+    text-align: left;
+    width: 100%;
+}
+
+.flavor-item:hover {
+    border-color: #fed7aa;
+    background-color: #fffaf5;
+}
+
+.flavor-item.active {
+    background-color: #fff7ed !important;
+    border-color: #f97316 !important;
+    box-shadow: 0 0 0 1px #f97316;
+}
+
+.flavor-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background-color: #f3f4f6;
+}
+
+.flavor-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.flavor-name {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+}
+
+.flavor-desc {
+    display: block;
+    font-size: 11px;
+    color: #6b7280;
+    line-height: 1.3;
+}
+
+.flavor-radio {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #e5e7eb;
+    border-radius: 999px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.flavor-item.active .flavor-radio {
+    border-color: #f97316;
+    background-color: #f97316;
+}
+
+.flavor-item.active .flavor-radio::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    border-radius: 999px;
+}
+
+/* ==========================================
+   MODAL MEIO A MEIO - NOVO DESIGN PREMIUM
+   ========================================== */
+#half-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.85) !important;
+    backdrop-filter: blur(8px);
+    align-items: center;
+    justify-content: center;
+}
+
+#half-modal.flex {
+    display: flex !important;
+}
+
+#half-modal .bg-white {
+    width: 100%;
+    height: 100dvh;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Header Vermelho */
+.modal-header-fixed {
+    flex-shrink: 0;
+    height: 80px;
+    background: #e63946; /* Vermelho vibrante */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    z-index: 50;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.modal-header-fixed h2 {
+    color: white !important;
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+.modal-header-fixed p {
+    font-size: 0.75rem;
+    opacity: 0.9;
+}
+
+.close-white-btn {
+    color: white;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.close-white-btn:hover {
+    opacity: 1;
+}
+
+/* Área de Conteúdo */
+.modal-content-scroll {
+    display: block !important;
+    flex: 1 1 0% !important;
+    height: 0 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    background-color: #ffffff;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Tamanhos */
+.half-size-btn {
+    height: 70px !important;
+    border: 2px solid #f3f4f6;
+    border-radius: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    background: white;
+}
+
+.half-size-btn.active {
+    background: #e63946 !important;
+    border-color: #e63946 !important;
+    box-shadow: 0 8px 20px rgba(230, 57, 70, 0.2);
+}
+
+.half-size-btn.active span {
+    color: white !important;
+}
+
+/* Grid de Sabores */
+.flavor-card {
+    background: white;
+    border: 2px solid #f3f4f6;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.flavor-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+    border-color: #cbd5e1;
+}
+
+/* Seleção do 1º Sabor (Vermelho) */
+.flavor-card.selected-1 {
+    border-color: #e63946 !important;
+    background: #fffafa;
+}
+
+/* Seleção do 2º Sabor (Azul) */
+.flavor-card.selected-2 {
+    border-color: #2563eb !important;
+    background: #f8fbff;
+}
+
+.flavor-card-img-container {
+    width: 100%;
+    height: 120px;
+    background: #f8fafc;
+    position: relative;
+    overflow: hidden;
+}
+
+.flavor-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.flavor-card:hover .flavor-card-img {
+    transform: scale(1.1);
+}
+
+.flavor-card-body {
+    padding: 0.75rem;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.flavor-card-name {
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: #1e293b;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+}
+
+.flavor-card-desc {
+    font-size: 0.65rem;
+    color: #64748b;
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Badges de Seleção */
+.selection-badge {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 6px 0;
+    font-size: 0.7rem;
+    font-weight: 900;
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
+    transform: translateY(100%);
+    transition: transform 0.2s;
+}
+
+.flavor-card.selected-1 .selection-badge-1,
+.flavor-card.selected-2 .selection-badge-2 {
+    transform: translateY(0);
+}
+
+.selection-badge-1 { background: #e63946; }
+.selection-badge-2 { background: #2563eb; }
+
+/* Footer */
+.modal-footer-fixed {
+    flex-shrink: 0;
+    background: white;
+    border-top: 1px solid #f1f5f9;
+    padding: 1.5rem;
+    z-index: 50;
+    box-shadow: 0 -8px 20px rgba(0,0,0,0.03);
+}
+
+.btn-add-half {
+    background: #e63946;
+    color: white;
+    font-weight: 800;
+    transition: all 0.2s;
+    box-shadow: 0 8px 16px rgba(230, 57, 70, 0.2);
+}
+
+.btn-add-half:hover {
+    background: #d62f3c;
+    transform: scale(1.02);
+}
+
+.btn-add-half:active {
+    transform: scale(0.98);
+}
+
+.btn-add-half:disabled {
+    background: #e2e8f0;
+    color: #94a3b8;
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Desktop Styles */
+@media (min-width: 768px) {
+    #half-modal {
+        padding: 5vh 2rem;
+    }
+    #half-modal .bg-white {
+        height: auto;
+        max-height: 90vh;
+        max-width: 1000px;
+        border-radius: 2rem;
+    }
+}

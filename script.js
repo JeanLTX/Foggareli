@@ -293,6 +293,7 @@ const BORDAS = [
 const CATEGORIES = [
     { id: 'salgadas', label: 'Pizzas Tradicionais', items: PIZZAS_SALGADAS },
     { id: 'especiais', label: 'Pizzas Especiais', items: PIZZAS_ESPECIAIS },
+    { id: 'meio-a-meio', label: 'Monte sua Pizza (Meio a Meio)', items: [{ id: 'meio-a-meio-card' }], type: 'half' },
     { id: 'doces', label: 'Pizzas Doces', items: PIZZAS_DOCES },
     { id: 'bebidas', label: 'Bebidas', items: BEBIDAS, type: 'drink' }
 ];
@@ -482,6 +483,188 @@ const renderDrinkCard = (drink) => {
 let currentModalItem = null;
 let currentModalSize = 'M';
 
+// --- LÓGICA MEIO A MEIO ---
+let halfPizzaState = {
+    size: 'G',
+    flavor1: null,
+    flavor2: null,
+    border: 'sem_borda'
+};
+
+const ALL_PIZZA_FLAVORS = [...PIZZAS_SALGADAS, ...PIZZAS_ESPECIAIS, ...PIZZAS_DOCES];
+
+function openHalfModal() {
+    const modal = document.getElementById('half-modal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.classList.add('modal-open');
+
+    // Reset State
+    halfPizzaState = { size: 'G', flavor1: null, flavor2: null, border: 'sem_borda' };
+
+    renderHalfFlavors();
+    renderHalfBorders();
+    setHalfSize('G');
+    updateHalfPrice();
+
+    if (window.lucide) lucide.createIcons();
+}
+
+function closeHalfModal() {
+    const modal = document.getElementById('half-modal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.classList.remove('modal-open');
+}
+
+function renderHalfFlavors() {
+    const grid = document.getElementById('half-flavors-grid');
+    if (!grid) return;
+
+    grid.innerHTML = ALL_PIZZA_FLAVORS.map(pizza => `
+        <div onclick="selectFlavor(${pizza.id})" id="flavor-card-${pizza.id}" class="flavor-card shadow-sm">
+            <div class="flavor-card-img-container">
+                <img src="${pizza.img}" alt="${pizza.name}" class="flavor-card-img" 
+                     onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=150&q=80'">
+            </div>
+            <div class="flavor-card-body">
+                <span class="flavor-card-name">${pizza.name}</span>
+                <span class="flavor-card-desc">${pizza.desc}</span>
+            </div>
+            <div class="selection-badge selection-badge-1">1º SABOR</div>
+            <div class="selection-badge selection-badge-2">2º SABOR</div>
+        </div>
+    `).join('');
+
+    // Re-aplicar seleções visuais se existirem
+    syncHalfVisuals();
+}
+
+function syncHalfVisuals() {
+    document.querySelectorAll('.flavor-card').forEach(c => c.classList.remove('selected-1', 'selected-2'));
+
+    if (halfPizzaState.flavor1) {
+        const el = document.getElementById(`flavor-card-${halfPizzaState.flavor1.id}`);
+        if (el) el.classList.add('selected-1');
+    }
+    if (halfPizzaState.flavor2) {
+        const el = document.getElementById(`flavor-card-${halfPizzaState.flavor2.id}`);
+        if (el) el.classList.add('selected-2');
+    }
+}
+
+function renderHalfBorders() {
+    const select = document.getElementById('half-border-select');
+    if (!select) return;
+
+    select.innerHTML = BORDAS.map(b => `
+        <option value="${b.id}">${b.name}${b.prices[halfPizzaState.size] > 0 ? ` (+ ${formatCurrency(b.prices[halfPizzaState.size])})` : ''}</option>
+    `).join('');
+
+    select.value = halfPizzaState.border;
+}
+
+function setHalfSize(s) {
+    halfPizzaState.size = s;
+    document.querySelectorAll('.half-size-btn').forEach(b => b.classList.remove('active'));
+    const btn = document.getElementById(`half-size-${s}`);
+    if (btn) btn.classList.add('active');
+
+    // Atualizar opções de borda (preços mudam por tamanho)
+    renderHalfBorders();
+    updateHalfPrice();
+}
+
+function setHalfBorder(id) {
+    halfPizzaState.border = id;
+    updateHalfPrice();
+}
+
+function selectFlavor(id) {
+    const pizza = ALL_PIZZA_FLAVORS.find(p => p.id === id);
+    if (!pizza) return;
+
+    // Lógica de Seleção Inteligente
+    if (halfPizzaState.flavor1 && halfPizzaState.flavor1.id === id) {
+        // Desmarcar Sabor 1
+        halfPizzaState.flavor1 = null;
+    } else if (halfPizzaState.flavor2 && halfPizzaState.flavor2.id === id) {
+        // Desmarcar Sabor 2
+        halfPizzaState.flavor2 = null;
+    } else if (!halfPizzaState.flavor1) {
+        // Preencher Slot 1
+        halfPizzaState.flavor1 = pizza;
+    } else if (!halfPizzaState.flavor2) {
+        // Preencher Slot 2
+        halfPizzaState.flavor2 = pizza;
+    } else {
+        // Ambos cheios? Substitui o 2º
+        halfPizzaState.flavor2 = pizza;
+    }
+
+    syncHalfVisuals();
+    updateHalfPrice();
+}
+
+function updateHalfPrice() {
+    let total = 0;
+    const summary = document.getElementById('half-selection-summary');
+    const addBtn = document.getElementById('half-add-btn');
+
+    if (halfPizzaState.flavor1 && halfPizzaState.flavor2) {
+        const p1 = halfPizzaState.flavor1.prices[halfPizzaState.size];
+        const p2 = halfPizzaState.flavor2.prices[halfPizzaState.size];
+        total = Math.max(p1, p2);
+
+        const bordaObj = BORDAS.find(b => b.id === halfPizzaState.border);
+        if (bordaObj) total += (bordaObj.prices[halfPizzaState.size] || 0);
+
+        summary.textContent = `${halfPizzaState.flavor1.name} + ${halfPizzaState.flavor2.name}`;
+        summary.classList.remove('text-slate-400');
+        summary.classList.add('text-slate-800');
+        if (addBtn) addBtn.disabled = false;
+    } else {
+        let text = "Nenhum sabor selecionado";
+        if (halfPizzaState.flavor1) text = `Escolha o 2º sabor... (${halfPizzaState.flavor1.name})`;
+        else if (halfPizzaState.flavor2) text = `Escolha o 1º sabor... (${halfPizzaState.flavor2.name})`;
+
+        summary.textContent = text;
+        summary.classList.add('text-slate-400');
+        summary.classList.remove('text-slate-800');
+        if (addBtn) addBtn.disabled = true;
+    }
+
+    const priceDisplay = document.getElementById('half-price-display');
+    if (priceDisplay) priceDisplay.textContent = formatCurrency(total);
+}
+
+function addHalfToCart() {
+    if (!halfPizzaState.flavor1 || !halfPizzaState.flavor2) return;
+
+    const p1 = halfPizzaState.flavor1.prices[halfPizzaState.size];
+    const p2 = halfPizzaState.flavor2.prices[halfPizzaState.size];
+    const basePrice = Math.max(p1, p2);
+    const bordaObj = BORDAS.find(b => b.id === halfPizzaState.border);
+    const total = basePrice + bordaObj.prices[halfPizzaState.size];
+
+    const item = {
+        id: `half-${Date.now()}`,
+        name: `Meio a Meio (${halfPizzaState.flavor1.name} / ${halfPizzaState.flavor2.name})`,
+        price: total,
+        size: halfPizzaState.size,
+        border: bordaObj.name,
+        quantity: 1,
+        isHalf: true,
+        details: `${halfPizzaState.flavor1.name} + ${halfPizzaState.flavor2.name}`
+    };
+
+    cart.push(item);
+    saveCart();
+    updateCartUI();
+    closeHalfModal();
+    showToast("Pizza Meio a Meio adicionada!");
+}
+
 function openProductModal(item) {
     currentModalItem = item;
     const modal = document.getElementById('product-modal');
@@ -643,14 +826,44 @@ document.getElementById('modal-add-btn').onclick = () => {
     closeProductModal();
 };
 
+const renderHalfCard = () => {
+    const card = document.createElement('div');
+    card.className = "half-card-full bg-orange-600 rounded-3xl p-6 md:p-10 flex flex-col md:flex-row items-center gap-6 text-white cursor-pointer hover:bg-orange-700 transition-all shadow-xl relative overflow-hidden group";
+    card.onclick = openHalfModal;
+
+    card.innerHTML = `
+        <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
+            <i data-lucide="pizza" class="w-32 h-32 md:w-48 md:h-48"></i>
+        </div>
+        <div class="flex-1 relative z-10 text-center md:text-left">
+            <span class="bg-white/20 text-[10px] md:text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-4 inline-block">Funcionalidade Exclusiva</span>
+            <h3 class="text-2xl md:text-4xl font-black mb-3 font-playfair tracking-tight">CRIAR PIZZA MEIO A MEIO</h3>
+            <p class="text-sm md:text-base opacity-90 max-w-md mb-6 leading-relaxed">Não consegue decidir? Escolha dois dos seus sabores favoritos em uma única pizza Média ou Grande.</p>
+            <div class="flex flex-wrap justify-center md:justify-start gap-3">
+                <span class="flex items-center gap-2 bg-black/10 px-4 py-2 rounded-xl text-xs font-bold border border-white/10 italic">
+                    <i data-lucide="check-circle-2" class="w-4 h-4"></i> Média 6 Fatias
+                </span>
+                <span class="flex items-center gap-2 bg-black/10 px-4 py-2 rounded-xl text-xs font-bold border border-white/10 italic">
+                    <i data-lucide="check-circle-2" class="w-4 h-4"></i> Grande 8 Fatias
+                </span>
+            </div>
+        </div>
+        <div class="relative z-10 bg-white text-orange-600 p-4 md:p-6 rounded-2xl flex flex-col items-center justify-center gap-1 shadow-lg group-hover:scale-105 transition-transform">
+            <span class="text-[10px] font-black uppercase">Monte Agora</span>
+            <i data-lucide="arrow-right" class="w-6 h-6"></i>
+        </div>
+    `;
+    return card;
+};
+
 const renderMenu = () => {
     const container = document.getElementById('pizzas-container');
     container.innerHTML = '';
 
     CATEGORIES.forEach(cat => {
-        const section = document.createElement('div');
+        const section = document.createElement('section');
         section.id = `category-${cat.id}`;
-        section.className = "scroll-mt-32 mb-12";
+        section.className = "category-section scroll-mt-32 mb-12 px-1";
 
         const title = document.createElement('h2');
         title.className = "text-xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-orange-500 inline-block";
@@ -660,13 +873,17 @@ const renderMenu = () => {
         const grid = document.createElement('div');
         grid.className = "grid grid-cols-1 md:grid-cols-2 gap-4";
 
-        cat.items.forEach(item => {
-            if (cat.type === 'drink') {
-                grid.appendChild(renderDrinkCard(item));
-            } else {
-                grid.appendChild(renderPizzaCard(item));
-            }
-        });
+        if (cat.type === 'half') {
+            grid.appendChild(renderHalfCard());
+        } else {
+            cat.items.forEach(item => {
+                if (cat.type === 'drink') {
+                    grid.appendChild(renderDrinkCard(item));
+                } else {
+                    grid.appendChild(renderPizzaCard(item));
+                }
+            });
+        }
 
         section.appendChild(grid);
         container.appendChild(section);
@@ -1011,3 +1228,11 @@ window.closeProductModal = closeProductModal;
 window.setModalSize = setModalSize;
 window.updateModalPrice = updateModalPrice;
 window.setPaymentMethod = setPaymentMethod;
+
+// Meio a Meio
+window.openHalfModal = openHalfModal;
+window.closeHalfModal = closeHalfModal;
+window.setHalfSize = setHalfSize;
+window.setHalfBorder = setHalfBorder;
+window.selectFlavor = selectFlavor;
+window.addHalfToCart = addHalfToCart;
