@@ -228,7 +228,7 @@ const BEBIDAS = [
         },
         options: {
             "2L": { label: "Normal 2L", sub: "2 Litros" },
-            "ZERO": { label: "Zero 2L", sub: "2 Litros" },
+            "ZERO": { label: "Zero 2 1.5L", sub: "1.5 Litros" },
             "LATA": { label: "Lata", sub: "350ml" }
         }
     },
@@ -256,11 +256,6 @@ const BEBIDAS = [
         id: 41, name: "Sukita 2L", category: "Bebidas", desc: "2 Litros",
         img: "assets/sukita.webp",
         type: "drink", price: 11.99
-    },
-    {
-        id: 44, name: "Guaravita", category: "Bebidas", desc: "Copo 290ml",
-        img: "assets/guaravita.webp",
-        type: "drink", price: 3.50
     },
     {
         id: 47, name: "Água Mineral", category: "Bebidas", desc: "Refrescância pura.",
@@ -448,7 +443,7 @@ const renderPizzaCard = (pizza) => {
         </div>
         <div class="pizza-img-container">
             <img src="${pizza.img}" alt="${pizza.name}" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" 
-                 onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=300&q=80'">
+                 onerror="this.src='assets/logofoggareli.webp'">
         </div>
     `;
     return card;
@@ -473,7 +468,7 @@ const renderDrinkCard = (drink) => {
         </div>
         <div class="pizza-img-container">
             <img src="${drink.img}" alt="${drink.name}" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500"
-                 onerror="this.src='https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=300&q=80'">
+                 onerror="this.src='assets/logofoggareli.webp'">
         </div>
     `;
     return card;
@@ -525,7 +520,7 @@ function renderHalfFlavors() {
         <div onclick="selectFlavor(${pizza.id})" id="flavor-card-${pizza.id}" class="flavor-card shadow-sm">
             <div class="flavor-card-img-container">
                 <img src="${pizza.img}" alt="${pizza.name}" class="flavor-card-img" 
-                     onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=150&q=80'">
+                     onerror="this.src='assets/logofoggareli.webp'">
             </div>
             <div class="flavor-card-body">
                 <span class="flavor-card-name">${pizza.name}</span>
@@ -682,9 +677,7 @@ function openProductModal(item) {
     // Preencher dados básicos
     modalImg.src = item.img;
     modalImg.onerror = () => {
-        modalImg.src = item.type === 'drink' ?
-            'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80' :
-            'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80';
+        modalImg.src = 'assets/logofoggareli.webp';
     };
     modalName.textContent = item.name.toUpperCase();
     modalDesc.textContent = item.desc;
