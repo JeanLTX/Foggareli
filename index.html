@@ -95,30 +95,36 @@
 
     <!-- RODAPÉ -->
     <footer class="bg-gray-900 text-gray-300 py-12">
-        <div class="max-w-3xl mx-auto px-6 text-center md:text-left">
+        <div class="max-w-2xl mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-                <div>
+                <!-- Coluna Esquerda: Informações e Horários -->
+                <div class="text-center md:text-left">
                     <h3 class="text-2xl font-bold text-white mb-4 font-serif">Foggareli</h3>
                     <p class="text-gray-400 mb-6">As melhores pizzas da cidade, preparadas com tradição e qualidade.</p>
-                    <div class="space-y-3 text-sm">
-                        <div class="flex items-center justify-center md:justify-start gap-3">
-                            <i data-lucide="clock" class="text-orange-500 w-4 h-4"></i>
-                            <span>📅 Quarta a Segunda | 🕒 18:00 às 23:30</span>
+                    <div class="space-y-4 text-sm">
+                        <div class="flex items-start justify-center md:justify-start gap-3">
+                            <i data-lucide="clock" class="text-orange-500 w-4 h-4 mt-1"></i>
+                            <div class="text-gray-400 leading-relaxed text-[13px]">
+                                <p>📅 Segunda, Quarta e Quinta: <span class="text-gray-300">18h às 23:30h</span></p>
+                                <p>📅 Terça: <span class="text-orange-500 font-bold">Fechado</span></p>
+                                <p>📅 Sexta a Domingo e Feriados: <span class="text-gray-300">18h às 00h</span></p>
+                            </div>
                         </div>
                         <div class="flex items-center justify-center md:justify-start gap-3">
                             <i data-lucide="map-pin" class="text-orange-500 w-4 h-4"></i>
-                            <span>R. Adélia Carvalhães Barbosa, 4 - Cabo Frio - RJ</span>
+                            <span class="text-gray-400">R. Adélia Carvalhães Barbosa, 4 - Cabo Frio - RJ</span>
                         </div>
                     </div>
                 </div>
-                <div class="flex flex-col gap-4">
+
+                <!-- Coluna Direita: Entrega e Créditos -->
+                <div class="flex flex-col gap-6">
                     <div class="bg-gray-800 p-6 rounded-xl border border-gray-700">
                         <h4 class="font-semibold text-white mb-2">Entregamos em toda região</h4>
                         <p class="text-sm text-gray-400">Consulte a taxa de entrega para seu bairro no momento do
-                            checkout.
-                        </p>
+                            checkout.</p>
                     </div>
-                    <div class="text-center md:text-left px-2">
+                    <div class="text-center md:text-left">
                         <a href="https://codebyjean.netlify.app/" target="_blank"
                             class="text-xs font-bold text-gray-500 hover:text-orange-500 transition-all flex items-center justify-center md:justify-start gap-2 group">
                             Desenvolvido por <span
@@ -127,6 +133,7 @@
                     </div>
                 </div>
             </div>
+
             <div
                 class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
                 <p>© 2026 Foggareli Pizzaria. Todos os direitos reservados.</p>
