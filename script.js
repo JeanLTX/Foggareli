@@ -1118,7 +1118,7 @@ function sendToWhatsApp() {
     msg += `_Foggareli agradece a preferência!_ 🔥`;
 
     // A forma mais robusta de abrir no WhatsApp
-    const url = `https://api.whatsapp.com/send?phone=5516992640814&text=${encodeURIComponent(msg)}`;
+    const url = `https://api.whatsapp.com/send?phone=5522997891890&text=${encodeURIComponent(msg)}`;
     window.open(url, '_blank');
 }
 
