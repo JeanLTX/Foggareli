@@ -649,15 +649,15 @@ function addHalfToCart() {
     const total = basePrice + bordaPrice;
 
     const sizeName = halfPizzaState.size === 'M' ? 'Média' : 'Grande';
-    const borderName = bordaObj && bordaObj.id !== 'sem_borda' ? bordaObj.name : 'Sem Borda';
+    const borderDisplay = bordaObj && bordaObj.id !== 'sem_borda' ? `Borda de ${bordaObj.name}` : 'Sem Borda';
 
     const item = {
         name: `Meio a Meio (${halfPizzaState.flavor1.name} / ${halfPizzaState.flavor2.name})`,
         price: total,
         size: halfPizzaState.size,
-        border: borderName,
+        border: borderDisplay,
         isHalf: true,
-        details: `Tam: ${sizeName} • ${borderName}`,
+        details: `Tam: ${sizeName} • ${borderDisplay}`,
         type: 'pizza'
     };
 
@@ -798,7 +798,7 @@ document.getElementById('modal-add-btn').onclick = () => {
     if (currentModalItem.type === 'pizza') {
         const borderId = document.getElementById('modal-border-select').value;
         const borderObj = BORDAS.find(b => b.id === borderId);
-        const borderName = borderObj.id !== 'sem_borda' ? borderObj.name : 'Sem Borda';
+        const borderDisplay = borderObj.id !== 'sem_borda' ? `Borda de ${borderObj.name}` : 'Sem Borda';
 
         const sizesNames = { P: 'Pequena', M: 'Média', G: 'Grande' };
 
@@ -808,7 +808,7 @@ document.getElementById('modal-add-btn').onclick = () => {
         itemToAdd = {
             type: 'pizza',
             name: currentModalItem.name,
-            details: `Tam: ${sizesNames[currentModalSize]} • ${borderName}`,
+            details: `Tam: ${sizesNames[currentModalSize]} • ${borderDisplay}`,
             price: finalPrice,
             note: note
         };
