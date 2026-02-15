@@ -2075,10 +2075,20 @@ body.modal-open #cart-fab {
     box-shadow: 0 -8px 20px rgba(0,0,0,0.03);
 }
 
+#half-price-display {
+    color: #e63946 !important;
+    font-weight: 900 !important;
+}
+
 .btn-add-half {
     background: #e63946;
     color: white;
-    font-weight: 800;
+    font-weight: 900;
+    padding-top: 1.5rem !important; /* py-6/7 equivalente */
+    padding-bottom: 1.5rem !important;
+    border-radius: 1.5rem !important; /* rounded-3xl */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     transition: all 0.2s;
     box-shadow: 0 8px 16px rgba(230, 57, 70, 0.2);
 }
