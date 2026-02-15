@@ -228,7 +228,7 @@ const BEBIDAS = [
         },
         options: {
             "2L": { label: "Normal 2L", sub: "2 Litros" },
-            "ZERO": { label: "Zero 2 1.5L", sub: "1.5 Litros" },
+            "ZERO": { label: "Zero 1.5L", sub: "1.5 Litros" },
             "LATA": { label: "Lata", sub: "350ml" }
         }
     },
