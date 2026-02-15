@@ -1108,7 +1108,7 @@ function sendToWhatsApp() {
     msg += `🛵 Região: ${regionName}\n`;
     msg += `💳 Pagamento: ${checkoutData.paymentMethod}\n`;
 
-    const url = `https://wa.me/551699640814?text=${encodeURIComponent(msg)}`;
+    const url = `https://wa.me/5516992640814?text=${encodeURIComponent(msg)}`;
     window.open(url, '_blank');
 }
 
