@@ -715,8 +715,7 @@ function openProductModal(item) {
         `).join('');
 
         // Preencher Bordas
-        modalBorderSelect.innerHTML = BORDAS.map(b => `<option value="${b.id}">${b.name}</option>`).join('');
-        modalBorderSelect.value = 'sem_borda';
+        renderModalBorders();
         modalBorderSelect.onchange = updateModalPrice;
 
     } else if (hasVariations) {
@@ -766,9 +765,30 @@ function setModalSize(size) {
         btn.classList.add('border-gray-200', 'text-gray-500');
     });
     const selectedBtn = document.getElementById(`size-btn-${size}`);
-    selectedBtn.classList.add('border-orange-500', 'bg-orange-50', 'text-orange-700', 'font-bold');
-    selectedBtn.classList.remove('border-gray-200', 'text-gray-500');
+    if (selectedBtn) {
+        selectedBtn.classList.add('border-orange-500', 'bg-orange-50', 'text-orange-700', 'font-bold');
+        selectedBtn.classList.remove('border-gray-200', 'text-gray-500');
+    }
+
+    // Atualizar labels das bordas se for pizza
+    if (currentModalItem && currentModalItem.type === 'pizza') {
+        renderModalBorders();
+    }
+
     updateModalPrice();
+}
+
+function renderModalBorders() {
+    const select = document.getElementById('modal-border-select');
+    if (!select) return;
+
+    const currentBorder = select.value || 'sem_borda';
+
+    select.innerHTML = BORDAS.map(b => `
+        <option value="${b.id}">${b.name}${b.prices[currentModalSize] > 0 ? ` (+ ${formatCurrency(b.prices[currentModalSize])})` : ''}</option>
+    `).join('');
+
+    select.value = currentBorder;
 }
 
 function updateModalPrice() {
