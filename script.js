@@ -645,24 +645,25 @@ function addHalfToCart() {
     const p2 = halfPizzaState.flavor2.prices[halfPizzaState.size];
     const basePrice = Math.max(p1, p2);
     const bordaObj = BORDAS.find(b => b.id === halfPizzaState.border);
-    const total = basePrice + bordaObj.prices[halfPizzaState.size];
+    const bordaPrice = bordaObj ? (bordaObj.prices[halfPizzaState.size] || 0) : 0;
+    const total = basePrice + bordaPrice;
+
+    const sizeName = halfPizzaState.size === 'M' ? 'Média' : 'Grande';
+    const borderName = bordaObj && bordaObj.id !== 'sem_borda' ? bordaObj.name : 'Sem Borda';
 
     const item = {
-        id: `half-${Date.now()}`,
         name: `Meio a Meio (${halfPizzaState.flavor1.name} / ${halfPizzaState.flavor2.name})`,
         price: total,
         size: halfPizzaState.size,
-        border: bordaObj.name,
-        quantity: 1,
+        border: borderName,
         isHalf: true,
-        details: `${halfPizzaState.flavor1.name} + ${halfPizzaState.flavor2.name}`
+        details: `Tam: ${sizeName} • ${borderName}`,
+        type: 'pizza'
     };
 
-    cart.push(item);
-    saveCart();
-    updateCartUI();
+    addToCart(item);
     closeHalfModal();
-    showToast("Pizza Meio a Meio adicionada!");
+    // showToast removido pois o addToCart já chama
 }
 
 function openProductModal(item) {
@@ -1088,27 +1089,36 @@ function sendToWhatsApp() {
     const total = getCartTotal() + getDeliveryFee();
     const regionName = DELIVERY_REGIONS.find(r => r.id === checkoutData.region)?.name || '';
 
-    let msg = `*PEDIDO FOGGARELI* 🍕\n`;
-    msg += `--------------------------------\n`;
+    let msg = `*--- 🍕 NOVO PEDIDO 🍕 ---*\n\n`;
 
+    msg += `*🛒 ITENS DO PEDIDO:*\n`;
     cart.forEach(item => {
-        msg += `✅ ${item.quantity}x ${item.name}\n`;
-        msg += `   ${item.details}\n`;
-        if (item.note) msg += `   📝 ${item.note}\n`;
-        msg += `   ${formatCurrency(item.price * item.quantity)}\n\n`;
+        msg += `✅ *${item.quantity}x ${item.name}*\n`;
+        msg += `   └ ${item.details}\n`;
+        if (item.note) msg += `   📝 *Obs:* _${item.note}_\n`;
+        msg += `   *Valor:* ${formatCurrency(item.price * item.quantity)}\n\n`;
     });
 
-    msg += `--------------------------------\n`;
-    msg += `📦 Taxa de Entrega: ${formatCurrency(getDeliveryFee())}\n`;
-    msg += `💰 *TOTAL: ${formatCurrency(total)}*\n`;
-    msg += `--------------------------------\n`;
-    msg += `👤 Cliente: ${checkoutData.name}\n`;
-    msg += `📞 Telefone: ${checkoutData.phone}\n`;
-    msg += `📍 Endereço: ${checkoutData.address}\n`;
-    msg += `🛵 Região: ${regionName}\n`;
-    msg += `💳 Pagamento: ${checkoutData.paymentMethod}\n`;
+    msg += `*--------------------------*\n\n`;
 
-    const url = `https://wa.me/5516992640814?text=${encodeURIComponent(msg)}`;
+    msg += `*➕ RESUMO:* \n`;
+    msg += `📦 *Taxa de Entrega:* ${formatCurrency(getDeliveryFee())}\n`;
+    msg += `💰 *TOTAL A PAGAR: ${formatCurrency(total)}*\n\n`;
+
+    msg += `*--------------------------*\n\n`;
+
+    msg += `*👤 DADOS DE ENTREGA:*\n`;
+    msg += `*• Nome:* ${checkoutData.name}\n`;
+    msg += `*• Telefone:* ${checkoutData.phone}\n`;
+    msg += `*• Endereço:* ${checkoutData.address}\n`;
+    msg += `*• Região:* ${regionName}\n`;
+    msg += `*• Pagamento:* ${checkoutData.paymentMethod}\n\n`;
+
+    msg += `*--------------------------*\n`;
+    msg += `_Foggareli agradece a preferência!_ 🔥`;
+
+    // A forma mais robusta de abrir no WhatsApp
+    const url = `https://api.whatsapp.com/send?phone=5516992640814&text=${encodeURIComponent(msg)}`;
     window.open(url, '_blank');
 }
 
