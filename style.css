@@ -73,7 +73,8 @@
   }
   html {
     scroll-behavior: smooth;
-    background-color: #111827; /* Dark background to prevent gaps at footer */
+    background-color: #111827;
+    height: 100%;
   }
 
   body {
@@ -81,11 +82,12 @@
     margin: 0;
     padding: 0;
     width: 100%;
-    min-height: 100vh;
+    min-height: 100%;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
-    position: relative; /* Base para elementos absolute e sticky */
+    position: relative;
   }
 
   main {
@@ -1234,6 +1236,7 @@ h1, h2, h3, .serif-font {
   top: 0;
   right: 0;
   height: 100vh;
+  height: 100dvh;
   width: 90vw;
   max-width: 450px;
   background: #ffffff;
@@ -1282,6 +1285,7 @@ h1, h2, h3, .serif-font {
 .cart-drawer-footer {
   border-top: 1px solid #e5e7eb;
   padding: 16px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom));
   background: #f9fafb;
 }
 #cart-fab {
@@ -1313,6 +1317,8 @@ h1, h2, h3, .serif-font {
   padding: 24px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   max-height: 90vh;
+  max-height: 90dvh;
+  padding-bottom: calc(24px + env(safe-area-inset-bottom));
   overflow-y: auto;
   position: relative; /* Adicionado para posicionamento do botão X */
 }
@@ -1643,6 +1649,7 @@ h1, h2, h3, .serif-font {
   inset: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   z-index: 9999; /* Garantir que fique acima de TUDO */
 }
 
@@ -1668,6 +1675,7 @@ h1, h2, h3, .serif-font {
   margin: auto;
   border-radius: 20px;
   max-height: 90vh;
+  max-height: 90dvh;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -1738,7 +1746,9 @@ body.modal-open #cart-fab {
     max-width: 100%;
     border-radius: 24px 24px 0 0;
     transform: translateY(100%);
-    max-height: 92vh; /* Um pouco maior no mobile */
+    max-height: 92vh;
+    max-height: 92dvh; /* Um pouco maior no mobile */
+    padding-bottom: env(safe-area-inset-bottom);
   }
 
   #product-modal.flex .product-modal-container {
@@ -2071,6 +2081,7 @@ body.modal-open #cart-fab {
     background: white;
     border-top: 1px solid #f1f5f9;
     padding: 1.5rem;
+    padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
     z-index: 50;
     box-shadow: 0 -8px 20px rgba(0,0,0,0.03);
 }
