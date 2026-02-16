@@ -110,7 +110,7 @@ const PIZZAS_ESPECIAIS = [
     },
     {
         id: 20, name: "Champion", category: "Pizzas Especiais",
-        desc: "Molho de tomate, muçarela, champignon, cebola, alho frito, orégano.",
+        desc: "Molho de tomate, muçarela, champion, cebola, alho frito, orégano.",
         img: "assets/champion.webp",
         type: "pizza", prices: { P: 59.90, M: 68.90, G: 87.90 }
     },
