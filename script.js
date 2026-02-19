@@ -858,7 +858,7 @@ const renderHalfCard = () => {
                     <i data-lucide="check-circle-2" class="w-4 h-4"></i> Média 6 Fatias
                 </span>
                 <span class="flex items-center gap-2 bg-black/10 px-4 py-2 rounded-xl text-xs font-bold border border-white/10 italic">
-                    <i data-lucide="check-circle-2" class="w-4 h-4"></i> Grande 8 Fatias
+                    <i data-lucide="check-circle-2" class="w-4 h-4"></i> Grande 10 Fatias
                 </span>
             </div>
         </div>
