@@ -48,7 +48,7 @@ const PIZZAS_SALGADAS = [
     {
         id: 10, name: "Francesa", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, muçarela, presunto, requeijão cremoso, ovos, orégano.",
-        img: "assets/afrancesa.webp",
+        img: "assets/francesa.webp",
         type: "pizza", prices: { P: 61.90, M: 77.90, G: 97.90 }
     },
     {
@@ -110,7 +110,7 @@ const PIZZAS_ESPECIAIS = [
     },
     {
         id: 20, name: "Champion", category: "Pizzas Especiais",
-        desc: "Molho de tomate, muçarela, champion, cebola, alho frito, orégano.",
+        desc: "Molho de tomate, muçarela, champion, azeitonas verdes fatiadas, cebola, alho frito, orégano.",
         img: "assets/champion.webp",
         type: "pizza", prices: { P: 59.90, M: 68.90, G: 87.90 }
     },
