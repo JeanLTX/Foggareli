@@ -1104,7 +1104,17 @@ function sendToWhatsApp() {
     const total = getCartTotal() + getDeliveryFee();
     const regionName = DELIVERY_REGIONS.find(r => r.id === checkoutData.region)?.name || '';
 
-    let msg = `*--- 🍕 NOVO PEDIDO 🍕 ---*\n\n`;
+    const now = new Date();
+    const dateTime = now.toLocaleString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+
+    let msg = `*--- 🍕 NOVO PEDIDO 🍕 ---*\n`;
+    msg += `*📅 Data:* ${dateTime}\n\n`;
 
     msg += `*🛒 ITENS DO PEDIDO:*\n`;
     cart.forEach(item => {
