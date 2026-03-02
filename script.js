@@ -302,6 +302,8 @@ const DELIVERY_REGIONS = [
     { id: 'colinas', name: 'Colinas do Peró', fee: 4.00 },
     { id: 'jardim', name: 'Jardim Esperança, Tangará, Reserva, Nova Cabo Frio', fee: 6.00 },
     { id: 'porto', name: 'Porto do Carro, Vinhanteiro, Peró, Boca do Mato', fee: 8.00 },
+    { id: 'passaros', name: 'Condomínio dos pássaros', fee: 8.00 },
+    { id: 'bosque_pero', name: 'Condomínio Bosque do Peró', fee: 8.00 },
     { id: 'ogiva', name: 'Ogiva', fee: 10.00 },
     { id: 'cabo', name: 'Cabo Frio, Portinho, Novo Portinho', fee: 12.00 }
 ];
