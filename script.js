@@ -252,11 +252,7 @@ const BEBIDAS = [
         img: "assets/fanta.webp",
         type: "drink", price: 13.90
     },
-    {
-        id: 41, name: "Sukita 2L", category: "Bebidas", desc: "2 Litros",
-        img: "assets/sukita.webp",
-        type: "drink", price: 11.99
-    },
+
     {
         id: 47, name: "Água Mineral", category: "Bebidas", desc: "Refrescância pura.",
         img: "assets/agua.webp",
