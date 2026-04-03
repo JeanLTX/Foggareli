@@ -763,7 +763,7 @@ const SWEET_SABORES = [26, 27, 28, 29, 30, 31, 32, 34, 35, 36, 37];
 function openComboModal(combo) {
     currentCombo = combo;
     comboStep = 1;
-    comboSelections = { flavors: [], sweetFlavor: null, border: 'sem_borda', drink: null };
+    comboSelections = { flavors: [], sweetFlavor: null, border: 'sem_borda', drink: combo.id === 'casal' ? 'guaraná' : null };
 
     document.getElementById('combo-modal').classList.remove('hidden');
     document.getElementById('combo-modal').classList.add('flex');
@@ -910,8 +910,8 @@ function renderComboStep() {
             drinkHtml = `
                 <div class="combo-padding mt-4">
                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-[2px] mb-2 block">ESCOLHA O REFRIGERANTE (${drinkSize})</label>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-                        ${['Coca-Cola', 'Guaraná'].map(d => {
+                    <div style="display: grid; grid-template-columns: ${isCasal ? '1fr' : '1fr 1fr'}; gap: 0.75rem;">
+                        ${(isCasal ? ['Guaraná'] : ['Coca-Cola', 'Guaraná']).map(d => {
                 const dId = d.toLowerCase();
                 const isSelected = comboSelections.drink === dId;
                 return `
@@ -1029,30 +1029,35 @@ function updateComboSummary() {
             text += "Escolha o refrigerante...";
         }
     } else if (currentCombo.id === 'familia') {
-        const hasFlavors = comboSelections.flavors.length >= 2;
+        const hasFlavors = comboSelections.flavors.length >= 1;
         const hasDrink = !!comboSelections.drink;
 
         if (hasFlavors && hasDrink) {
             const p1 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[0]);
-            const p2 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[1]);
             const d = comboSelections.drink === 'coca-cola' ? 'Coca' : 'Guaraná';
-            text += `${p1.name} / ${p2.name} | ${d}`;
+            if (comboSelections.flavors.length === 1) {
+                text += `Inteira: ${p1.name} | ${d}`;
+            } else {
+                const p2 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[1]);
+                text += `${p1.name} / ${p2.name} | ${d}`;
+            }
             ready = true;
         } else if (!hasFlavors) {
-            text += comboSelections.flavors.length === 1 ? "Escolha o 2º sabor..." : "Escolha os 2 sabores...";
+            text += "Escolha o sabor...";
         } else {
             text += "Escolha o refrigerante...";
         }
     } else if (currentCombo.id === 'perfeito') {
         if (comboStep === 2) {
-            if (comboSelections.flavors.length >= 2) {
+            if (comboSelections.flavors.length >= 1) {
                 const p1 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[0]);
-                const p2 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[1]);
-                text += `Salgada: ${p1.name} + ${p2.name}`;
-                ready = true; // Habilita o "Próximo"
-            } else if (comboSelections.flavors.length === 1) {
-                const p1 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[0]);
-                text += `1º Salgada: ${p1.name}...`;
+                if (comboSelections.flavors.length === 1) {
+                    text += `Salgada Inteira: ${p1.name}`;
+                } else {
+                    const p2 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[1]);
+                    text += `Salgada: ${p1.name} + ${p2.name}`;
+                }
+                ready = true;
             } else {
                 text += "Escolha a pizza salgada...";
             }
@@ -1063,9 +1068,14 @@ function updateComboSummary() {
             if (hasSweet && hasDrink) {
                 const ps = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.sweetFlavor);
                 const p1 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[0]);
-                const p2 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[1]);
                 const d = comboSelections.drink === 'coca-cola' ? 'Coca' : 'Guaraná';
-                text += `Salgada: ${p1.name}/${p2.name} | Doce: ${ps.name} | ${d}`;
+                
+                if (comboSelections.flavors.length === 1) {
+                    text += `Salgada: ${p1.name} | Doce: ${ps.name} | ${d}`;
+                } else {
+                    const p2 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[1]);
+                    text += `Salgada: ${p1.name}/${p2.name} | Doce: ${ps.name} | ${d}`;
+                }
                 ready = true;
             } else if (!hasSweet) {
                 text += "Escolha a pizza doce...";
@@ -1093,15 +1103,23 @@ function addComboToCart() {
         details = `Sabor: ${p.name} • Borda: ${bLabel} • Refri: ${d} 1L`;
     } else if (currentCombo.id === 'familia') {
         const p1 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[0]);
-        const p2 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[1]);
         const d = comboSelections.drink === 'coca-cola' ? 'Coca-Cola' : 'Guaraná';
-        details = `Sabores: ${p1.name} / ${p2.name} • Refri: ${d} 2L`;
+        if (comboSelections.flavors.length === 1) {
+            details = `Inteira: ${p1.name} • Refri: ${d} 2L`;
+        } else {
+            const p2 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[1]);
+            details = `Sabores: ${p1.name} / ${p2.name} • Refri: ${d} 2L`;
+        }
     } else if (currentCombo.id === 'perfeito') {
         const p1 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[0]);
-        const p2 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[1]);
         const ps = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.sweetFlavor);
         const d = comboSelections.drink === 'coca-cola' ? 'Coca-Cola' : 'Guaraná';
-        details = `Salgada: ${p1.name}/${p2.name} • Doce: ${ps.name} • Refri: ${d} 2L`;
+        if (comboSelections.flavors.length === 1) {
+            details = `Salgada Inteira: ${p1.name} • Doce: ${ps.name} • Refri: ${d} 2L`;
+        } else {
+            const p2 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[1]);
+            details = `Salgada: ${p1.name}/${p2.name} • Doce: ${ps.name} • Refri: ${d} 2L`;
+        }
     }
 
     const item = {
