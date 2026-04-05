@@ -178,12 +178,6 @@ const PIZZAS_DOCES = [
         type: "pizza", prices: { P: 56.90, M: 68.90, G: 81.90 }
     },
     {
-        id: 31, name: "Sensação", category: "Pizzas Doces",
-        desc: "Creme de leite, chocolate, morango, geleia de morango.",
-        img: "assets/sensacao.webp",
-        type: "pizza", prices: { P: 55.90, M: 61.90, G: 73.90 }
-    },
-    {
         id: 32, name: "Banana", category: "Pizzas Doces",
         desc: "Muçarela, banana, açúcar com canela.",
         img: "assets/banana.webp",
@@ -758,7 +752,7 @@ let comboSelections = {
 };
 
 const TRADITIONAL_SABORES = [1, 2, 3, 6, 7, 8, 9, 10, 11, 12, 14];
-const SWEET_SABORES = [26, 27, 28, 29, 30, 31, 32, 34, 35, 36, 37];
+const SWEET_SABORES = [26, 27, 28, 29, 30, 32, 34, 35, 36, 37];
 
 function openComboModal(combo) {
     currentCombo = combo;
