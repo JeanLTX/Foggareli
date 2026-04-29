@@ -1609,6 +1609,16 @@ function sendToWhatsApp() {
     msg += `*--------------------------*\n`;
     msg += `_Foggareli agradece a preferência!_ 🔥`;
 
+    // Dispara evento de conversão para o Google Analytics
+    if (typeof gtag === 'function') {
+        gtag('event', 'finalizar_pedido', {
+            'event_category': 'Checkout',
+            'event_label': 'WhatsApp',
+            'value': total,
+            'currency': 'BRL'
+        });
+    }
+
     // A forma mais robusta de abrir no WhatsApp
     const url = `https://api.whatsapp.com/send?phone=5522997891890&text=${encodeURIComponent(msg)}`;
     window.open(url, '_blank');
