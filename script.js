@@ -1609,11 +1609,24 @@ function sendToWhatsApp() {
     msg += `*--------------------------*\n`;
     msg += `_Foggareli agradece a preferência!_ 🔥`;
 
-    // Dispara evento de conversão para o Google Analytics
+    // Gera um ID de transação único (timestamp) para registrar como compra finalizada no GA4
+    const transactionId = 'WA_' + new Date().getTime();
+
+    // Dispara evento de conversão para o Google Analytics (Padrão de E-commerce GA4)
     if (typeof gtag === 'function') {
+        gtag('event', 'purchase', {
+            'transaction_id': transactionId,
+            'currency': 'BRL',
+            'value': total,
+            'items': cart.map(item => ({
+                'item_name': item.name,
+                'price': item.price,
+                'quantity': item.quantity
+            }))
+        });
+        
+        // Mantemos o evento personalizado também caso você use para alguma meta específica
         gtag('event', 'finalizar_pedido', {
-            'event_category': 'Checkout',
-            'event_label': 'WhatsApp',
             'value': total,
             'currency': 'BRL'
         });
