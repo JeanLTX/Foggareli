@@ -1612,22 +1612,26 @@ function sendToWhatsApp() {
     // Gera um ID de transação único (timestamp) para registrar como compra finalizada no GA4
     const transactionId = 'WA_' + new Date().getTime();
 
+    // Log para você verificar no console do navegador se o valor está correto antes de enviar
+    console.log("Enviando evento de compra para GA4:", { transactionId, total, items: cart });
+
     // Dispara evento de conversão para o Google Analytics (Padrão de E-commerce GA4)
     if (typeof gtag === 'function') {
         gtag('event', 'purchase', {
             'transaction_id': transactionId,
             'currency': 'BRL',
-            'value': total,
+            'value': Number(total.toFixed(2)), // Garante que é um número com 2 casas decimais
             'items': cart.map(item => ({
+                'item_id': item.id || item.name, // GA4 recomenda ter um ID
                 'item_name': item.name,
-                'price': item.price,
+                'price': Number(item.price),
                 'quantity': item.quantity
             }))
         });
         
-        // Mantemos o evento personalizado também caso você use para alguma meta específica
+        // Mantemos o evento personalizado também
         gtag('event', 'finalizar_pedido', {
-            'value': total,
+            'value': Number(total.toFixed(2)),
             'currency': 'BRL'
         });
     }
