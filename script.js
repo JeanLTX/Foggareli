@@ -82,7 +82,7 @@ const PIZZAS_ESPECIAIS = [
         id: 13, name: "Atum", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, muçarela, atum, cebola, tomate, orégano.",
         img: "assets/atum.webp",
-        type: "pizza", prices: { P: 70.90, M: 86.90, G: 107.90 }
+        type: "pizza", prices: { P: 58.90, M: 82.90, G: 97.90 }
     },
     {
         id: 16, name: "Frango Especial", category: "Pizzas Especiais",
@@ -1008,7 +1008,7 @@ function updateComboSummary() {
     } else if (currentCombo.id === 'casal') {
         const hasFlavor = comboSelections.flavors.length > 0;
         const hasDrink = !!comboSelections.drink;
-        
+
         if (hasFlavor && hasDrink) {
             const p = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[0]);
             const b = comboSelections.border === 'sem_borda' ? 'S/ Borda' : comboSelections.border.replace('_', ' ').toUpperCase();
@@ -1061,7 +1061,7 @@ function updateComboSummary() {
                 const ps = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.sweetFlavor);
                 const p1 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[0]);
                 const d = comboSelections.drink === 'coca-cola' ? 'Coca' : 'Guaraná';
-                
+
                 if (comboSelections.flavors.length === 1) {
                     text += `Salgada: ${p1.name} | Doce: ${ps.name} | ${d}`;
                 } else {
@@ -1626,7 +1626,7 @@ function sendToWhatsApp() {
                 'quantity': item.quantity
             }))
         });
-        
+
         // Mantemos o evento personalizado também
         gtag('event', 'finalizar_pedido', {
             'value': Number(total.toFixed(2)),
