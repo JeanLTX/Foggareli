@@ -7,61 +7,61 @@ const PIZZAS_SALGADAS = [
         id: 1, name: "Calabresa", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, muçarela, calabresa, cebola, orégano.",
         img: "assets/calabresa.webp",
-        type: "pizza", prices: { P: 56.90, M: 63.90, G: 79.90 }
+        type: "pizza", prices: { P: 48.90, M: 59.90, G: 69.90 }
     },
     {
         id: 2, name: "Muçarela", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, muçarela, tomate, orégano, azeitona preta.",
         img: "assets/muçarela.webp",
-        type: "pizza", prices: { P: 55.90, M: 65.90, G: 79.90 }
+        type: "pizza", prices: { P: 49.90, M: 59.90, G: 69.90 }
     },
     {
         id: 3, name: "Margherita", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, muçarela, tomate, parmesão, orégano, manjericão fresco.",
         img: "assets/margherita.webp",
-        type: "pizza", prices: { P: 58.90, M: 63.90, G: 83.90 }
+        type: "pizza", prices: { P: 49.90, M: 59.90, G: 75.90 }
     },
     {
         id: 6, name: "Alho e Óleo", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, muçarela, parmesão, orégano, alho frito.",
         img: "assets/alhoeoleo.webp",
-        type: "pizza", prices: { P: 52.90, M: 59.90, G: 75.90 }
+        type: "pizza", prices: { P: 54.90, M: 69.90, G: 71.90 }
     },
     {
         id: 7, name: "Frango com Catupiry", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, frango desfiado, requeijão cremoso, muçarela, orégano.",
         img: "assets/frangocomcatupiry.webp",
-        type: "pizza", prices: { P: 59.90, M: 75.90, G: 98.90 }
+        type: "pizza", prices: { P: 54.90, M: 63.90, G: 89.90 }
     },
     {
         id: 8, name: "Calabria", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, requeijão cremoso, calabresa, parmesão, orégano.",
         img: "assets/calabria.webp",
-        type: "pizza", prices: { P: 58.90, M: 68.90, G: 83.90 }
+        type: "pizza", prices: { P: 54.90, M: 69.90, G: 89.90 }
     },
     {
         id: 9, name: "Portuguesa", category: "Pizzas Tradicionais",
         desc: "Molho, muçarela, presunto, ovos, calabresa, cebola, pimentão, tomate, azeitona, orégano.",
         img: "assets/portuguesa.webp",
-        type: "pizza", prices: { P: 62.90, M: 77.90, G: 93.90 }
+        type: "pizza", prices: { P: 55.90, M: 69.90, G: 89.90 }
     },
     {
         id: 10, name: "Francesa", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, muçarela, presunto, requeijão cremoso, ovos, orégano.",
         img: "assets/francesa.webp",
-        type: "pizza", prices: { P: 61.90, M: 77.90, G: 97.90 }
+        type: "pizza", prices: { P: 55.90, M: 69.90, G: 89.90 }
     },
     {
         id: 11, name: "Quatro Queijos", category: "Pizzas Tradicionais",
         desc: "Molho, provolone, requeijão cremoso, muçarela, parmesão, orégano.",
         img: "assets/quatroqueijos.webp",
-        type: "pizza", prices: { P: 66.90, M: 77.90, G: 90.90 }
+        type: "pizza", prices: { P: 55.90, M: 69.90, G: 89.90 }
     },
     {
         id: 12, name: "Gênova", category: "Pizzas Tradicionais",
         desc: "Molho, lombo canadense, ovos, cebola, muçarela, bacon, orégano.",
         img: "assets/genova.webp",
-        type: "pizza", prices: { P: 59.90, M: 70.90, G: 94.90 }
+        type: "pizza", prices: { P: 55.90, M: 69.90, G: 89.90 }
     },
     {
         id: 14, name: "Brócolis", category: "Pizzas Tradicionais",
@@ -88,13 +88,13 @@ const PIZZAS_ESPECIAIS = [
         id: 16, name: "Frango Especial", category: "Pizzas Especiais",
         desc: "Molho, frango, requeijão cremoso, palmito, muçarela, calabresa, orégano.",
         img: "assets/frangoespecial.webp",
-        type: "pizza", prices: { P: 64.90, M: 77.90, G: 105.90 }
+        type: "pizza", prices: { P: 58.90, M: 69.90, G: 95.90 }
     },
     {
         id: 17, name: "Carne Seca Especial", category: "Pizzas Especiais",
         desc: "Molho, carne seca, requeijão cremoso, palmito, cebola, orégano.",
         img: "assets/carnesecaespecial.webp",
-        type: "pizza", prices: { P: 65.90, M: 91.90, G: 107.90 }
+        type: "pizza", prices: { P: 58.90, M: 82.90, G: 97.90 }
     },
     {
         id: 18, name: "Calabresa Especial", category: "Pizzas Especiais",
@@ -106,13 +106,13 @@ const PIZZAS_ESPECIAIS = [
         id: 19, name: "Brócolis com Bacon", category: "Pizzas Especiais",
         desc: "Molho de tomate, muçarela, brócolis, bacon, alho frito, orégano.",
         img: "assets/brocoliscombacon.webp",
-        type: "pizza", prices: { P: 56.90, M: 64.90, G: 81.90 }
+        type: "pizza", prices: { P: 49.90, M: 59.90, G: 77.90 }
     },
     {
         id: 20, name: "Champion", category: "Pizzas Especiais",
         desc: "Molho de tomate, muçarela, champion, azeitonas verdes fatiadas, cebola, alho frito, orégano.",
         img: "assets/champion.webp",
-        type: "pizza", prices: { P: 59.90, M: 68.90, G: 87.90 }
+        type: "pizza", prices: { P: 49.90, M: 68.90, G: 87.90 }
     },
     {
         id: 21, name: "Brócolis c/ Cream Cheese", category: "Pizzas Especiais",
@@ -124,13 +124,13 @@ const PIZZAS_ESPECIAIS = [
         id: 22, name: "Costela Especial", category: "Pizzas Especiais",
         desc: "Molho de tomate, costela desfiada, cream cheese, muçarela e orégano.",
         img: "assets/costelaespecial.webp",
-        type: "pizza", prices: { P: 72.90, M: 91.90, G: 107.90 }
+        type: "pizza", prices: { P: 64.90, M: 79.90, G: 97.90 }
     },
     {
         id: 23, name: "Pizza Foggareli", category: "Pizzas Especiais",
         desc: "Molho, frango desfiado, cheddar, milho, muçarela, bacon, orégano.",
         img: "assets/foggareli.webp",
-        type: "pizza", prices: { P: 60.90, M: 68.90, G: 84.90 }
+        type: "pizza", prices: { P: 59.90, M: 61.90, G: 75.90 }
     },
     {
         id: 24, name: "5 Queijos", category: "Pizzas Especiais",
@@ -142,7 +142,7 @@ const PIZZAS_ESPECIAIS = [
         id: 25, name: "Peperoni", category: "Pizzas Especiais",
         desc: "Molho de tomate, muçarela, peperoni, cebola, orégano.",
         img: "assets/pepperoni.webp",
-        type: "pizza", prices: { P: 66.70, M: 74.90, G: 95.90 }
+        type: "pizza", prices: { P: 59.90, M: 65.90, G: 86.90 }
     },
 ];
 
@@ -265,13 +265,11 @@ const BEBIDAS = [
 // OPÇÕES DE BORDAS E VALORES
 const BORDAS = [
     { id: 'sem_borda', name: 'Sem Borda Recheada', prices: { P: 0, M: 0, G: 0 } },
-    { id: 'catupiry', name: 'Catupiry', prices: { P: 13.99, M: 15.99, G: 20.99 } },
-    { id: 'cheddar', name: 'Cheddar', prices: { P: 13.99, M: 15.99, G: 20.99 } },
-    { id: 'cream_cheese', name: 'Cream Cheese', prices: { P: 13.99, M: 15.99, G: 20.99 } },
-    { id: 'chocolate', name: 'Chocolate', prices: { P: 17.99, M: 20.99, G: 25.99 } },
-    { id: 'catupiry_calabresa', name: 'Catupiry + Calabresa', prices: { P: 17.99, M: 20.99, G: 24.99 } },
-    { id: 'quatro_queijos', name: 'Quatro Queijos', prices: { P: 17.99, M: 20.99, G: 24.99 } },
-    { id: 'catupiry_presunto', name: 'Catupiry + Presunto', prices: { P: 17.99, M: 20.99, G: 24.99 } }
+    { id: 'catupiry', name: 'Catupiry', prices: { P: 11.99, M: 13.99, G: 18.99 } },
+    { id: 'cheddar', name: 'Cheddar', prices: { P: 11.99, M: 13.99, G: 18.99 } },
+    { id: 'cream_cheese', name: 'Cream Cheese', prices: { P: 11.99, M: 13.99, G: 18.99 } },
+    { id: 'chocolate', name: 'Chocolate', prices: { P: 13.99, M: 15.99, G: 18.99 } },
+    { id: 'catupiry_calabresa', name: 'Catupiry + Calabresa', prices: { P: 15.99, M: 17.99, G: 20.99 } }
 ];
 
 const COMBOS = [
@@ -281,7 +279,7 @@ const COMBOS = [
         badge: "Individual",
         desc: "A simplicidade que conquista no primeiro pedaço. 🍕 Pizza na lenha, massa artesanal + refri gelado, combinação perfeita!",
         itens: ["Pizza 25cm · 4 fatias", "Guaraná Antarctica Lata"],
-        price: 54.90,
+        price: 49.90,
         obs: "Válido para pizzas tradicionais, exceto Carne Seca e Atum.",
         img: "assets/comboindividual.webp",
         type: "combo"
@@ -292,7 +290,7 @@ const COMBOS = [
         badge: "Casal",
         desc: "Na medida! nem muito, nem pouco! 🍕💕 Pizza na lenha, massa artesanal e sabor sem igual!",
         itens: ["Pizza 30cm · 6 fatias", "Refrigerante 1L", "Borda recheada já inclusa: cream cheese, catupiry ou cheddar"],
-        price: 77.90,
+        price: 75.90,
         obs: "Válido para pizzas tradicionais, exceto Carne Seca e Atum.",
         img: "assets/combocasal.webp",
         type: "combo"
@@ -303,7 +301,7 @@ const COMBOS = [
         badge: "Família",
         desc: "Combo Família que resolve! 👨‍👩‍👧‍👦 Pizza na lenha 🪵, massa artesanal e sabor Incomparável!",
         itens: ["Pizza 40cm · 10 fatias", "Refrigerante 2L (Coca ou Guaraná Antarctica)"],
-        price: 99.90,
+        price: 89.90,
         obs: "Válido para pizzas tradicionais, exceto Carne Seca e Atum.",
         img: "assets/combofamilia.webp",
         type: "combo"
@@ -314,7 +312,7 @@ const COMBOS = [
         badge: "Perfeito",
         desc: "Experiência completa 🍕✨ Na lenha, massa artesanal. Não fique na vontade! 😋 Quer garantir o seu?",
         itens: ["Pizza 40cm · 10 fatias", "Pizza doce 25cm · 4 fatias", "Refrigerante 2L (Coca ou Guaraná Antarctica)"],
-        price: 119.90,
+        price: 115.90,
         obs: "Válido para pizzas tradicionais, exceto Carne Seca e Atum.",
         img: "assets/comboperfeito.webp",
         type: "combo"
