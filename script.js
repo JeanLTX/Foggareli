@@ -73,7 +73,7 @@ const PIZZAS_SALGADAS = [
         id: 15, name: "Carne Seca", category: "Pizzas Tradicionais",
         desc: "Molho de tomate, muçarela, carne seca, orégano.",
         img: "assets/carneseca.webp",
-        type: "pizza", prices: { P: 65.90, M: 82.90, G: 100.90 }
+        type: "pizza", prices: { P: 59.90, M: 78.90, G: 95.90 }
     }
 ];
 
