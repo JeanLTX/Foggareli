@@ -144,6 +144,12 @@ const PIZZAS_ESPECIAIS = [
         img: "assets/pepperoni.webp",
         type: "pizza", prices: { P: 59.90, M: 65.90, G: 86.90 }
     },
+    {
+        id: 48, name: "Nordestina Premium", category: "Pizzas Especiais",
+        desc: "Molho de tomate, muçarela, costela desfiada, queijo coalho e orégano.",
+        img: "assets/nordestina.webp",
+        type: "pizza", prices: { P: 64.90, M: 79.90, G: 97.90 }
+    },
 ];
 
 const PIZZAS_DOCES = [
