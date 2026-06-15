@@ -342,6 +342,7 @@ document.documentElement.style.setProperty('--scrollbar-width', `${getScrollbarW
 // PREÇOS DE ENTREGA
 const DELIVERY_REGIONS = [
     { id: 'colinas', name: 'Colinas do Peró', fee: 4.00 },
+    { id: 'caminho', name: 'Caminho de Búzios', fee: 6.00 },
     { id: 'jardim', name: 'Jardim Esperança, Tangará, Reserva, Nova Cabo Frio, Jardim Peró', fee: 6.00 },
     { id: 'porto', name: 'Porto do Carro, Vinhanteiro, Peró, Boca do Mato', fee: 8.00 },
     { id: 'passaros', name: 'Condomínio dos pássaros', fee: 8.00 },
