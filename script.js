@@ -1480,6 +1480,11 @@ function closeCartDrawer() {
 // 7. CHECKOUT E WHATSAPP
 // ==========================================
 function openCheckout() {
+    if (isClosedToday()) {
+        closeCartDrawer();
+        openClosedDayModal();
+        return;
+    }
     if (cart.length === 0) {
         showToast("Seu carrinho está vazio!");
         return;
@@ -1568,6 +1573,11 @@ function updateCheckoutForm() {
 }
 
 function sendToWhatsApp() {
+    if (isClosedToday()) {
+        closeCheckout();
+        openClosedDayModal();
+        return;
+    }
     if (!checkoutData.name || !checkoutData.phone || !checkoutData.address || !checkoutData.region || !checkoutData.paymentMethod) {
         alert("Por favor, preencha todos os campos obrigatórios.");
         return;
@@ -1648,6 +1658,32 @@ function sendToWhatsApp() {
 
 
 // ==========================================
+// 7.5 DIA FECHADO (TERÇA-FEIRA)
+// ==========================================
+function isClosedToday() {
+    return new Date().getDay() === 2; // 0 = domingo, 1 = segunda, 2 = terça...
+}
+
+function openClosedDayModal() {
+    const modal = document.getElementById('closed-day-modal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.classList.add('modal-open');
+    // Força o navegador a aplicar o display antes da transição de opacidade (fade in)
+    setTimeout(() => modal.classList.add('visible'), 50);
+}
+
+function closeClosedDayModal() {
+    const modal = document.getElementById('closed-day-modal');
+    modal.classList.remove('visible'); // dispara o fade out
+    document.body.classList.remove('modal-open');
+    setTimeout(() => {
+        modal.classList.remove('flex');
+        modal.classList.add('hidden');
+    }, 350); // aguarda a transição de opacidade terminar
+}
+
+// ==========================================
 // 8. INICIALIZAÇÃO
 // ==========================================
 window.onload = function () {
@@ -1655,6 +1691,10 @@ window.onload = function () {
     renderCategoryButtons();
     renderMenu();
     updateCartUI();
+
+    if (isClosedToday()) {
+        openClosedDayModal();
+    }
 
     // Scroll Sticky Header & Active Category Logic
     const header = document.getElementById('site-header');
@@ -1762,6 +1802,7 @@ window.closeProductModal = closeProductModal;
 window.setModalSize = setModalSize;
 window.updateModalPrice = updateModalPrice;
 window.setPaymentMethod = setPaymentMethod;
+window.closeClosedDayModal = closeClosedDayModal;
 
 // Meio a Meio
 window.openHalfModal = openHalfModal;

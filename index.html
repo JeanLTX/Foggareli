@@ -410,6 +410,25 @@
     </div>
 
 
+    <!-- MODAL DE DIA FECHADO (TERÇA-FEIRA) -->
+    <div id="closed-day-modal" class="fixed inset-0 z-[9999] hidden items-center justify-center p-4">
+        <div id="closed-day-overlay" class="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onclick="closeClosedDayModal()"></div>
+        <div class="closed-day-container w-full max-w-md rounded-2xl relative z-10 p-8 text-center">
+            <div class="closed-day-icon w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i data-lucide="moon" class="text-orange-600 w-8 h-8"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-2 font-serif">Hoje estamos fechados</h2>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                Não trabalhamos as terças-feiras, mas fique à vontade para conhecer nosso cardápio e deixar o seu
+                pedido pronto, voltamos amanhã a partir das 18h! 🍕
+            </p>
+            <button onclick="closeClosedDayModal()"
+                class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3.5 rounded-xl transition-all">
+                Ver o cardápio
+            </button>
+        </div>
+    </div>
 
     <!-- GSAP & ScrollTrigger -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
