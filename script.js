@@ -306,10 +306,10 @@ const COMBOS = [
         name: "Combo Família",
         badge: "Família",
         desc: "Combo Família que resolve! 👨‍👩‍👧‍👦 Pizza na lenha 🪵, massa artesanal e sabor Incomparável!",
-        itens: ["Pizza 40cm · 10 fatias", "Refrigerante 2L (Coca ou Guaraná Antarctica)"],
+        itens: ["Pizza 40cm · 10 fatias", "Refrigerante 2L (Fanta ou Guaraná Antarctica)"],
         price: 89.90,
         obs: "Válido para pizzas tradicionais, exceto Carne Seca e Atum.",
-        img: "assets/combofamilia.webp",
+        img: "assets/combofamilia2.webp",
         type: "combo"
     },
     {
@@ -317,10 +317,10 @@ const COMBOS = [
         name: "Combo Perfeito",
         badge: "Perfeito",
         desc: "Experiência completa 🍕✨ Na lenha, massa artesanal. Não fique na vontade! 😋 Quer garantir o seu?",
-        itens: ["Pizza 40cm · 10 fatias", "Pizza doce 25cm · 4 fatias", "Refrigerante 2L (Coca ou Guaraná Antarctica)"],
+        itens: ["Pizza 40cm · 10 fatias", "Pizza doce 25cm · 4 fatias", "Refrigerante 2L (Fanta ou Guaraná Antarctica)"],
         price: 115.90,
         obs: "Válido para pizzas tradicionais, exceto Carne Seca e Atum.",
-        img: "assets/comboperfeito.webp",
+        img: "assets/comboperfeito2.webp",
         type: "combo"
     }
 ];
@@ -910,7 +910,7 @@ function renderComboStep() {
                 <div class="combo-padding mt-4">
                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-[2px] mb-2 block">ESCOLHA O REFRIGERANTE (${drinkSize})</label>
                     <div style="display: grid; grid-template-columns: ${isCasal ? '1fr' : '1fr 1fr'}; gap: 0.75rem;">
-                        ${(isCasal ? ['Guaraná'] : ['Coca-Cola', 'Guaraná']).map(d => {
+                        ${(isCasal ? ['Guaraná'] : ['Fanta', 'Guaraná']).map(d => {
                 const dId = d.toLowerCase();
                 const isSelected = comboSelections.drink === dId;
                 return `
@@ -1033,7 +1033,7 @@ function updateComboSummary() {
 
         if (hasFlavors && hasDrink) {
             const p1 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[0]);
-            const d = comboSelections.drink === 'coca-cola' ? 'Coca' : 'Guaraná';
+            const d = comboSelections.drink === 'fanta' ? 'Fanta' : 'Guaraná';
             if (comboSelections.flavors.length === 1) {
                 text += `Inteira: ${p1.name} | ${d}`;
             } else {
@@ -1067,7 +1067,7 @@ function updateComboSummary() {
             if (hasSweet && hasDrink) {
                 const ps = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.sweetFlavor);
                 const p1 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[0]);
-                const d = comboSelections.drink === 'coca-cola' ? 'Coca' : 'Guaraná';
+                const d = comboSelections.drink === 'fanta' ? 'Fanta' : 'Guaraná';
 
                 if (comboSelections.flavors.length === 1) {
                     text += `Salgada: ${p1.name} | Doce: ${ps.name} | ${d}`;
@@ -1102,7 +1102,7 @@ function addComboToCart() {
         details = `Sabor: ${p.name} • Borda: ${bLabel} • Refri: ${d} 1L`;
     } else if (currentCombo.id === 'familia') {
         const p1 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[0]);
-        const d = comboSelections.drink === 'coca-cola' ? 'Coca-Cola' : 'Guaraná';
+        const d = comboSelections.drink === 'fanta' ? 'Fanta' : 'Guaraná';
         if (comboSelections.flavors.length === 1) {
             details = `Inteira: ${p1.name} • Refri: ${d} 2L`;
         } else {
@@ -1112,7 +1112,7 @@ function addComboToCart() {
     } else if (currentCombo.id === 'perfeito') {
         const p1 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[0]);
         const ps = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.sweetFlavor);
-        const d = comboSelections.drink === 'coca-cola' ? 'Coca-Cola' : 'Guaraná';
+        const d = comboSelections.drink === 'fanta' ? 'Fanta' : 'Guaraná';
         if (comboSelections.flavors.length === 1) {
             details = `Salgada Inteira: ${p1.name} • Doce: ${ps.name} • Refri: ${d} 2L`;
         } else {
