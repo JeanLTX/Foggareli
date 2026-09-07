@@ -764,6 +764,36 @@ let comboSelections = {
 
 const TRADITIONAL_SABORES = [1, 2, 3, 6, 7, 8, 9, 10, 11, 12, 14];
 const SWEET_SABORES = [26, 27, 28, 29, 30, 32, 34, 35, 36, 37];
+const COMBO_BORDER_SIZES = {
+    individual: 'P',
+    casal: 'M',
+    familia: 'G',
+    perfeito: 'G'
+};
+const COMBO_BORDER_IMAGES = {
+    catupiry: 'assets/catupiry.webp',
+    catupiry_calabresa: 'assets/catupirycalabresa.webp',
+    chocolate: 'assets/chocolate.webp',
+    cheddar: 'assets/cheddar.webp',
+    cream_cheese: 'assets/creamcheese.webp'
+};
+
+function getComboBorderPrice() {
+    const border = BORDAS.find(item => item.id === comboSelections.border);
+    const size = COMBO_BORDER_SIZES[currentCombo.id];
+    return border && size ? border.prices[size] : 0;
+}
+
+function getComboBorder() {
+    return BORDAS.find(item => item.id === comboSelections.border);
+}
+
+function updateComboPrice() {
+    const priceDisplay = document.getElementById('combo-modal-price');
+    if (priceDisplay && currentCombo) {
+        priceDisplay.textContent = formatCurrency(currentCombo.price + getComboBorderPrice());
+    }
+}
 
 function openComboModal(combo) {
     currentCombo = combo;
@@ -793,7 +823,7 @@ function renderComboStep() {
     const summaryContainer = document.getElementById('combo-selection-summary-container');
     const priceDisplay = document.getElementById('combo-modal-price');
 
-    priceDisplay.textContent = formatCurrency(currentCombo.price);
+    updateComboPrice();
 
     if (comboStep === 1) {
         backBtn.classList.add('hidden');
@@ -838,6 +868,51 @@ function renderComboStep() {
                 </div>
             </div>
         `;
+    } else if (comboStep === 4) {
+        backBtn.classList.remove('hidden');
+        summaryContainer.classList.remove('hidden');
+        nextText.textContent = "Adicionar ao pedido";
+        nextIcon.setAttribute('data-lucide', 'shopping-cart');
+        nextBtn.disabled = false;
+
+        const comboBorderSize = COMBO_BORDER_SIZES[currentCombo.id];
+        content.innerHTML = `
+            <div class="animate-in fade-in slide-in-from-right-4 duration-300 min-h-[420px] flex flex-col justify-center px-6 sm:px-10 pt-20 pb-10 sm:pt-24" style="padding-top: 1rem;">
+                <div class="text-center mb-6">
+                    <div class="mx-auto mb-2 mt-10 flex h-20 w-20 items-center justify-center rounded-full bg-orange-100 text-orange-600">
+                        <i data-lucide="pizza" class="h-10 w-10"></i>
+                    </div>
+                    <h4 class="text-2xl font-black uppercase tracking-tight text-slate-800">Personalize sua pizza</h4>
+                    <p class="mt-3 text-sm leading-relaxed text-slate-500">Escolha uma borda recheada para deixar seu combo ainda mais especial.</p>
+                </div>
+                <div class="rounded-3xl border-2 border-orange-100 bg-orange-50 p-5 sm:p-7 shadow-sm">
+                    <p class="mb-1 text-center text-xs font-black uppercase tracking-[2px] text-orange-700">Borda recheada (opcional)</p>
+                    <div class="space-y-3">
+                        ${BORDAS.map(border => {
+                            const isSelected = comboSelections.border === border.id;
+                            const priceLabel = `+ ${formatCurrency(border.prices[comboBorderSize])}`;
+                            const image = COMBO_BORDER_IMAGES[border.id];
+                            const borderName = border.id === 'sem_borda'
+                                ? 'Sem borda (<strong>Incluso</strong>)'
+                                : `Borda de ${border.name}`;
+
+                            return `
+                                <button type="button" onclick="selectComboBorder('${border.id}')"
+                                    class="flex min-h-24 w-full items-center justify-between gap-4 rounded-2xl border-2 bg-white px-4 py-3 text-left transition-all ${isSelected ? 'border-orange-500 bg-orange-50 shadow-md' : 'border-orange-100 hover:border-orange-300'}">
+                                    <span class="flex min-w-0 flex-col">
+                                        <span class="text-sm font-black text-slate-800">${borderName}</span>
+                                        ${border.id !== 'sem_borda' ? `<span class="mt-1 text-xs font-bold text-orange-600">${priceLabel}</span>` : ''}
+                                    </span>
+                                    ${image ? `<img src="${image}" alt="${border.name}" class="h-16 w-24 rounded-xl object-cover" loading="lazy">` : '<span class="flex h-16 w-24 items-center justify-center rounded-xl bg-slate-100 text-xs font-bold text-slate-400">Sem borda</span>'}
+                                </button>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+        updateComboSummary();
+        updateComboPrice();
     } else {
         // ETAPA DE SELEÇÃO DE SABOR
         backBtn.classList.remove('hidden');
@@ -856,13 +931,8 @@ function renderComboStep() {
             gridTitle = currentCombo.id === 'perfeito' ? "Escolha a salgada" : "Escolha o sabor";
             flavorList = ALL_PIZZA_FLAVORS.filter(p => TRADITIONAL_SABORES.includes(p.id));
 
-            if (currentCombo.id === 'perfeito') {
-                nextText.textContent = "Próximo";
-                nextIcon.setAttribute('data-lucide', 'arrow-right');
-            } else {
-                nextText.textContent = "Adicionar";
-                nextIcon.setAttribute('data-lucide', 'shopping-cart');
-            }
+            nextText.textContent = "Próximo";
+            nextIcon.setAttribute('data-lucide', 'arrow-right');
         }
 
         const flavorsHtml = flavorList.map(pizza => {
@@ -887,22 +957,6 @@ function renderComboStep() {
                 </div>
             `;
         }).join('');
-
-        let borderHtml = "";
-        if (currentCombo.id === 'casal') {
-            borderHtml = `
-                <div class="combo-padding mt-6">
-                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-[2px] mb-2 block">TIPO DE BORDA</label>
-                    <select onchange="selectComboBorder(this.value)" 
-                            class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-700 outline-none focus:border-orange-500 transition-colors">
-                        <option value="sem_borda" ${comboSelections.border === 'sem_borda' || !comboSelections.border ? 'selected' : ''}>Sem Borda Recheada</option>
-                        <option value="cream_cheese" ${comboSelections.border === 'cream_cheese' ? 'selected' : ''}>Borda de Cream Cheese</option>
-                        <option value="catupiry" ${comboSelections.border === 'catupiry' ? 'selected' : ''}>Borda de Catupiry</option>
-                        <option value="cheddar" ${comboSelections.border === 'cheddar' ? 'selected' : ''}>Borda de Cheddar</option>
-                    </select>
-                </div>
-            `;
-        }
 
         let drinkHtml = "";
         const isCasal = currentCombo.id === 'casal';
@@ -939,11 +993,11 @@ function renderComboStep() {
                 <div class="combo-padding grid grid-cols-2 gap-4">
                     ${flavorsHtml}
                 </div>
-                ${borderHtml}
                 ${drinkHtml}
             </div>
         `;
         updateComboSummary();
+        updateComboPrice();
     }
 
     if (window.lucide) lucide.createIcons();
@@ -954,21 +1008,33 @@ function nextComboStep() {
     if (comboStep === 1) {
         comboStep = 2;
         renderComboStep();
-    } else {
-        // Validação de finalização
-        if (currentCombo.id === 'perfeito' && comboStep === 2) {
-            if (comboSelections.flavors.length === 0) return alert('Escolha a pizza salgada!');
+    } else if (comboStep === 2) {
+        if (comboSelections.flavors.length === 0) return alert('Escolha o sabor da pizza!');
+        if (currentCombo.id === 'individual') {
+            comboStep = 4;
+            renderComboStep();
+        } else if (currentCombo.id === 'perfeito') {
             comboStep = 3;
             renderComboStep();
         } else {
-            addComboToCart();
+            if (!comboSelections.drink) return alert('Escolha o refrigerante!');
+            comboStep = 4;
+            renderComboStep();
         }
+    } else if (comboStep === 3) {
+        if (currentCombo.id === 'perfeito' && (!comboSelections.sweetFlavor || !comboSelections.drink)) {
+            return alert(!comboSelections.sweetFlavor ? 'Escolha a pizza doce!' : 'Escolha o refrigerante!');
+        }
+        comboStep = 4;
+        renderComboStep();
+    } else {
+        addComboToCart();
     }
 }
 
 function prevComboStep() {
     if (comboStep > 1) {
-        comboStep--;
+        comboStep = comboStep === 4 && currentCombo.id !== 'perfeito' ? 2 : comboStep - 1;
         renderComboStep();
     }
 }
@@ -1127,9 +1193,14 @@ function addComboToCart() {
         }
     }
 
+    const selectedBorder = getComboBorder();
+    if (selectedBorder && selectedBorder.id !== 'sem_borda') {
+        details += ` • Borda: ${selectedBorder.name}`;
+    }
+
     const item = {
         name: finalName,
-        price: currentCombo.price,
+        price: currentCombo.price + getComboBorderPrice(),
         details: details,
         type: 'combo',
         isCombo: true
