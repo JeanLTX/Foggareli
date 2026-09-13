@@ -779,6 +779,8 @@ const COMBO_BORDER_IMAGES = {
 };
 
 function getComboBorderPrice() {
+    if (currentCombo.id === 'casal') return 0;
+
     const border = BORDAS.find(item => item.id === comboSelections.border);
     const size = COMBO_BORDER_SIZES[currentCombo.id];
     return border && size ? border.prices[size] : 0;
@@ -888,12 +890,14 @@ function renderComboStep() {
                 <div class="rounded-3xl border-2 border-orange-100 bg-orange-50 p-5 sm:p-7 shadow-sm">
                     <p class="mb-1 text-center text-xs font-black uppercase tracking-[2px] text-orange-700">Borda recheada (opcional)</p>
                     <div class="space-y-3">
-                        ${BORDAS.map(border => {
+                        ${BORDAS.filter(border => currentCombo.id !== 'casal' || !['chocolate', 'catupiry_calabresa'].includes(border.id)).map(border => {
                             const isSelected = comboSelections.border === border.id;
-                            const priceLabel = `+ ${formatCurrency(border.prices[comboBorderSize])}`;
+                            const priceLabel = currentCombo.id === 'casal'
+                                ? 'Grátis no combo'
+                                : `+ ${formatCurrency(border.prices[comboBorderSize])}`;
                             const image = COMBO_BORDER_IMAGES[border.id];
                             const borderName = border.id === 'sem_borda'
-                                ? 'Sem borda (<strong>Incluso</strong>)'
+                                ? 'Sem borda'
                                 : `Borda de ${border.name}`;
 
                             return `
@@ -952,7 +956,7 @@ function renderComboStep() {
                         <span class="flavor-card-name !text-[11px]">${pizza.name}</span>
                         <span class="flavor-card-desc !text-[9px] !-webkit-line-clamp-1">${pizza.desc}</span>
                     </div>
-                    <div class="selection-badge selection-badge-1">${currentCombo.id === 'familia' || (currentCombo.id === 'perfeito' && !isPerfeitoStep2) ? '1º SABOR' : 'Sabor Escolhido'}</div>
+                    <div class="selection-badge selection-badge-1">${['casal', 'familia'].includes(currentCombo.id) || (currentCombo.id === 'perfeito' && !isPerfeitoStep2) ? '1º SABOR' : 'Sabor Escolhido'}</div>
                     <div class="selection-badge selection-badge-2">2º SABOR</div>
                 </div>
             `;
@@ -1043,7 +1047,7 @@ function selectComboFlavor(id, isSweet) {
     if (isSweet) {
         comboSelections.sweetFlavor = id;
     } else {
-        const canHalf = currentCombo.id === 'familia' || currentCombo.id === 'perfeito';
+        const canHalf = ['casal', 'familia', 'perfeito'].includes(currentCombo.id);
         const max = canHalf ? 2 : 1;
 
         if (comboSelections.flavors.includes(id)) {
@@ -1089,10 +1093,13 @@ function updateComboSummary() {
         const hasDrink = !!comboSelections.drink;
 
         if (hasFlavor && hasDrink) {
-            const p = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[0]);
+            const p1 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[0]);
             const b = comboSelections.border === 'sem_borda' ? 'S/ Borda' : comboSelections.border.replace('_', ' ').toUpperCase();
             const d = comboSelections.drink === 'coca-cola' ? 'Coca' : 'Guaraná';
-            text += `${p.name} | ${b} | ${d}`;
+            const flavors = comboSelections.flavors.length === 1
+                ? p1.name
+                : `${p1.name} / ${ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[1]).name}`;
+            text += `${flavors} | ${b} | ${d}`;
             ready = true;
         } else if (!hasFlavor) {
             text += "Escolha o sabor...";
@@ -1168,10 +1175,13 @@ function addComboToCart() {
         const p = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[0]);
         details = `Sabor: ${p.name}`;
     } else if (currentCombo.id === 'casal') {
-        const p = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[0]);
+        const p1 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[0]);
         const bLabel = comboSelections.border === 'sem_borda' ? 'Sem Borda' : comboSelections.border.replace('_', ' ');
         const d = comboSelections.drink === 'coca-cola' ? 'Coca-Cola' : 'Guaraná';
-        details = `Sabor: ${p.name} • Borda: ${bLabel} • Refri: ${d} 1L`;
+        const flavorDetails = comboSelections.flavors.length === 1
+            ? `Sabor: ${p1.name}`
+            : `Sabores: ${p1.name} / ${ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[1]).name}`;
+        details = `${flavorDetails} • Borda: ${bLabel} • Refri: ${d} 1L`;
     } else if (currentCombo.id === 'familia') {
         const p1 = ALL_PIZZA_FLAVORS.find(f => f.id === comboSelections.flavors[0]);
         const d = comboSelections.drink === 'fanta' ? 'Fanta' : 'Guaraná';
