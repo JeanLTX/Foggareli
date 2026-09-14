@@ -590,7 +590,11 @@ function openHalfModal() {
     setHalfSize('G');
     updateHalfPrice();
 
-    if (window.lucide) lucide.createIcons();
+    if (window.lucide) {
+        lucide.createIcons({
+            root: document.getElementById('half-modal')
+        });
+    }
 }
 
 function closeHalfModal() {
@@ -825,6 +829,12 @@ function renderComboStep() {
     const summaryContainer = document.getElementById('combo-selection-summary-container');
     const priceDisplay = document.getElementById('combo-modal-price');
 
+    content.onclick = event => {
+        const flavorCard = event.target.closest('.flavor-card');
+        if (!flavorCard || !content.contains(flavorCard)) return;
+        selectComboFlavor(Number(flavorCard.dataset.flavorId), flavorCard.dataset.sweet === 'true');
+    };
+
     updateComboPrice();
 
     if (comboStep === 1) {
@@ -947,7 +957,7 @@ function renderComboStep() {
             const selectionIndex = comboSelections.flavors.indexOf(pizza.id);
 
             return `
-                <div onclick="selectComboFlavor(${pizza.id}, ${isPerfeitoStep2})" 
+                 <button type="button" data-flavor-id="${pizza.id}" data-sweet="${isPerfeitoStep2}"
                      class="flavor-card ${isSelected ? (selectionIndex === 1 ? 'selected-2' : 'selected-1') : ''} !border-2">
                     <div class="flavor-card-img-container !h-24">
                         <img src="${pizza.img}" alt="${pizza.name}" class="flavor-card-img" onerror="this.src='assets/logofoggareli.webp'">
@@ -958,7 +968,7 @@ function renderComboStep() {
                     </div>
                     <div class="selection-badge selection-badge-1">${['casal', 'familia'].includes(currentCombo.id) || (currentCombo.id === 'perfeito' && !isPerfeitoStep2) ? '1º SABOR' : 'Sabor Escolhido'}</div>
                     <div class="selection-badge selection-badge-2">2º SABOR</div>
-                </div>
+                </button>
             `;
         }).join('');
 
@@ -1004,7 +1014,11 @@ function renderComboStep() {
         updateComboPrice();
     }
 
-    if (window.lucide) lucide.createIcons();
+    if (window.lucide) {
+        lucide.createIcons({
+            root: document.getElementById('combo-modal')
+        });
+    }
 }
 
 
@@ -1061,7 +1075,27 @@ function selectComboFlavor(id, isSweet) {
             }
         }
     }
-    renderComboStep();
+    syncComboFlavorSelection(isSweet);
+}
+
+function syncComboFlavorSelection(isSweet) {
+    document.querySelectorAll('#combo-modal-content .flavor-card').forEach(card => {
+        card.classList.remove('selected-1', 'selected-2');
+    });
+
+    comboSelections.flavors.forEach((flavorId, index) => {
+        const flavorCards = document.querySelectorAll('#combo-modal-content .flavor-card');
+        const card = [...flavorCards].find(item => Number(item.dataset.flavorId) === flavorId);
+        if (card) card.classList.add(index === 1 ? 'selected-2' : 'selected-1');
+    });
+
+    if (isSweet && comboSelections.sweetFlavor) {
+        const sweetCard = [...document.querySelectorAll('#combo-modal-content .flavor-card')]
+            .find(card => Number(card.dataset.flavorId) === comboSelections.sweetFlavor);
+        if (sweetCard) sweetCard.classList.add('selected-1');
+    }
+
+    updateComboSummary();
 }
 
 function selectComboBorder(id) {

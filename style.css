@@ -1227,7 +1227,7 @@ h1, h2, h3, .serif-font {
   width: 40px;
   height: 100%;
   background: linear-gradient(to right, transparent 0%, #ffffff 100%);
-  pointer-events: none;
+    pointer-events: none;
   z-index: 10;
 }
 .category-tab {
@@ -2049,6 +2049,26 @@ body.modal-open #cart-fab {
     overflow: hidden;
 }
 
+.flavor-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    -webkit-user-drag: none;
+    user-select: none;
+}
+
+#combo-modal img,
+#half-modal img {
+    -webkit-user-drag: none;
+    user-select: none;
+}
+
+#combo-modal button img,
+#combo-modal .flavor-card img,
+#half-modal .flavor-card img {
+    pointer-events: none;
+}
+
 .flavor-card-body {
     padding: 0.5rem;
     text-align: center;
@@ -2079,6 +2099,7 @@ body.modal-open #cart-fab {
     bottom: 0;
     left: 0;
     right: 0;
+  pointer-events: none;
     padding: 4px 0;
     font-size: 0.6rem;
     font-weight: 900;
