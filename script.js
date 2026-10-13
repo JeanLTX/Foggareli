@@ -290,7 +290,7 @@ const COMBOS = [
         name: "Combo Individual",
         badge: "Individual",
         desc: "A simplicidade que conquista no primeiro pedaço. 🍕 Pizza na lenha, massa artesanal + refri gelado, combinação perfeita!",
-        itens: ["Pizza 25cm · 4 fatias", "Guaraná Antarctica Lata"],
+        itens: ["Pizza 25cm · 6 fatias", "Guaraná Antarctica Lata"],
         price: 49.90,
         obs: "Válido para pizzas tradicionais, exceto Carne Seca e Atum.",
         img: "assets/comboindividual.webp",
@@ -301,7 +301,7 @@ const COMBOS = [
         name: "Combo Casal",
         badge: "Casal",
         desc: "Na medida! nem muito, nem pouco! 🍕💕 Pizza na lenha, massa artesanal e sabor sem igual!",
-        itens: ["Pizza 30cm · 6 fatias", "Refrigerante 1L", "Borda recheada já inclusa: cream cheese, catupiry ou cheddar"],
+        itens: ["Pizza 30cm · 8 fatias", "Refrigerante 1L", "Borda recheada já inclusa: cream cheese, catupiry ou cheddar"],
         price: 75.90,
         obs: "Válido para pizzas tradicionais, exceto Carne Seca e Atum.",
         img: "assets/combocasal.webp",
@@ -312,7 +312,7 @@ const COMBOS = [
         name: "Combo Família",
         badge: "Família",
         desc: "Combo Família que resolve! 👨‍👩‍👧‍👦 Pizza na lenha 🪵, massa artesanal e sabor Incomparável!",
-        itens: ["Pizza 40cm · 10 fatias", "Refrigerante 2L (Fanta ou Guaraná Antarctica)"],
+        itens: ["Pizza 40cm · 12 fatias", "Refrigerante 2L (Fanta ou Guaraná Antarctica)"],
         price: 89.90,
         obs: "Válido para pizzas tradicionais, exceto Carne Seca e Atum.",
         img: "assets/combofamilia2.webp",
@@ -323,7 +323,7 @@ const COMBOS = [
         name: "Combo Perfeito",
         badge: "Perfeito",
         desc: "Experiência completa 🍕✨ Na lenha, massa artesanal. Não fique na vontade! 😋 Quer garantir o seu?",
-        itens: ["Pizza 40cm · 10 fatias", "Pizza doce 25cm · 4 fatias", "Refrigerante 2L (Fanta ou Guaraná Antarctica)"],
+        itens: ["Pizza 40cm · 12 fatias", "Pizza doce 25cm · 6 fatias", "Refrigerante 2L (Fanta ou Guaraná Antarctica)"],
         price: 115.90,
         obs: "Válido para pizzas tradicionais, exceto Carne Seca e Atum.",
         img: "assets/comboperfeito2.webp",
@@ -735,7 +735,7 @@ function addHalfToCart() {
     const bordaPrice = bordaObj ? (bordaObj.prices[halfPizzaState.size] || 0) : 0;
     const total = basePrice + bordaPrice;
 
-    const sizeName = halfPizzaState.size === 'M' ? 'Média' : 'Grande';
+    const sizeName = halfPizzaState.size === 'M' ? 'Média' : 'Família';
     const borderDisplay = bordaObj && bordaObj.id !== 'sem_borda' ? `Borda de ${bordaObj.name}` : 'Sem Borda';
 
     const item = {
@@ -1286,9 +1286,9 @@ function openProductModal(item) {
 
         // Renderizar tamanhos
         const sizes = {
-            P: { label: 'Pequena', size: '25cm' },
-            M: { label: 'Média', size: '30cm' },
-            G: { label: 'Grande', size: '40cm' }
+            P: { label: 'Pequena', size: '25cm · 6 fatias' },
+            M: { label: 'Média', size: '30cm · 8 fatias' },
+            G: { label: 'Família', size: '40cm · 12 fatias' }
         };
 
         const sizesGrid = document.getElementById('modal-sizes-grid');
@@ -1406,7 +1406,7 @@ document.getElementById('modal-add-btn').onclick = () => {
         const borderObj = BORDAS.find(b => b.id === borderId);
         const borderDisplay = borderObj.id !== 'sem_borda' ? `Borda de ${borderObj.name}` : 'Sem Borda';
 
-        const sizesNames = { P: 'Pequena', M: 'Média', G: 'Grande' };
+        const sizesNames = { P: 'Pequena', M: 'Média', G: 'Família' };
 
         let finalPrice = currentModalItem.prices[currentModalSize];
         if (borderObj) finalPrice += borderObj.prices[currentModalSize];
@@ -1445,13 +1445,13 @@ const renderHalfCard = () => {
         <div class="flex-1 relative z-10 text-center md:text-left">
             <span class="bg-white/20 text-[10px] md:text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-4 inline-block">Funcionalidade Exclusiva</span>
             <h3 class="text-2xl md:text-4xl font-black mb-3 font-playfair tracking-tight">CRIAR PIZZA MEIO A MEIO</h3>
-            <p class="text-sm md:text-base opacity-90 max-w-md mb-6 leading-relaxed">Não consegue decidir? Escolha dois dos seus sabores favoritos em uma única pizza Média ou Grande.</p>
+            <p class="text-sm md:text-base opacity-90 max-w-md mb-6 leading-relaxed">Não consegue decidir? Escolha dois dos seus sabores favoritos em uma única pizza Média ou Família.</p>
             <div class="flex flex-wrap justify-center md:justify-start gap-3">
                 <span class="flex items-center gap-2 bg-black/10 px-4 py-2 rounded-xl text-xs font-bold border border-white/10 italic">
-                    <i data-lucide="check-circle-2" class="w-4 h-4"></i> Média 6 Fatias
+                    <i data-lucide="check-circle-2" class="w-4 h-4"></i> Média 8 Fatias
                 </span>
                 <span class="flex items-center gap-2 bg-black/10 px-4 py-2 rounded-xl text-xs font-bold border border-white/10 italic">
-                    <i data-lucide="check-circle-2" class="w-4 h-4"></i> Grande 10 Fatias
+                    <i data-lucide="check-circle-2" class="w-4 h-4"></i> Família 12 Fatias
                 </span>
             </div>
         </div>
