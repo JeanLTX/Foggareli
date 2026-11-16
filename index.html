@@ -32,7 +32,7 @@
 
     <!-- Google Fonts -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Fraunces:opsz,wght@9..144,700&family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Fraunces:opsz,wght@9..144,700;9..144,800&family=Playfair+Display:wght@400;500;600;700;800&family=Lato:wght@300;400;700&display=swap"
         rel="stylesheet">
 </head>
 
@@ -99,6 +99,25 @@
                 <!-- Botões gerados via JS -->
             </div>
         </div>
+
+        <!-- PROMOÇÃO DE ANIVERSÁRIO: exibida somente entre 11 e 30/11/2026 -->
+        <section id="promo-anniversary" class="foggareli-promo-card mb-8 hidden" aria-label="Promoção de aniversário Foggareli">
+            <div class="foggareli-promo-content">
+                <div class="foggareli-promo-brand" aria-hidden="true">
+                    <img src="assets/logofoggareli-mark.webp" alt="" width="64" height="64" loading="lazy" decoding="async">
+                </div>
+                <div class="foggareli-promo-copy">
+                    <p class="foggareli-promo-date">11 a 30 de novembro</p>
+                    <h2>20% de desconto todos os dias!</h2>
+                    <p>Em todo o cardápio, exceto combos. E todo sábado, borda recheada grátis.</p>
+                    <p class="foggareli-promo-details">Escolha entre requeijão, Catupiry, cheddar ou chocolate. Promoção de borda também não válida para combos.</p>
+                </div>
+                <button type="button" class="foggareli-promo-button" onclick="scrollToCategory('salgadas')">
+                    <span>Ver cardápio</span>
+                    <i data-lucide="arrow-right" aria-hidden="true"></i>
+                </button>
+            </div>
+        </section>
 
         <!-- CONTAINER DE PIZZAS -->
         <div id="pizzas-container" class="space-y-12">
@@ -253,7 +272,7 @@
 
                 <div class="p-6">
                     <div class="mb-6">
-                        <h2 id="modal-name" class="text-2xl font-bold text-gray-900 mb-2 font-serif"></h2>
+                        <h2 id="modal-name" class="menu-modal-title text-2xl font-bold text-gray-900 mb-2 font-serif"></h2>
                         <p id="modal-desc" class="text-gray-600 leading-relaxed"></p>
                     </div>
 
@@ -346,7 +365,7 @@
             <!-- Header Vermelho -->
             <div class="modal-header-fixed">
                 <div>
-                    <h2 class="font-black font-sans m-0 p-0 text-white">Montar Meio a Meio</h2>
+                    <h2 class="menu-modal-title font-black font-sans m-0 p-0 text-white">Montar Meio a Meio</h2>
                     <p class="font-medium m-0 p-0 text-white/90 text-xs">Toque em dois sabores para selecionar</p>
                 </div>
                 <button onclick="closeHalfModal()" class="close-white-btn p-2">

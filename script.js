@@ -386,6 +386,192 @@ const saveCart = () => {
 
 const formatCurrency = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
 
+// Horário oficial da pizzaria: mantém a regra independente do fuso do aparelho.
+function getFoggareliBusinessClock(now = new Date()) {
+    const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Sao_Paulo', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
+    }).formatToParts(now);
+    const values = Object.fromEntries(parts.map(part => [part.type, part.value]));
+    const weekday = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 }[values.weekday];
+    return { day: weekday, minutes: Number(values.hour) * 60 + Number(values.minute) };
+}
+
+function isSaturdayBorderPromotionActive(now = new Date()) {
+    return getFoggareliBusinessClock(now).day === 6;
+}
+
+const SATURDAY_FREE_BORDER_IDS = new Set(['requeijao', 'catupiry', 'cheddar', 'chocolate']);
+
+function getPizzaBorders(now = new Date()) {
+    const borders = [...BORDAS];
+    if (isSaturdayBorderPromotionActive(now)) {
+        borders.splice(1, 0, { id: 'requeijao', name: 'Requeijão', prices: { P: 0, M: 0, G: 0 } });
+    }
+    return borders;
+}
+
+function getPizzaBorderById(id) {
+    if (id === 'requeijao' && isSaturdayBorderPromotionActive()) {
+        return { id: 'requeijao', name: 'Requeijão', prices: { P: 0, M: 0, G: 0 } };
+    }
+    return BORDAS.find(border => border.id === id) || null;
+}
+
+function getBorderPrice(border, size, now = new Date()) {
+    if (isSaturdayBorderPromotionActive(now) && SATURDAY_FREE_BORDER_IDS.has(border.id)) return 0;
+    return border.prices[size] || 0;
+}
+
+function isNovemberDiscountActive(now = new Date()) {
+    const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Sao_Paulo', year: 'numeric', month: '2-digit', day: '2-digit'
+    }).formatToParts(now);
+    const values = Object.fromEntries(parts.map(part => [part.type, part.value]));
+    const dateKey = Number(`${values.year}${values.month}${values.day}`);
+    return dateKey >= 20261111 && dateKey <= 20261130;
+}
+
+function getPromotionalPrice(price, itemType, now = new Date()) {
+    const originalPrice = Number(price) || 0;
+    if (itemType === 'combo' || !isNovemberDiscountActive(now)) return originalPrice;
+    return Number((originalPrice * 0.8).toFixed(2));
+}
+
+function formatPriceWithPromotion(price, itemType, now = new Date(), showOriginalPrice = true) {
+    const originalPrice = Number(price) || 0;
+    const finalPrice = getPromotionalPrice(originalPrice, itemType, now);
+    if (finalPrice === originalPrice) return formatCurrency(originalPrice);
+
+    const originalPriceDisplay = showOriginalPrice
+        ? `<span class="text-xs text-gray-400 line-through font-medium">${formatCurrency(originalPrice)}</span>`
+        : '';
+
+    return `<span class="inline-flex flex-wrap items-center gap-2">${originalPriceDisplay}<span class="text-base font-black text-orange-600">${formatCurrency(finalPrice)}</span><span class="rounded-full bg-red-100 text-red-700 text-[9px] font-black px-2 py-0.5">20% OFF</span></span>`;
+}
+function formatCardPriceDisplay(price, itemType, showStartingLabel = true, now = new Date()) {
+    const originalPrice = Number(price) || 0;
+    const finalPrice = getPromotionalPrice(originalPrice, itemType, now);
+    const startingLabel = showStartingLabel
+        ? '<span class="pizza-card-starting-label">A partir de</span>'
+        : '';
+
+    if (finalPrice === originalPrice) {
+        return `<div class="pizza-card-price-stack">
+            <div class="pizza-card-original-row">
+                ${startingLabel}
+                <span class="pizza-card-regular-price">${formatCurrency(originalPrice)}</span>
+            </div>
+        </div>`;
+    }
+
+    return `<div class="pizza-card-price-stack">
+        <div class="pizza-card-original-row">
+            ${startingLabel}
+            <span class="pizza-card-original-price">${formatCurrency(originalPrice)}</span>
+        </div>
+        <div class="pizza-card-promo-row">
+            <span class="pizza-card-discounted-price">${formatCurrency(finalPrice)}</span>
+            <span class="pizza-card-discount-badge">20% OFF</span>
+        </div>
+    </div>`;
+}
+
+// Promo reminder appears on every page entry or reload during the campaign.
+const PROMO_REMINDER_DELAY = 4500;
+const PROMO_REMINDER_DURATION = 5000;
+const PROMO_REMINDER_TEST_MODE = new URLSearchParams(window.location.search).get('promoTest') === '1';
+let activePromoNotification = null;
+
+const showPromoReminder = (force = false) => {
+    if (activePromoNotification?.isConnected) return;
+    if (!isNovemberDiscountActive() && !force) return;
+
+    const notification = document.createElement('aside');
+    notification.className = 'foggareli-promo-notification';
+    notification.classList.toggle('is-on-closed-day', isClosedToday());
+    notification.setAttribute('role', 'status');
+    notification.setAttribute('aria-live', 'polite');
+    notification.innerHTML = `<div class="foggareli-promo-notification-brand" aria-hidden="true"><img src="assets/logofoggareli-mark.webp" alt="" width="44" height="44"></div>
+        <div class="foggareli-promo-notification-content"><strong>20% OFF na Foggareli</strong><span>Até 30/11, em todo o cardápio (exceto combos). Sábados com borda grátis!</span></div>
+        <button type="button" class="foggareli-promo-notification-close" aria-label="Fechar aviso"><i data-lucide="x"></i></button>`;
+
+    document.body.appendChild(notification);
+    activePromoNotification = notification;
+
+    if (window.lucide) lucide.createIcons({ root: notification });
+
+    let closeTimer = null;
+    let removeTimer = null;
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    const closeNotification = (exitX = '0px', exitY = '-135%') => {
+        if (closeTimer) clearTimeout(closeTimer);
+        if (removeTimer) clearTimeout(removeTimer);
+
+        notification.classList.remove('is-visible', 'is-dragging');
+        notification.classList.add('is-leaving');
+        notification.style.setProperty('--foggareli-promo-exit-x', exitX);
+        notification.style.setProperty('--foggareli-promo-exit-y', exitY);
+        notification.style.removeProperty('--foggareli-promo-drag-x');
+        notification.style.removeProperty('--foggareli-promo-drag-y');
+        removeTimer = setTimeout(() => {
+            notification.remove();
+            if (activePromoNotification === notification) activePromoNotification = null;
+        }, 320);
+    };
+
+    notification.querySelector('.foggareli-promo-notification-close')?.addEventListener('click', () => closeNotification());
+
+    notification.addEventListener('touchstart', (event) => {
+        const touch = event.touches[0];
+        if (!touch) return;
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+    }, { passive: true });
+
+    notification.addEventListener('touchmove', (event) => {
+        const touch = event.touches[0];
+        if (!touch) return;
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+        if (Math.max(Math.abs(deltaX), Math.abs(deltaY)) < 8) return;
+
+        event.preventDefault();
+        notification.classList.add('is-dragging');
+        notification.style.setProperty('--foggareli-promo-drag-x', `${deltaX}px`);
+        notification.style.setProperty('--foggareli-promo-drag-y', `${deltaY}px`);
+    }, { passive: false });
+
+    notification.addEventListener('touchend', (event) => {
+        const touch = event.changedTouches[0];
+        if (!touch) return;
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+        notification.classList.remove('is-dragging');
+
+        if (Math.max(Math.abs(deltaX), Math.abs(deltaY)) >= 60) {
+            const horizontalSwipe = Math.abs(deltaX) > Math.abs(deltaY);
+            closeNotification(
+                horizontalSwipe ? (deltaX > 0 ? '120vw' : '-120vw') : '0px',
+                horizontalSwipe ? '0px' : (deltaY > 0 ? '120vh' : '-135%')
+            );
+            return;
+        }
+
+        notification.style.removeProperty('--foggareli-promo-drag-x');
+        notification.style.removeProperty('--foggareli-promo-drag-y');
+    }, { passive: true });
+
+    requestAnimationFrame(() => notification.classList.add('is-visible'));
+    closeTimer = setTimeout(() => closeNotification(), PROMO_REMINDER_DURATION);
+};
+
+const schedulePromoReminder = () => {
+    if (!isNovemberDiscountActive() && !PROMO_REMINDER_TEST_MODE) return;
+    window.setTimeout(() => showPromoReminder(PROMO_REMINDER_TEST_MODE), PROMO_REMINDER_DELAY);
+};
+
 const showToast = (msg) => {
     const toast = document.getElementById('toast');
     const msgEl = document.getElementById('toast-message');
@@ -436,7 +622,16 @@ const updateCartItemQuantity = (index, delta) => {
     }
 };
 
-const getCartTotal = () => cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+const getCartItemPrice = (item, now = new Date()) => getPromotionalPrice(item.price, item.type || (item.isCombo ? 'combo' : 'item'), now);
+const getCartOriginalSubtotal = () => cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+const formatCartItemPrice = (item) => {
+    const originalTotal = item.price * item.quantity;
+    const discountedTotal = getCartItemPrice(item) * item.quantity;
+    if (discountedTotal === originalTotal) return formatCurrency(originalTotal);
+    return `<span class="inline-flex flex-wrap items-center justify-end gap-2"><span class="text-xs text-gray-400 line-through font-medium">${formatCurrency(originalTotal)}</span><span class="text-sm font-black text-orange-600">${formatCurrency(discountedTotal)}</span><span class="rounded-full bg-red-100 text-red-700 text-[9px] font-black px-2 py-0.5">20% OFF</span></span>`;
+};
+const getCartTotal = () => cart.reduce((acc, item) => acc + (getCartItemPrice(item) * item.quantity), 0);
+const getCartDiscountTotal = () => cart.reduce((acc, item) => acc + ((item.price - getCartItemPrice(item)) * item.quantity), 0);
 const getDeliveryFee = () => {
     if (!checkoutData.region) return 0;
     const reg = DELIVERY_REGIONS.find(r => r.id === checkoutData.region);
@@ -482,15 +677,13 @@ const renderPizzaCard = (pizza) => {
     card.onclick = () => openProductModal(pizza);
 
     const minPrice = Math.min(...Object.values(pizza.prices));
+    const priceDisplay = formatCardPriceDisplay(minPrice, pizza.type, true);
 
     card.innerHTML = `
         <div class="flex-1 min-w-0">
-            <h3 class="text-base font-bold text-gray-900 mb-1 group-hover:text-orange-600 transition-colors uppercase truncate">${pizza.name}</h3>
+            <h3 class="menu-card-title text-base font-bold text-gray-900 mb-1 group-hover:text-orange-600 transition-colors uppercase truncate">${pizza.name}</h3>
             <p class="text-xs text-gray-500 line-clamp-2 mb-3 leading-relaxed pr-2">${pizza.desc}</p>
-            <div class="flex items-center gap-2">
-                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">A partir de</span>
-                <span class="text-base font-bold text-orange-600">${formatCurrency(minPrice)}</span>
-            </div>
+            <div class="pizza-card-price">${priceDisplay}</div>
         </div>
         <div class="pizza-img-container">
             <img src="${pizza.img}" alt="${pizza.name}" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" 
@@ -507,15 +700,13 @@ const renderDrinkCard = (drink) => {
 
     const hasVariations = drink.prices && typeof drink.prices === 'object';
     const minPrice = hasVariations ? Math.min(...Object.values(drink.prices)) : drink.price;
+    const priceDisplay = formatCardPriceDisplay(minPrice, drink.type, hasVariations);
 
     card.innerHTML = `
         <div class="flex-1 min-w-0">
-            <h3 class="text-base font-bold text-gray-900 mb-1 group-hover:text-orange-600 transition-colors uppercase truncate">${drink.name}</h3>
+            <h3 class="menu-card-title text-base font-bold text-gray-900 mb-1 group-hover:text-orange-600 transition-colors uppercase truncate">${drink.name}</h3>
             <p class="text-xs text-gray-500 line-clamp-2 mb-3 leading-relaxed pr-2">${drink.desc}</p>
-            <div class="flex items-center gap-2">
-                ${hasVariations ? '<span class="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">A partir de</span>' : ''}
-                <span class="text-base font-bold text-orange-600">${formatCurrency(minPrice)}</span>
-            </div>
+            <div class="pizza-card-price">${priceDisplay}</div>
         </div>
         <div class="pizza-img-container">
             <img src="${drink.img}" alt="${drink.name}" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500"
@@ -542,7 +733,7 @@ const renderComboCard = (combo) => {
             <div class="mb-2">
                 <span class="bg-orange-600 text-white text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full uppercase tracking-wide inline-block">${combo.badge}</span>
             </div>
-            <h3 class="text-base sm:text-lg font-bold text-gray-900 mb-1 group-hover:text-orange-600 transition-colors uppercase truncate">${combo.name}</h3>
+            <h3 class="menu-card-title text-base sm:text-lg font-bold text-gray-900 mb-1 group-hover:text-orange-600 transition-colors uppercase truncate">${combo.name}</h3>
             <p class="text-xs sm:text-sm text-gray-500 line-clamp-2 mb-3 leading-relaxed pr-2">${combo.desc}</p>
             <ul class="mb-4 space-y-1.5">
                 ${itemsHtml}
@@ -644,9 +835,12 @@ function renderHalfBorders() {
     const select = document.getElementById('half-border-select');
     if (!select) return;
 
-    select.innerHTML = BORDAS.map(b => `
-        <option value="${b.id}">${b.name}${b.prices[halfPizzaState.size] > 0 ? ` (+ ${formatCurrency(b.prices[halfPizzaState.size])})` : ''}</option>
-    `).join('');
+    const saturdayPromotion = isSaturdayBorderPromotionActive();
+    select.innerHTML = getPizzaBorders().map(b => {
+        const isFreeToday = saturdayPromotion && SATURDAY_FREE_BORDER_IDS.has(b.id);
+        const priceLabel = isFreeToday ? ' (Grátis hoje)' : b.prices[halfPizzaState.size] > 0 ? ` (+ ${formatCurrency(b.prices[halfPizzaState.size])})` : '';
+        return `<option value="${b.id}">${b.name}${priceLabel}</option>`;
+    }).join('');
 
     select.value = halfPizzaState.border;
 }
@@ -703,8 +897,8 @@ function updateHalfPrice() {
         const p2 = halfPizzaState.flavor2.prices[halfPizzaState.size];
         total = Math.max(p1, p2);
 
-        const bordaObj = BORDAS.find(b => b.id === halfPizzaState.border);
-        if (bordaObj) total += (bordaObj.prices[halfPizzaState.size] || 0);
+        const bordaObj = getPizzaBorderById(halfPizzaState.border);
+        if (bordaObj) total += getBorderPrice(bordaObj, halfPizzaState.size);
 
         summary.textContent = `${halfPizzaState.flavor1.name} + ${halfPizzaState.flavor2.name}`;
         summary.classList.remove('text-slate-400');
@@ -722,7 +916,7 @@ function updateHalfPrice() {
     }
 
     const priceDisplay = document.getElementById('half-price-display');
-    if (priceDisplay) priceDisplay.textContent = formatCurrency(total);
+    if (priceDisplay) priceDisplay.innerHTML = formatPriceWithPromotion(total, 'pizza');
 }
 
 function addHalfToCart() {
@@ -731,8 +925,8 @@ function addHalfToCart() {
     const p1 = halfPizzaState.flavor1.prices[halfPizzaState.size];
     const p2 = halfPizzaState.flavor2.prices[halfPizzaState.size];
     const basePrice = Math.max(p1, p2);
-    const bordaObj = BORDAS.find(b => b.id === halfPizzaState.border);
-    const bordaPrice = bordaObj ? (bordaObj.prices[halfPizzaState.size] || 0) : 0;
+    const bordaObj = getPizzaBorderById(halfPizzaState.border);
+    const bordaPrice = bordaObj ? getBorderPrice(bordaObj, halfPizzaState.size) : 0;
     const total = basePrice + bordaPrice;
 
     const sizeName = halfPizzaState.size === 'M' ? 'Média' : 'Família';
@@ -860,7 +1054,7 @@ function renderComboStep() {
 
                 <div class="combo-padding space-y-12" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
                     <div class="space-y-4">
-                        <h3 class="text-3xl font-black text-slate-800 uppercase tracking-tight">${currentCombo.name}</h3>
+                        <h3 class="menu-modal-title text-3xl font-black text-slate-800 uppercase tracking-tight">${currentCombo.name}</h3>
                         <p class="text-base text-slate-500 leading-relaxed font-medium">${currentCombo.desc}</p>
                     </div>
 
@@ -894,7 +1088,7 @@ function renderComboStep() {
                     <div class="mx-auto mb-2 mt-10 flex h-20 w-20 items-center justify-center rounded-full bg-orange-100 text-orange-600">
                         <i data-lucide="pizza" class="h-10 w-10"></i>
                     </div>
-                    <h4 class="text-2xl font-black uppercase tracking-tight text-slate-800">Personalize sua pizza</h4>
+                    <h4 class="menu-modal-title text-2xl font-black uppercase tracking-tight text-slate-800">Personalize sua pizza</h4>
                     <p class="mt-3 text-sm leading-relaxed text-slate-500">Escolha uma borda recheada para deixar seu combo ainda mais especial.</p>
                 </div>
                 <div class="rounded-3xl border-2 border-orange-100 bg-orange-50 p-5 sm:p-7 shadow-sm">
@@ -1003,7 +1197,7 @@ function renderComboStep() {
 
         content.innerHTML = `
             <div class="animate-in fade-in slide-in-from-right-4 duration-300" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
-                <h4 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 text-center">${gridTitle}</h4>
+                <h4 class="menu-modal-title text-xs font-black text-slate-400 uppercase tracking-widest mb-6 text-center">${gridTitle}</h4>
                 <div class="combo-padding grid grid-cols-2 gap-4">
                     ${flavorsHtml}
                 </div>
@@ -1370,9 +1564,12 @@ function renderModalBorders() {
 
     const currentBorder = select.value || 'sem_borda';
 
-    select.innerHTML = BORDAS.map(b => `
-        <option value="${b.id}">${b.name}${b.prices[currentModalSize] > 0 ? ` (+ ${formatCurrency(b.prices[currentModalSize])})` : ''}</option>
-    `).join('');
+    const saturdayPromotion = isSaturdayBorderPromotionActive();
+    select.innerHTML = getPizzaBorders().map(b => {
+        const isFreeToday = saturdayPromotion && SATURDAY_FREE_BORDER_IDS.has(b.id);
+        const priceLabel = isFreeToday ? ' (Grátis hoje)' : b.prices[currentModalSize] > 0 ? ` (+ ${formatCurrency(b.prices[currentModalSize])})` : '';
+        return `<option value="${b.id}">${b.name}${priceLabel}</option>`;
+    }).join('');
 
     select.value = currentBorder;
 }
@@ -1384,15 +1581,15 @@ function updateModalPrice() {
     if (currentModalItem.type === 'pizza') {
         price = currentModalItem.prices[currentModalSize];
         const borderId = document.getElementById('modal-border-select').value;
-        const border = BORDAS.find(b => b.id === borderId);
-        if (border) price += border.prices[currentModalSize];
+        const border = getPizzaBorderById(borderId);
+        if (border) price += getBorderPrice(border, currentModalSize);
     } else if (currentModalItem.prices && typeof currentModalItem.prices === 'object') {
         price = currentModalItem.prices[currentModalSize];
     } else {
         price = currentModalItem.price;
     }
 
-    document.getElementById('modal-price-display').textContent = formatCurrency(price);
+    document.getElementById('modal-price-display').innerHTML = formatPriceWithPromotion(price, currentModalItem.type, new Date(), false);
 }
 
 document.getElementById('modal-add-btn').onclick = () => {
@@ -1403,13 +1600,13 @@ document.getElementById('modal-add-btn').onclick = () => {
 
     if (currentModalItem.type === 'pizza') {
         const borderId = document.getElementById('modal-border-select').value;
-        const borderObj = BORDAS.find(b => b.id === borderId);
-        const borderDisplay = borderObj.id !== 'sem_borda' ? `Borda de ${borderObj.name}` : 'Sem Borda';
+        const borderObj = getPizzaBorderById(borderId);
+        const borderDisplay = borderObj && borderObj.id !== 'sem_borda' ? `Borda de ${borderObj.name}` : 'Sem Borda';
 
         const sizesNames = { P: 'Pequena', M: 'Média', G: 'Família' };
 
         let finalPrice = currentModalItem.prices[currentModalSize];
-        if (borderObj) finalPrice += borderObj.prices[currentModalSize];
+        if (borderObj) finalPrice += getBorderPrice(borderObj, currentModalSize);
 
         itemToAdd = {
             type: 'pizza',
@@ -1444,7 +1641,7 @@ const renderHalfCard = () => {
         </div>
         <div class="flex-1 relative z-10 text-center md:text-left">
             <span class="bg-white/20 text-[10px] md:text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-4 inline-block">Funcionalidade Exclusiva</span>
-            <h3 class="text-2xl md:text-4xl font-black mb-3 font-playfair tracking-tight">CRIAR PIZZA MEIO A MEIO</h3>
+            <h3 class="menu-modal-title text-2xl md:text-4xl font-black mb-3 font-playfair tracking-tight">CRIAR PIZZA MEIO A MEIO</h3>
             <p class="text-sm md:text-base opacity-90 max-w-md mb-6 leading-relaxed">Não consegue decidir? Escolha dois dos seus sabores favoritos em uma única pizza Média ou Família.</p>
             <div class="flex flex-wrap justify-center md:justify-start gap-3">
                 <span class="flex items-center gap-2 bg-black/10 px-4 py-2 rounded-xl text-xs font-bold border border-white/10 italic">
@@ -1509,7 +1706,9 @@ const renderMenu = () => {
 // ==========================================
 function updateCartUI() {
     const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+    const subtotalOriginal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
     const subtotal = getCartTotal();
+    const discountTotal = getCartDiscountTotal();
     const deliveryFee = getDeliveryFee();
 
     // Badges
@@ -1535,7 +1734,7 @@ function updateCartUI() {
             <div class="cart-item-card">
                 <div class="flex justify-between items-start mb-2">
                     <h4 class="font-bold text-sm text-gray-900">${item.name}</h4>
-                    <span class="font-bold text-sm text-orange-600">${formatCurrency(item.price * item.quantity)}</span>
+                    <span class="font-bold text-sm text-orange-600">${formatCartItemPrice(item)}</span>
                 </div>
                 <p class="text-xs text-gray-500 mb-2">${item.details}</p>
                 ${item.note ? `<p class="text-xs text-green-600 italic mb-3">Obs: ${item.note}</p>` : ''}
@@ -1560,6 +1759,16 @@ function updateCartUI() {
         summary.innerHTML = `
             <div class="flex justify-between text-gray-500 text-sm mb-1">
                 <span>Subtotal</span>
+                <span>${formatCurrency(subtotalOriginal)}</span>
+            </div>
+            ${discountTotal > 0 ? `
+                <div class="flex justify-between text-green-700 text-sm mb-1">
+                    <span>Desconto da promoção (20%)</span>
+                    <span>- ${formatCurrency(discountTotal)}</span>
+                </div>
+            ` : ''}
+            <div class="flex justify-between text-gray-700 text-sm mb-1">
+                <span>Subtotal com desconto</span>
                 <span>${formatCurrency(subtotal)}</span>
             </div>
             ${checkoutData.region ? `
@@ -1668,10 +1877,26 @@ function renderCheckoutForm() {
             </div>
         </div>
         
-        <div class="bg-gray-50 p-4 rounded-lg mt-4 border border-gray-200">
-            <div class="flex justify-between text-gray-900 font-bold">
-                 <span>Total a Pagar:</span>
-                 <span id="checkout-total-display">${formatCurrency(getCartTotal() + getDeliveryFee())}</span>
+        <div class="bg-gray-50 p-4 rounded-lg mt-4 border border-gray-200 space-y-2">
+            <div class="flex justify-between text-xs text-gray-500">
+                <span>Subtotal original</span>
+                <span id="checkout-subtotal-original">${formatCurrency(getCartOriginalSubtotal())}</span>
+            </div>
+            <div id="checkout-discount-row" class="flex justify-between text-sm font-semibold text-green-700 ${getCartDiscountTotal() > 0 ? '' : 'hidden'}">
+                <span>Desconto da promoção (20%)</span>
+                <span id="checkout-discount-total">- ${formatCurrency(getCartDiscountTotal())}</span>
+            </div>
+            <div class="flex justify-between text-sm text-gray-700">
+                <span>Subtotal com desconto</span>
+                <span id="checkout-subtotal-discounted">${formatCurrency(getCartTotal())}</span>
+            </div>
+            <div class="flex justify-between text-xs text-gray-500">
+                <span>Entrega</span>
+                <span id="checkout-delivery-fee">${formatCurrency(getDeliveryFee())}</span>
+            </div>
+            <div class="flex justify-between text-gray-900 font-bold text-lg border-t border-gray-200 pt-2">
+                <span>Total a pagar</span>
+                <span id="checkout-total-display">${formatCurrency(getCartTotal() + getDeliveryFee())}</span>
             </div>
         </div>
     `;
@@ -1689,8 +1914,19 @@ function setPaymentMethod(method) {
 }
 
 function updateCheckoutForm() {
-    const display = document.getElementById('checkout-total-display');
-    if (display) display.textContent = formatCurrency(getCartTotal() + getDeliveryFee());
+    const subtotalOriginal = document.getElementById('checkout-subtotal-original');
+    const discountRow = document.getElementById('checkout-discount-row');
+    const discountTotal = document.getElementById('checkout-discount-total');
+    const subtotalDiscounted = document.getElementById('checkout-subtotal-discounted');
+    const deliveryFee = document.getElementById('checkout-delivery-fee');
+    const total = document.getElementById('checkout-total-display');
+
+    if (subtotalOriginal) subtotalOriginal.textContent = formatCurrency(getCartOriginalSubtotal());
+    if (discountRow) discountRow.classList.toggle('hidden', getCartDiscountTotal() <= 0);
+    if (discountTotal) discountTotal.textContent = `- ${formatCurrency(getCartDiscountTotal())}`;
+    if (subtotalDiscounted) subtotalDiscounted.textContent = formatCurrency(getCartTotal());
+    if (deliveryFee) deliveryFee.textContent = formatCurrency(getDeliveryFee());
+    if (total) total.textContent = formatCurrency(getCartTotal() + getDeliveryFee());
 }
 
 function sendToWhatsApp() {
@@ -1705,6 +1941,7 @@ function sendToWhatsApp() {
     }
 
     const total = getCartTotal() + getDeliveryFee();
+    const discountTotal = getCartDiscountTotal();
     const regionName = DELIVERY_REGIONS.find(r => r.id === checkoutData.region)?.name || '';
 
     const now = new Date();
@@ -1724,12 +1961,17 @@ function sendToWhatsApp() {
         msg += `✅ *${item.quantity}x ${item.name}*\n`;
         msg += `   └ ${item.details}\n`;
         if (item.note) msg += `   📝 *Obs:* _${item.note}_\n`;
-        msg += `   *Valor:* ${formatCurrency(item.price * item.quantity)}\n\n`;
+        msg += `   *Valor:* ${formatCurrency(getCartItemPrice(item) * item.quantity)}\n`;
+        if (getCartItemPrice(item) < item.price) {
+            msg += `   _Desconto de 20% (de ${formatCurrency(item.price * item.quantity)})_\n`;
+        }
+        msg += `\n`;
     });
 
     msg += `*--------------------------*\n\n`;
 
     msg += `*➕ RESUMO:* \n`;
+    if (discountTotal > 0) msg += `🏷️ *Desconto da promoção:* - ${formatCurrency(discountTotal)}\n`;
     msg += `📦 *Taxa de Entrega:* ${formatCurrency(getDeliveryFee())}\n`;
     msg += `💰 *TOTAL A PAGAR: ${formatCurrency(total)}*\n\n`;
 
@@ -1760,7 +2002,7 @@ function sendToWhatsApp() {
             'items': cart.map(item => ({
                 'item_id': item.id || item.name, // GA4 recomenda ter um ID
                 'item_name': item.name,
-                'price': Number(item.price),
+                'price': Number(getCartItemPrice(item)),
                 'quantity': item.quantity
             }))
         });
@@ -1815,6 +2057,16 @@ window.onload = function () {
 
     if (isClosedToday()) {
         openClosedDayModal();
+    }
+
+    // Banner e aviso da campanha são ativados automaticamente pelo calendário de Brasília.
+    const promoBanner = document.getElementById('promo-anniversary');
+    const promoActiveToday = isNovemberDiscountActive();
+    if (promoBanner) {
+        promoBanner.classList.toggle('hidden', !promoActiveToday && !PROMO_REMINDER_TEST_MODE);
+    }
+    if (promoActiveToday || PROMO_REMINDER_TEST_MODE) {
+        schedulePromoReminder();
     }
 
     // Scroll Sticky Header & Active Category Logic
