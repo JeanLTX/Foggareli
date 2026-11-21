@@ -433,7 +433,7 @@ function isNovemberDiscountActive(now = new Date()) {
 
 function getPromotionalPrice(price, itemType, now = new Date()) {
     const originalPrice = Number(price) || 0;
-    if (itemType === 'combo' || !isNovemberDiscountActive(now)) return originalPrice;
+    if (itemType === 'combo' || itemType === 'drink' || !isNovemberDiscountActive(now)) return originalPrice;
     return Number((originalPrice * 0.8).toFixed(2));
 }
 
@@ -492,7 +492,7 @@ const showPromoReminder = (force = false) => {
     notification.setAttribute('role', 'status');
     notification.setAttribute('aria-live', 'polite');
     notification.innerHTML = `<div class="foggareli-promo-notification-brand" aria-hidden="true"><img src="assets/logofoggareli-mark.webp" alt="" width="44" height="44"></div>
-        <div class="foggareli-promo-notification-content"><strong>20% OFF na Foggareli</strong><span>Até 30/11, em todo o cardápio (exceto combos). Sábados com borda grátis!</span></div>
+        <div class="foggareli-promo-notification-content"><strong>20% OFF na Foggareli</strong><span>Até 30/11, em pizzas e demais itens (exceto combos e bebidas). Sábados com borda grátis!</span></div>
         <button type="button" class="foggareli-promo-notification-close" aria-label="Fechar aviso"><i data-lucide="x"></i></button>`;
 
     document.body.appendChild(notification);
